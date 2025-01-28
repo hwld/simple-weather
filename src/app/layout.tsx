@@ -1,3 +1,5 @@
+import Form from "next/form";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -5,7 +7,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
-      <body>{children}</body>
+      <body>
+        <Form action="/">
+          <input name="location" />
+          <button type="submit">検索</button>
+        </Form>
+        {children}
+      </body>
     </html>
   );
 }
