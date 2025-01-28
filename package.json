@@ -10,6 +10,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@tabler/icons-react": "^3.29.0",
     "date-fns": "^4.1.0",
     "ky": "^1.7.4",
     "next": "15.1.6",
