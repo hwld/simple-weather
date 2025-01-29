@@ -2,6 +2,7 @@
 import { IconExclamationCircle, IconHome } from "@tabler/icons-react";
 import { css } from "../../styled-system/css";
 import { useEffect } from "react";
+import { Button } from "@/components/ui/button";
 
 type Props = { error: Error; reset: () => void };
 
@@ -37,30 +38,19 @@ export default function UnhandledErrorPage({ error }: Props) {
           URLが正しくない可能性があるため、ホーム画面に戻ってもう一度試してみてください。
         </p>
       </div>
-      <button
+      <Button
         className={css({
-          bg: "var(--color-error)",
+          background: "var(--color-error)",
           color: "var(--color-gray-100)",
-          rounded: "4px",
-          height: "28px",
-          paddingInline: "8px",
-          lineHeight: 1,
-          cursor: "pointer",
-          transition: "background",
-          transitionDuration: "0.1s",
           _hover: {
-            bg: "var(--color-error-hover)",
+            background: "var(--color-error-hover)",
           },
-          display: "flex",
-          alignItems: "center",
-          gap: "2px",
-          fontWeight: "bold",
         })}
+        icon={IconHome}
         onClick={handleGoToHome}
       >
-        <IconHome size={18} />
         ホーム画面に戻る
-      </button>
+      </Button>
     </div>
   );
 }

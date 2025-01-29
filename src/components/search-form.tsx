@@ -5,6 +5,7 @@ import { IconSearch } from "@tabler/icons-react";
 import { css } from "../../styled-system/css";
 import { BasePaths, HomeSearchParams, DetailSearchParams } from "@/routes";
 import { usePathname, useSearchParams } from "next/navigation";
+import { Button } from "@/components/ui/button";
 
 export function SearchForm() {
   const searchParams = useSearchParams();
@@ -44,33 +45,19 @@ export function SearchForm() {
         name={queryName}
         placeholder="地域(アルファベット)・経緯度を入力してください..."
       />
-      <button
+      <Button
+        type="submit"
         className={css({
-          bg: "var(--color-primary-500)",
+          background: "var(--color-primary-500)",
           color: "var(--color-gray-100)",
-          borderRadius: "4px",
-          height: "28px",
-          minWidth: "64px",
-          paddingInline: "8px",
-          display: "flex",
-          gap: "4px",
-          alignItems: "center",
-          justifyContent: "center",
-          lineHeight: 1,
-          cursor: "pointer",
-
-          transition: "all",
-          transitionDuration: "0.1s",
           _hover: {
             bg: "var(--color-primary-600)",
           },
-          fontWeight: "bold",
         })}
-        type="submit"
+        icon={IconSearch}
       >
-        <IconSearch size={18} />
         検索
-      </button>
+      </Button>
     </Form>
   );
 }
