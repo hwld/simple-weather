@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 
 type Props = { searchParams: Promise<unknown> };
 
-export default async function Home({ searchParams }: Props) {
+export default async function HomePage({ searchParams }: Props) {
   const { locationQuery } = HomeSearchParamsSchema.parse(await searchParams);
 
   if (locationQuery === "") {

@@ -16,11 +16,53 @@ export const metadata: Metadata = {
 
 type Props = { searchParams: Promise<unknown> };
 
-export default async function Detail({ searchParams }: Props) {
+export default async function DetailPage({ searchParams }: Props) {
   const { locationQuery, date } = DetailSearchParamsSchema.parse(
     await searchParams
   );
 
+  return (
+    <VStack className={css({ gap: "24px" })}>
+      <h2>
+        <HStack
+          className={css({ gap: "4px", alignItems: "end", lineHeight: 1 })}
+        >
+          {locationQuery !== "" ? (
+            <>
+              <Link
+                className={css({
+                  color: "var(--color-link)",
+                  transition: "colors",
+                  transitionDuration: "0.1s",
+                  _hover: {
+                    color: "var(--color-link-hover)",
+                  },
+                })}
+                href={Routes.home({ locationQuery: locationQuery })}
+              >
+                {locationQuery}
+              </Link>
+              <IconChevronRight size={14} />
+            </>
+          ) : null}
+          <div className={css({ fontSize: "20px", fontWeight: "bold" })}>
+            {format(date, "M月dd日")}
+          </div>
+          <span>の天気予報</span>
+        </HStack>
+      </h2>
+      <DetailPageContent locationQuery={locationQuery} date={date} />
+    </VStack>
+  );
+}
+
+async function DetailPageContent({
+  locationQuery,
+  date,
+}: {
+  locationQuery: string;
+  date: string;
+}) {
   if (locationQuery === "") {
     return <EmptySearchQueryPage />;
   }
@@ -30,35 +72,5 @@ export default async function Detail({ searchParams }: Props) {
     return <LocationNotFoundPage locationName={locationQuery} />;
   }
 
-  return (
-    <VStack className={css({ gap: "24px" })}>
-      <h2>
-        <HStack
-          className={css({ gap: "4px", alignItems: "end", lineHeight: 1 })}
-        >
-          <Link
-            className={css({
-              color: "var(--color-link)",
-              transition: "colors",
-              transitionDuration: "0.1s",
-              _hover: {
-                color: "var(--color-link-hover)",
-              },
-            })}
-            href={Routes.home({ locationQuery: locationQuery })}
-          >
-            {locationQuery}
-          </Link>
-          <span>
-            <IconChevronRight size={14} />
-          </span>
-          <div className={css({ fontSize: "20px", fontWeight: "bold" })}>
-            {format(date, "M月dd日")}
-          </div>
-          <span>の天気予報</span>
-        </HStack>
-      </h2>
-      <SpecificForecast forecastDay={specificForecast} />
-    </VStack>
-  );
+  return <SpecificForecast forecastDay={specificForecast} />;
 }
