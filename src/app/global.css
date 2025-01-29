@@ -25,8 +25,11 @@
     --color-primary-900: oklch(0.408 0.123 38.172);
     --color-primary-950: oklch(0.266 0.079 36.259);
 
-    --color-link: oklch(0.5 0.134 242.749);
+    --color-error: oklch(0.637 0.237 25.331);
+    --color-error-hover: oklch(0.577 0.245 27.325);
 
+    --color-link: oklch(0.5 0.134 242.749);
+    --color-link-hover: oklch(0.685 0.169 237.323);
 }
 
 body {

@@ -64,10 +64,11 @@ export function SearchForm() {
           _hover: {
             bg: "var(--color-primary-600)",
           },
+          fontWeight: "bold",
         })}
         type="submit"
       >
-        <IconSearch className={css({ width: "16px", height: "16px" })} />
+        <IconSearch size={18} />
         検索
       </button>
     </Form>
@@ -88,7 +89,7 @@ function getFormConfig(path: string) {
     case BasePaths.detail: {
       return {
         actionPath: BasePaths.detail,
-        queryName: "location" satisfies keyof DetailSearchParams,
+        queryName: "locationQuery" satisfies keyof DetailSearchParams,
       };
     }
     default: {

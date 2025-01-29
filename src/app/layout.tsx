@@ -1,5 +1,4 @@
 import "./global.css";
-import { AppHeader } from "./app-header";
 import { css } from "../../styled-system/css";
 
 export default function RootLayout({
@@ -8,22 +7,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ja">
-      <body>
-        <div
-          className={css({
-            display: "grid",
-            gridTemplateRows: "auto 1fr",
-            minHeight: "100dvh",
-            margin: "0 auto",
-            maxWidth: "700px",
-            paddingInline: "8px",
-          })}
-        >
-          <AppHeader />
-          <div className={css({ paddingBlock: "32px" })}>{children}</div>
-        </div>
-      </body>
+    <html lang="ja" className={css({ scrollbarGutter: "stable" })}>
+      <body>{children}</body>
     </html>
   );
 }

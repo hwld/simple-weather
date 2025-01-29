@@ -15,7 +15,10 @@ import { Routes } from "@/routes";
 type Props = { location: string; current: CurrentWeather };
 
 export async function CurrentWeather({ location, current }: Props) {
-  const lastUpdatedTime = format(current.last_updated_epoch, "HH時mm分ss秒");
+  const lastUpdatedTime = format(
+    current.last_updated_epoch,
+    "MM月dd日 HH時mm分ss秒"
+  );
 
   return (
     <div className={css({ display: "flex", flexDir: "column", gap: "8px" })}>
@@ -35,16 +38,25 @@ export async function CurrentWeather({ location, current }: Props) {
           padding: "16px",
         })}
       >
-        <div className={css({ display: "flex", flexDir: "column" })}>
+        <div
+          className={css({ display: "flex", flexDir: "column", gap: "4px" })}
+        >
           <Link
             className={css({
+              width: "fit",
+              height: "24px",
               display: "flex",
               alignItems: "center",
               color: "var(--color-link)",
               lineHeight: 1,
+              transition: "colors",
+              transitionDuration: "0.1s",
+              _hover: {
+                color: "var(--color-link-hover)",
+              },
             })}
             href={Routes.detail({
-              location,
+              locationQuery: location,
               date: current.last_updated_date,
             })}
           >

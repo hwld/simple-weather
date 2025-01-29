@@ -1,4 +1,5 @@
 "use client";
+import { IconExclamationCircle, IconHome } from "@tabler/icons-react";
 import { css } from "../../styled-system/css";
 import { useEffect } from "react";
 
@@ -17,34 +18,47 @@ export default function UnhandledErrorPage({ error }: Props) {
   return (
     <div
       className={css({
-        bg: "var(--color-gray-50)",
-        border: "solid 1px var(--color-gray-300)",
-        padding: "16px",
-        borderRadius: "8px",
-        height: "300px",
-        display: "flex",
-        flexDir: "column",
-        gap: "24px",
-        justifyContent: "center",
-        alignItems: "center",
+        width: "100%",
+        height: "100dvh",
+        display: "grid",
+        placeItems: "center",
+        placeContent: "center",
+        gap: "16px",
+        padding: "24px",
       })}
     >
-      <div>エラーが発生しました</div>
+      <IconExclamationCircle
+        size={50}
+        className={css({ color: "var(--color-error)" })}
+      />
+      <div className={css({ textAlign: "center", maxW: "300px" })}>
+        <p>アプリケーションでエラーが発生しました。</p>
+        <p>
+          URLが正しくない可能性があるため、ホーム画面に戻ってもう一度試してみてください。
+        </p>
+      </div>
       <button
         className={css({
-          bg: "var(--color-primary-500)",
+          bg: "var(--color-error)",
           color: "var(--color-gray-100)",
           rounded: "4px",
           height: "28px",
           paddingInline: "8px",
           lineHeight: 1,
           cursor: "pointer",
+          transition: "background",
+          transitionDuration: "0.1s",
           _hover: {
-            bg: "var(--color-primary-600)",
+            bg: "var(--color-error-hover)",
           },
+          display: "flex",
+          alignItems: "center",
+          gap: "2px",
+          fontWeight: "bold",
         })}
         onClick={handleGoToHome}
       >
+        <IconHome size={18} />
         ホーム画面に戻る
       </button>
     </div>

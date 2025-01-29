@@ -1,5 +1,7 @@
+import { Suspense } from "react";
 import { css } from "../../styled-system/css";
 import { SearchForm } from "./search-form";
+import { PageNavigation } from "./(with-app-header)/page-navigation";
 
 export function AppHeader() {
   return (
@@ -7,7 +9,7 @@ export function AppHeader() {
       className={css({
         display: "flex",
         flexDir: "column",
-        gap: "16px",
+        gap: "24px",
         width: "100%",
         backgroundColor: "var(--color-gray-50)",
         border: "1px solid var(--color-gray-300)",
@@ -15,10 +17,22 @@ export function AppHeader() {
         padding: "16px",
       })}
     >
-      <h1 className={css({ fontSize: "16px", fontWeight: "bold" })}>
-        WeatherApp
+      <h1
+        className={css({
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: "16px",
+        })}
+      >
+        <div className={css({ fontSize: "16px", fontWeight: "bold" })}>
+          SimpleWeather
+        </div>
+        <PageNavigation />
       </h1>
-      <SearchForm />
+      <Suspense>
+        <SearchForm />
+      </Suspense>
     </div>
   );
 }

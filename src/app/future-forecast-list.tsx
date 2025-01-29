@@ -105,14 +105,23 @@ export async function FutureForecastList({ location, forecastdays }: Props) {
               />
               <Link
                 href={Routes.detail({
-                  location,
+                  locationQuery: location,
                   date: forecast.date,
                 })}
+                className={css({
+                  width: "24px",
+                  height: "24px",
+                  display: "grid",
+                  placeItems: "center",
+                  color: "var(--color-link)",
+                  transition: "colors",
+                  transitionDuration: "0.1s",
+                  _hover: {
+                    color: "var(--color-link-hover)",
+                  },
+                })}
               >
-                <IconArrowRight
-                  size={16}
-                  className={css({ color: "var(--color-link)" })}
-                />
+                <IconArrowRight size={16} />
               </Link>
             </div>
           );

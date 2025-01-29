@@ -1,3 +1,4 @@
+import { isValid, parse } from "date-fns";
 import { z } from "zod";
 
 export const HomeSearchParamsSchema = z.object({
@@ -6,10 +7,13 @@ export const HomeSearchParamsSchema = z.object({
 export type HomeSearchParams = z.infer<typeof HomeSearchParamsSchema>;
 
 export const DetailSearchParamsSchema = z.object({
-  location: z.string(),
+  locationQuery: z.string().default(""),
 
   /** yyyy-MM-dd形式の日付 */
-  date: z.string(),
+  date: z.string().refine((val) => {
+    const date = parse(val, "yyyy-MM-dd", new Date());
+    return isValid(date);
+  }),
 });
 export type DetailSearchParams = z.infer<typeof DetailSearchParamsSchema>;
 

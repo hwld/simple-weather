@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { css } from "../../../styled-system/css";
+import { css } from "../../../../styled-system/css";
 import { ForecastDay } from "@/api";
 
 /* eslint-disable @next/next/no-img-element */
