@@ -1,9 +1,9 @@
 import { fetchForecast } from "@/api";
 import { HomeSearchParamsSchema } from "@/routes";
-import { CurrentWeather } from "../current-weather";
-import { EmptySearchQueryPage } from "../empty-search-page";
-import { FutureForecastList } from "../future-forecast-list";
-import { LocationNotFoundPage } from "../location-not-found-page";
+import { CurrentWeather } from "../../components/current-weather";
+import { EmptySearchQueryPage } from "../../components/empty-search-page";
+import { FutureForecastList } from "../../components/future-forecast-list";
+import { LocationNotFoundPage } from "../../components/location-not-found-page";
 import { css } from "../../../styled-system/css";
 import { Metadata } from "next";
 

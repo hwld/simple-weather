@@ -1,12 +1,12 @@
 import { fetchSpecificForecast } from "@/api";
-import { EmptySearchQueryPage } from "@/app/empty-search-page";
-import { LocationNotFoundPage } from "@/app/location-not-found-page";
+import { EmptySearchQueryPage } from "@/components/empty-search-page";
+import { LocationNotFoundPage } from "@/components/location-not-found-page";
 import { DetailSearchParamsSchema, Routes } from "@/routes";
 import { IconChevronRight } from "@tabler/icons-react";
 import Link from "next/link";
 import { css } from "../../../../styled-system/css";
 import { format } from "date-fns";
-import { SpecificForecast } from "./specific-forecast";
+import { SpecificForecast } from "../../../components/specific-forecast";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { css } from "../../styled-system/css";
 import { SearchForm } from "./search-form";
-import { PageNavigation } from "./(with-app-header)/page-navigation";
+import { PageNavigation } from "./page-navigation";
 
 export function AppHeader() {
   return (

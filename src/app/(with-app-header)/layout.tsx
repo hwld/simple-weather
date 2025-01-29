@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { css } from "../../../styled-system/css";
-import { AppHeader } from "../app-header";
+import { AppHeader } from "../../components/app-header";
 
 type Props = { children: ReactNode };
 

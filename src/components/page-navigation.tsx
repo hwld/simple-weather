@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { css } from "../../../styled-system/css";
+import { css } from "../../styled-system/css";
 import { BasePaths, Routes } from "@/routes";
 import { usePathname } from "next/navigation";
 

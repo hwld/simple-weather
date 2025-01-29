@@ -1,4 +1,4 @@
-import "./global.css";
+import "../style/global.css";
 import { css } from "../../styled-system/css";
 
 export default function RootLayout({
