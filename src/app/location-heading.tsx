@@ -4,7 +4,14 @@ type Props = { location: string };
 
 export function LocationHeading({ location }: Props) {
   return (
-    <div className={css({ display: "flex", alignItems: "end", gap: "4px" })}>
+    <div
+      className={css({
+        display: "flex",
+        alignItems: "end",
+        gap: "4px",
+        lineHeight: 1,
+      })}
+    >
       <div
         className={css({
           fontSize: "20px",

@@ -8,7 +8,11 @@ import { HomeSearchParamsSchema } from "@/routes";
 
 type Props = { searchParams: Promise<unknown> };
 
-export default async function Home({ searchParams }: Props) {
+export default function Home({ searchParams }: Props) {
+  return <Inner searchParams={searchParams} />;
+}
+
+async function Inner({ searchParams }: { searchParams: Promise<unknown> }) {
   const { locationQuery } = HomeSearchParamsSchema.parse(await searchParams);
 
   if (locationQuery === "") {
@@ -27,7 +31,7 @@ export default async function Home({ searchParams }: Props) {
       className={css({
         h: "100%",
         display: "grid",
-        gridTemplateRows: "auto auto 1fr",
+        gridTemplateRows: "auto auto auto 1fr",
         gap: "24px",
       })}
     >

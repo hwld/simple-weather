@@ -1,8 +1,17 @@
+"use client";
+
 import Form from "next/form";
 import { IconSearch } from "@tabler/icons-react";
 import { css } from "../../styled-system/css";
+import { BasePaths, HomeSearchParams, DetailSearchParams } from "@/routes";
+import { usePathname, useSearchParams } from "next/navigation";
 
 export function SearchForm() {
+  const searchParams = useSearchParams();
+  const path = usePathname();
+
+  const { actionPath, queryName } = getFormConfig(path);
+
   return (
     <Form
       className={css({
@@ -10,8 +19,14 @@ export function SearchForm() {
         gridTemplateColumns: "1fr auto",
         gap: "8px",
       })}
-      action="/"
+      action={actionPath}
     >
+      {[...searchParams.entries()].map(([key, value], i) => {
+        if (key === queryName) {
+          return;
+        }
+        return <input key={i} type="hidden" name={key} value={value} />;
+      })}
       <input
         className={css({
           bg: "transparent",
@@ -26,7 +41,7 @@ export function SearchForm() {
             outlineColor: "var(--color-primary-500)",
           },
         })}
-        name="locationQuery"
+        name={queryName}
         placeholder="地域(アルファベット)・経緯度を入力してください..."
       />
       <button
@@ -57,4 +72,30 @@ export function SearchForm() {
       </button>
     </Form>
   );
+}
+
+/**
+ *  Path事にフォームの挙動を変える
+ */
+function getFormConfig(path: string) {
+  switch (path) {
+    case BasePaths.home: {
+      return {
+        actionPath: BasePaths.home,
+        queryName: "locationQuery" satisfies keyof HomeSearchParams,
+      };
+    }
+    case BasePaths.detail: {
+      return {
+        actionPath: BasePaths.detail,
+        queryName: "location" satisfies keyof DetailSearchParams,
+      };
+    }
+    default: {
+      return {
+        actionPath: BasePaths.home,
+        queryName: "locationQuery" satisfies keyof HomeSearchParams,
+      };
+    }
+  }
 }

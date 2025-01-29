@@ -5,8 +5,9 @@ export function AppHeader() {
   return (
     <div
       className={css({
-        display: "grid",
-        gap: "8px",
+        display: "flex",
+        flexDir: "column",
+        gap: "16px",
         width: "100%",
         backgroundColor: "var(--color-gray-50)",
         border: "1px solid var(--color-gray-300)",
