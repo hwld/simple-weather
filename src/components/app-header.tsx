@@ -2,37 +2,30 @@ import { Suspense } from "react";
 import { css } from "../../styled-system/css";
 import { SearchForm } from "./search-form";
 import { PageNavigation } from "./page-navigation";
+import { HStack, VStack } from "./ui/stack";
 
 export function AppHeader() {
   return (
-    <div
+    <VStack
       className={css({
-        display: "flex",
-        flexDir: "column",
         gap: "24px",
-        width: "100%",
         backgroundColor: "var(--color-gray-50)",
         border: "1px solid var(--color-gray-300)",
         borderRadius: "0 0 8px 8px",
         padding: "16px",
       })}
     >
-      <h1
-        className={css({
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          gap: "16px",
-        })}
-      >
-        <div className={css({ fontSize: "16px", fontWeight: "bold" })}>
-          SimpleWeather
-        </div>
-        <PageNavigation />
+      <h1>
+        <HStack className={css({ gap: "16", justifyContent: "space-between" })}>
+          <div className={css({ fontSize: "16px", fontWeight: "bold" })}>
+            SimpleWeather
+          </div>
+          <PageNavigation />
+        </HStack>
       </h1>
       <Suspense>
         <SearchForm />
       </Suspense>
-    </div>
+    </VStack>
   );
 }

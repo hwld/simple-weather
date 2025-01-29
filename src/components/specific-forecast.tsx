@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import { css } from "../../styled-system/css";
 import { ForecastDay } from "@/api";
+import { HStack } from "./ui/stack";
 
 /* eslint-disable @next/next/no-img-element */
 type Props = { forecastDay: ForecastDay };
@@ -38,18 +39,11 @@ export async function SpecificForecast({ forecastDay }: Props) {
               <Tr key={i} isLast={i === forecastDay.hour.length - 1}>
                 <Td>{`${i}`.padStart(2, "0")}</Td>
                 <Td>
-                  <div
-                    className={css({
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "4px",
-                    })}
-                  >
+                  <HStack className={css({ gap: "4px" })}>
                     <img
                       src={h.condition.icon}
-                      width={30}
-                      height={30}
                       alt="condition"
+                      className={css({ width: "30px", height: "30px" })}
                     />
                     <span
                       className={css({
@@ -60,7 +54,7 @@ export async function SpecificForecast({ forecastDay }: Props) {
                     >
                       {h.condition.text}
                     </span>
-                  </div>
+                  </HStack>
                 </Td>
                 <Td>{h.temp_c}</Td>
                 <Td>{h.humidity}</Td>

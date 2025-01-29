@@ -11,6 +11,7 @@ import Link from "next/link";
 import { css } from "../../styled-system/css";
 import { type CurrentWeather } from "@/api";
 import { Routes } from "@/routes";
+import { HStack, VStack } from "./ui/stack";
 
 type Props = { location: string; current: CurrentWeather };
 
@@ -21,16 +22,14 @@ export async function CurrentWeather({ location, current }: Props) {
   );
 
   return (
-    <div className={css({ display: "flex", flexDir: "column", gap: "8px" })}>
+    <VStack className={css({ gap: "8px" })}>
       <div
         className={css({ fontSize: "12px", color: "var(--color-gray-500)" })}
       >
         {`今の天気 (${lastUpdatedTime} 時点)`}
       </div>
-      <div
+      <VStack
         className={css({
-          display: "flex",
-          flexDir: "column",
           gap: "24px",
           border: "1px solid var(--color-gray-300)",
           borderRadius: "8px",
@@ -38,9 +37,7 @@ export async function CurrentWeather({ location, current }: Props) {
           padding: "16px",
         })}
       >
-        <div
-          className={css({ display: "flex", flexDir: "column", gap: "4px" })}
-        >
+        <VStack className={css({ gap: "4px" })}>
           <Link
             className={css({
               width: "fit",
@@ -63,59 +60,35 @@ export async function CurrentWeather({ location, current }: Props) {
             <span className={css({ fontSize: "12px" })}>詳細を見る</span>
             <IconArrowRight size={16} />
           </Link>
-          <div
-            className={css({
-              display: "grid",
-              gridTemplateColumns: "auto 1fr",
-              gap: "8px",
-              alignItems: "end",
-            })}
-          >
+          <HStack className={css({ gap: "8px", alignItems: "end" })}>
             <img
               src={current.condition.icon}
               alt="condition"
-              width={100}
-              height={100}
+              className={css({ width: "100px", height: "100px" })}
             />
-            <div
-              className={css({
-                display: "flex",
-                flexDir: "column",
-                gap: "4px",
-              })}
-            >
-              <div
+            <VStack className={css({ gap: "4px" })}>
+              <HStack
                 className={css({
-                  display: "flex",
-                  alignItems: "end",
                   gap: "4px",
+                  alignItems: "end",
+                  lineHeight: 1,
                 })}
               >
                 <div
                   className={css({
                     fontSize: "40px",
-                    lineHeight: 1,
                     fontWeight: "bold",
                   })}
                 >
                   {current.temp_c}
                 </div>
-                <div className={css({ fontSize: "32px", lineHeight: 1 })}>
-                  ℃
-                </div>
-              </div>
+                <div className={css({ fontSize: "32px" })}>℃</div>
+              </HStack>
               <div>{current.condition.text}</div>
-            </div>
-          </div>
-        </div>
-        <div
-          className={css({
-            display: "flex",
-            alignItems: "center",
-            paddingInline: "16px",
-            gap: "16px",
-          })}
-        >
+            </VStack>
+          </HStack>
+        </VStack>
+        <HStack className={css({ gap: "16px", paddingInline: "16px" })}>
           <WeatherSubItem
             icon={IconDroplet}
             label="湿度"
@@ -131,9 +104,9 @@ export async function CurrentWeather({ location, current }: Props) {
             label="風速"
             value={`${current.wind_kph}km/h`}
           />
-        </div>
-      </div>
-    </div>
+        </HStack>
+      </VStack>
+    </VStack>
   );
 }
 
@@ -147,26 +120,19 @@ function WeatherSubItem({
   value: string;
 }) {
   return (
-    <div className={css({ display: "flex", alignItems: "center", gap: "4px" })}>
+    <HStack className={css({ gap: "8px" })}>
       <Icon
         className={css({
           color: "var(--color-gray-500)",
           width: "20px",
           height: "20px",
+          flexShrink: 0,
         })}
       />
-      <div className={css({ display: "flex", flexDir: "column", gap: "4px" })}>
-        <div
-          className={css({
-            fontSize: "12px",
-            color: "var(--color-gray-500)",
-            lineHeight: 1,
-          })}
-        >
-          {label}
-        </div>
-        <div className={css({ lineHeight: 1 })}>{value}</div>
-      </div>
-    </div>
+      <VStack className={css({ gap: "4px", lineHeight: 1 })}>
+        <div className={css({ color: "var(--color-gray-500)" })}>{label}</div>
+        <div>{value}</div>
+      </VStack>
+    </HStack>
   );
 }

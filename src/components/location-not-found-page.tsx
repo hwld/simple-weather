@@ -1,5 +1,6 @@
 import { IconQuestionMark } from "@tabler/icons-react";
 import { css } from "../../styled-system/css";
+import { VStack } from "./ui/stack";
 
 type Props = {
   locationName: string;
@@ -7,18 +8,16 @@ type Props = {
 
 export async function LocationNotFoundPage({ locationName }: Props) {
   return (
-    <div
+    <VStack
       className={css({
+        gap: "16px",
+        justifyContent: "center",
+        alignItems: "center",
         bg: "var(--color-gray-50)",
         border: "solid 1px var(--color-gray-300)",
         padding: "16px",
         borderRadius: "8px",
         height: "300px",
-        display: "flex",
-        flexDir: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        gap: "16px",
       })}
     >
       <IconQuestionMark
@@ -34,6 +33,6 @@ export async function LocationNotFoundPage({ locationName }: Props) {
         </p>
         <p>他の地域 (アルファベット) や経緯度で検索してみてください</p>
       </div>
-    </div>
+    </VStack>
   );
 }

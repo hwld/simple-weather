@@ -6,6 +6,7 @@ import { FutureForecastList } from "../../components/future-forecast-list";
 import { LocationNotFoundPage } from "../../components/location-not-found-page";
 import { css } from "../../../styled-system/css";
 import { Metadata } from "next";
+import { HStack } from "@/components/ui/stack";
 
 export const metadata: Metadata = {
   title: "現在の天気 - SimpleWeather",
@@ -37,13 +38,8 @@ export default async function Home({ searchParams }: Props) {
       })}
     >
       <h2>
-        <div
-          className={css({
-            display: "flex",
-            alignItems: "end",
-            gap: "4px",
-            lineHeight: 1,
-          })}
+        <HStack
+          className={css({ alignItems: "end", gap: "4px", lineHeight: 1 })}
         >
           <div
             className={css({
@@ -55,7 +51,7 @@ export default async function Home({ searchParams }: Props) {
             {location.name}
           </div>
           <div className={css({ wordBreak: "keep-all" })}>の天気予報</div>
-        </div>
+        </HStack>
       </h2>
       <CurrentWeather location={location.name} current={current} />
       <FutureForecastList
