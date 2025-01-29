@@ -1,6 +1,6 @@
 import { IconSearch } from "@tabler/icons-react";
 import { css } from "../../styled-system/css";
-import { VStack } from "./ui/stack";
+import { VStack } from "@/components/ui/stack";
 
 export function EmptySearchQueryPage() {
   return (

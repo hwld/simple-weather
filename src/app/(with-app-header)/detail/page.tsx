@@ -6,9 +6,9 @@ import { IconChevronRight } from "@tabler/icons-react";
 import Link from "next/link";
 import { css } from "../../../../styled-system/css";
 import { format } from "date-fns";
-import { SpecificForecast } from "../../../components/specific-forecast";
 import { Metadata } from "next";
 import { HStack, VStack } from "@/components/ui/stack";
+import { SpecificForecast } from "@/components/specific-forecast";
 
 export const metadata: Metadata = {
   title: "指定日の天気 - SimpleWeather",

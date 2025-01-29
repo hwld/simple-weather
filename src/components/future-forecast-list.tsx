@@ -11,7 +11,7 @@ import Link from "next/link";
 import { css } from "../../styled-system/css";
 import { type ForecastDay } from "@/api";
 import { Routes } from "@/routes";
-import { HStack, VStack } from "./ui/stack";
+import { VStack, HStack } from "@/components/ui/stack";
 
 type Props = { location: string; forecastdays: ForecastDay[] };
 

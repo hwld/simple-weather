@@ -1,8 +1,8 @@
 import { Suspense } from "react";
 import { css } from "../../styled-system/css";
-import { SearchForm } from "./search-form";
-import { PageNavigation } from "./page-navigation";
-import { HStack, VStack } from "./ui/stack";
+import { PageNavigation } from "@/components/page-navigation";
+import { SearchForm } from "@/components/search-form";
+import { VStack, HStack } from "@/components/ui/stack";
 
 export function AppHeader() {
   return (

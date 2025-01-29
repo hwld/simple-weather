@@ -1,12 +1,12 @@
+import { css } from "../../../styled-system/css";
 import { fetchForecast } from "@/api";
 import { HomeSearchParamsSchema } from "@/routes";
-import { CurrentWeather } from "../../components/current-weather";
-import { EmptySearchQueryPage } from "../../components/empty-search-page";
-import { FutureForecastList } from "../../components/future-forecast-list";
-import { LocationNotFoundPage } from "../../components/location-not-found-page";
-import { css } from "../../../styled-system/css";
 import { Metadata } from "next";
 import { HStack } from "@/components/ui/stack";
+import { CurrentWeather } from "@/components/current-weather";
+import { EmptySearchQueryPage } from "@/components/empty-search-page";
+import { FutureForecastList } from "@/components/future-forecast-list";
+import { LocationNotFoundPage } from "@/components/location-not-found-page";
 
 export const metadata: Metadata = {
   title: "現在の天気 - SimpleWeather",
