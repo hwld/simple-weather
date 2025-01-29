@@ -7,11 +7,11 @@ import {
 } from "@tabler/icons-react";
 import { format } from "date-fns";
 import { ja } from "date-fns/locale";
-import Link from "next/link";
 import { css } from "../../styled-system/css";
 import { type ForecastDay } from "@/api";
 import { Routes } from "@/routes";
 import { VStack, HStack } from "@/components/ui/stack";
+import { Anchor } from "@/components/ui/anchor";
 
 type Props = { location: string; forecastdays: ForecastDay[] };
 
@@ -86,7 +86,7 @@ export async function FutureForecastList({ location, forecastdays }: Props) {
                 icon={IconUmbrella}
                 value={`${forecast.day.daily_chance_of_rain} %`}
               />
-              <Link
+              <Anchor
                 href={Routes.detail({
                   locationQuery: location,
                   date: forecast.date,
@@ -96,16 +96,10 @@ export async function FutureForecastList({ location, forecastdays }: Props) {
                   height: "24px",
                   display: "grid",
                   placeItems: "center",
-                  color: "var(--color-link)",
-                  transition: "colors",
-                  transitionDuration: "0.1s",
-                  _hover: {
-                    color: "var(--color-link-hover)",
-                  },
                 })}
               >
                 <IconArrowRight size={16} />
-              </Link>
+              </Anchor>
             </HStack>
           );
         })}

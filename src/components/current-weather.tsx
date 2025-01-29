@@ -7,11 +7,11 @@ import {
   IconUmbrella,
   IconWind,
 } from "@tabler/icons-react";
-import Link from "next/link";
 import { css } from "../../styled-system/css";
 import { type CurrentWeather } from "@/api";
 import { Routes } from "@/routes";
 import { VStack, HStack } from "@/components/ui/stack";
+import { Anchor } from "@/components/ui/anchor";
 
 type Props = { location: string; current: CurrentWeather };
 
@@ -38,19 +38,13 @@ export async function CurrentWeather({ location, current }: Props) {
         })}
       >
         <VStack className={css({ gap: "4px" })}>
-          <Link
+          <Anchor
             className={css({
               width: "fit",
               height: "24px",
               display: "flex",
               alignItems: "center",
-              color: "var(--color-link)",
               lineHeight: 1,
-              transition: "colors",
-              transitionDuration: "0.1s",
-              _hover: {
-                color: "var(--color-link-hover)",
-              },
             })}
             href={Routes.detail({
               locationQuery: location,
@@ -59,7 +53,7 @@ export async function CurrentWeather({ location, current }: Props) {
           >
             <span className={css({ fontSize: "12px" })}>詳細を見る</span>
             <IconArrowRight size={16} />
-          </Link>
+          </Anchor>
           <HStack className={css({ gap: "8px", alignItems: "end" })}>
             <img
               src={current.condition.icon}

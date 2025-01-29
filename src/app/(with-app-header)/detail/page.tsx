@@ -3,12 +3,12 @@ import { EmptySearchQueryPage } from "@/components/empty-search-page";
 import { LocationNotFoundPage } from "@/components/location-not-found-page";
 import { DetailSearchParamsSchema, Routes } from "@/routes";
 import { IconChevronRight } from "@tabler/icons-react";
-import Link from "next/link";
 import { css } from "../../../../styled-system/css";
 import { format } from "date-fns";
 import { Metadata } from "next";
 import { HStack, VStack } from "@/components/ui/stack";
 import { SpecificForecast } from "@/components/specific-forecast";
+import { Anchor } from "@/components/ui/anchor";
 
 export const metadata: Metadata = {
   title: "指定日の天気 - SimpleWeather",
@@ -29,19 +29,9 @@ export default async function DetailPage({ searchParams }: Props) {
         >
           {locationQuery !== "" ? (
             <>
-              <Link
-                className={css({
-                  color: "var(--color-link)",
-                  transition: "colors",
-                  transitionDuration: "0.1s",
-                  _hover: {
-                    color: "var(--color-link-hover)",
-                  },
-                })}
-                href={Routes.home({ locationQuery: locationQuery })}
-              >
+              <Anchor href={Routes.home({ locationQuery })}>
                 {locationQuery}
-              </Link>
+              </Anchor>
               <IconChevronRight size={14} />
             </>
           ) : null}
