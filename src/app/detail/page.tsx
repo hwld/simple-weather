@@ -2,13 +2,19 @@ import { format } from "date-fns/format";
 import { SpecificForecast } from "./specific-forecast";
 import { LocationHeading } from "../location-heading";
 import { css } from "../../../styled-system/css";
+import { fetchSpecificForecast } from "@/api";
+import { LocationNotFoundPage } from "../location-not-found-page";
+import { DetailSearchParamsSchema } from "@/routes";
 
-type SearchParams = { [key: string]: string | string[] | undefined };
-type Props = { searchParams: Promise<SearchParams> };
+type Props = { searchParams: Promise<unknown> };
 
-export default async function Home({ searchParams }: Props) {
-  const location = (await searchParams).location as string;
-  const date = (await searchParams).date as string;
+export default async function Detail({ searchParams }: Props) {
+  const { location, date } = DetailSearchParamsSchema.parse(await searchParams);
+
+  const specificForecast = await fetchSpecificForecast(location, date);
+  if (specificForecast === undefined) {
+    return <LocationNotFoundPage locationName={location} />;
+  }
 
   return (
     <div
@@ -23,7 +29,7 @@ export default async function Home({ searchParams }: Props) {
         <div className={css({ lineHeight: 1 })}>{format(date, "M月dd日")}</div>
         <LocationHeading location={location} />
       </h2>
-      <SpecificForecast location={location} date={date} />
+      <SpecificForecast forecastDay={specificForecast} />
     </div>
   );
 }

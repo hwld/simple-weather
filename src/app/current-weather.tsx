@@ -9,12 +9,12 @@ import {
 } from "@tabler/icons-react";
 import Link from "next/link";
 import { css } from "../../styled-system/css";
-import { fetchCurrentWeather } from "@/api";
+import { type CurrentWeather } from "@/api";
+import { Routes } from "@/routes";
 
-type Props = { location: string };
+type Props = { location: string; current: CurrentWeather };
 
-export async function CurrentWeather({ location }: Props) {
-  const current = await fetchCurrentWeather(location);
+export async function CurrentWeather({ location, current }: Props) {
   const lastUpdatedTime = format(current.last_updated_epoch, "HH時mm分ss秒");
 
   return (
@@ -43,10 +43,10 @@ export async function CurrentWeather({ location }: Props) {
               color: "var(--color-link)",
               lineHeight: 1,
             })}
-            href={`/detail?location=${location}&date=${format(
-              current.last_updated_epoch,
-              "yyyy-MM-dd"
-            )}`}
+            href={Routes.detail({
+              location,
+              date: current.last_updated_date,
+            })}
           >
             <span className={css({ fontSize: "12px" })}>詳細を見る</span>
             <IconArrowRight size={16} />

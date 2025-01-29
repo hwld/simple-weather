@@ -1,13 +1,11 @@
 import { ReactNode } from "react";
 import { css } from "../../../styled-system/css";
-import { fetchSpecificForecast } from "@/api";
+import { ForecastDay } from "@/api";
 
 /* eslint-disable @next/next/no-img-element */
-type Props = { location: string; date: string };
+type Props = { forecastDay: ForecastDay };
 
-export async function SpecificForecast({ location, date }: Props) {
-  const specific = await fetchSpecificForecast(location, date);
-
+export async function SpecificForecast({ forecastDay }: Props) {
   return (
     <div
       className={css({
@@ -40,7 +38,7 @@ export async function SpecificForecast({ location, date }: Props) {
           </tr>
         </thead>
         <tbody>
-          {specific.hour.map((h, i) => {
+          {forecastDay.hour.map((h, i) => {
             return (
               <tr key={i}>
                 <Td>{`${i}`.padStart(2, "0")}</Td>

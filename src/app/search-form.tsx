@@ -22,9 +22,12 @@ export function SearchForm() {
           _placeholder: {
             color: "var(--color-gray-400)",
           },
+          _focusVisible: {
+            outlineColor: "var(--color-primary-500)",
+          },
         })}
-        name="location"
-        placeholder="地域・経緯度を入力してください..."
+        name="locationQuery"
+        placeholder="地域(アルファベット)・経緯度を入力してください..."
       />
       <button
         className={css({

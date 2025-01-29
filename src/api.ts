@@ -1,4 +1,5 @@
-import ky from "ky";
+import { format } from "date-fns";
+import ky, { HTTPError } from "ky";
 import { z } from "zod";
 
 const ConditionSchema = z.object({
@@ -23,11 +24,16 @@ const CurrentWeatherSchema = z.object({
   precip_mm: z.number(),
 });
 
+export type CurrentWeather = z.infer<typeof CurrentWeatherSchema> & {
+  /** yyyy-MM-dd形式の日付 */
+  last_updated_date: string;
+};
+
 /**
- * 1日分の天気情報
+ * 1日分の天気予報
  */
 const ForecastDaySchema = z.object({
-  // yyyy-mm-dd
+  /** yyyy-MM-dd形式の日付 */
   date: z.string(),
   day: z.object({
     condition: ConditionSchema,
@@ -49,65 +55,98 @@ const ForecastDaySchema = z.object({
   ),
 });
 
-const CurrentResponseSchema = z.object({ current: CurrentWeatherSchema });
+export type ForecastDay = z.infer<typeof ForecastDaySchema>;
+
+const LocationSchema = z.object({
+  name: z.string(),
+});
+
+export type Location = z.infer<typeof LocationSchema>;
+
 const ForecastResponseSchema = z.object({
+  location: LocationSchema,
+  current: CurrentWeatherSchema,
   forecast: z.object({ forecastday: z.array(ForecastDaySchema) }),
 });
 
 /**
- *  現在の天気情報を取得
+ * 位置情報、現在の天気、明日以降の天気予報を取得
  */
-export async function fetchCurrentWeather(location: string) {
-  const json = await ky
-    .get("https://api.weatherapi.com/v1/current.json", {
-      searchParams: {
-        key: process.env.WEATHER_API_KEY ?? "",
-        lang: "ja",
-        q: location,
-      },
-    })
-    .json();
+export async function fetchForecast(location: string): Promise<
+  | {
+      location: Location;
+      current: CurrentWeather;
+      forecastdays: ForecastDay[];
+    }
+  | undefined
+> {
+  try {
+    const json = await ky
+      .get("https://api.weatherapi.com/v1/forecast.json", {
+        searchParams: {
+          key: process.env.WEATHER_API_KEY ?? "",
+          lang: "ja",
+          q: location,
+          days: 7,
+        },
+      })
+      .json();
 
-  const data = CurrentResponseSchema.parse(json);
-  return data.current;
+    const data = ForecastResponseSchema.parse(json);
+    return {
+      location: data.location,
+      current: {
+        ...data.current,
+        last_updated_date: format(
+          data.current.last_updated_epoch,
+          "yyyy-MM-dd"
+        ),
+      },
+      forecastdays: data.forecast.forecastday,
+    };
+  } catch (e) {
+    if (e instanceof HTTPError) {
+      const errorJson = await e.response.json();
+      // locationが見つからなかった場合にはundefinedを返す
+      if (errorJson?.error?.code === 1006) {
+        return undefined;
+      }
+    }
+    throw e;
+  }
 }
 
 /**
- * 明日以降の天気予報を取得
+ *  指定された地域の指定された日の予報を取得する
+ *
+ * @param location 地域の名前
+ * @param date yyyy-MM-dd形式の日付
  */
-export async function fetchForecast(location: string) {
-  const json = await ky
-    .get("https://api.weatherapi.com/v1/forecast.json", {
-      searchParams: {
-        key: process.env.WEATHER_API_KEY ?? "",
-        lang: "ja",
-        q: location,
-        days: 7,
-      },
-    })
-    .json();
+export async function fetchSpecificForecast(
+  location: string,
+  date: string
+): Promise<ForecastDay | undefined> {
+  try {
+    const json = await ky
+      .get("https://api.weatherapi.com/v1/forecast.json", {
+        searchParams: {
+          key: process.env.WEATHER_API_KEY ?? "",
+          lang: "ja",
+          q: location,
+          d: date,
+        },
+      })
+      .json();
 
-  const data = ForecastResponseSchema.parse(json);
-
-  // 今日の天気を除く
-  return data.forecast.forecastday.slice(1);
-}
-
-/**
- *  特定の日付の天気予報を取得
- */
-export async function fetchSpecificForecast(location: string, date: string) {
-  const json = await ky
-    .get("https://api.weatherapi.com/v1/forecast.json", {
-      searchParams: {
-        key: process.env.WEATHER_API_KEY ?? "",
-        lang: "ja",
-        q: location,
-        d: date,
-      },
-    })
-    .json();
-
-  const data = ForecastResponseSchema.parse(json);
-  return data.forecast.forecastday[0];
+    const data = ForecastResponseSchema.parse(json);
+    return data.forecast.forecastday[0];
+  } catch (e) {
+    if (e instanceof HTTPError) {
+      const errorJson = await e.response.json();
+      if (errorJson?.error?.code === 1006) {
+        return undefined;
+      }
+    }
+    throw e;
+  }
 }

@@ -9,13 +9,12 @@ import { format } from "date-fns";
 import { ja } from "date-fns/locale";
 import Link from "next/link";
 import { css } from "../../styled-system/css";
-import { fetchForecast } from "@/api";
+import { type ForecastDay } from "@/api";
+import { Routes } from "@/routes";
 
-type Props = { location: string };
+type Props = { location: string; forecastdays: ForecastDay[] };
 
-export async function FutureForecastList({ location }: Props) {
-  const forecasts = await fetchForecast(location);
-
+export async function FutureForecastList({ location, forecastdays }: Props) {
   return (
     <div
       className={css({
@@ -41,7 +40,7 @@ export async function FutureForecastList({ location }: Props) {
           padding: "16px",
         })}
       >
-        {forecasts.map((forecast, i) => {
+        {forecastdays.map((forecast, i) => {
           return (
             <div
               key={i}
@@ -105,10 +104,10 @@ export async function FutureForecastList({ location }: Props) {
                 value={`${forecast.day.daily_chance_of_rain} %`}
               />
               <Link
-                href={`/detail?location=${location}&date=${format(
-                  forecast.date,
-                  "yyyy-MM-dd"
-                )}`}
+                href={Routes.detail({
+                  location,
+                  date: forecast.date,
+                })}
               >
                 <IconArrowRight
                   size={16}

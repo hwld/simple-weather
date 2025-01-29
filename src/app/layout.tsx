@@ -21,7 +21,7 @@ export default function RootLayout({
           })}
         >
           <AppHeader />
-          <div className={css({ paddingBlock: "16px" })}>{children}</div>
+          <div className={css({ paddingBlock: "32px" })}>{children}</div>
         </div>
       </body>
     </html>
