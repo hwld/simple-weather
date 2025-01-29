@@ -113,7 +113,7 @@ export async function CurrentWeather({ location, current }: Props) {
             display: "flex",
             alignItems: "center",
             paddingInline: "16px",
-            gap: "8px",
+            gap: "16px",
           })}
         >
           <WeatherSubItem

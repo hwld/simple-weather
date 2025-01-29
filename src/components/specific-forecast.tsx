@@ -23,24 +23,19 @@ export async function SpecificForecast({ forecastDay }: Props) {
             fontSize: "12px",
           })}
         >
-          <tr
-            className={css({
-              borderBottom: "1px solid",
-              borderColor: "var(--color-gray-300)",
-            })}
-          >
+          <Tr>
             <Th>時間 (時)</Th>
             <Th isFullWidth>天候</Th>
             <Th>気温 (℃)</Th>
             <Th>湿度 (%)</Th>
             <Th>降水量 (mm)</Th>
             <Th lastInRow>風速 (km/h)</Th>
-          </tr>
+          </Tr>
         </thead>
         <tbody>
           {forecastDay.hour.map((h, i) => {
             return (
-              <tr key={i}>
+              <Tr key={i} isLast={i === forecastDay.hour.length - 1}>
                 <Td>{`${i}`.padStart(2, "0")}</Td>
                 <Td>
                   <div
@@ -71,12 +66,24 @@ export async function SpecificForecast({ forecastDay }: Props) {
                 <Td>{h.humidity}</Td>
                 <Td>{h.precip_mm}</Td>
                 <Td lastInRow>{h.wind_kph}</Td>
-              </tr>
+              </Tr>
             );
           })}
         </tbody>
       </table>
     </div>
+  );
+}
+
+function Tr({ children, isLast }: { children: ReactNode; isLast?: boolean }) {
+  return (
+    <tr
+      className={css({
+        borderBottom: isLast ? "" : "1px solid var(--color-gray-300)",
+      })}
+    >
+      {children}
+    </tr>
   );
 }
 

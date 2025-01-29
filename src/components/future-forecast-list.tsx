@@ -45,8 +45,7 @@ export async function FutureForecastList({ location, forecastdays }: Props) {
             <div
               key={i}
               className={css({
-                display: "grid",
-                gridTemplateColumns: "auto 1fr auto auto auto",
+                display: "flex",
                 alignItems: "center",
                 gap: "8px",
               })}
@@ -56,6 +55,7 @@ export async function FutureForecastList({ location, forecastdays }: Props) {
                   display: "flex",
                   flexDirection: "column",
                   alignItems: "end",
+                  flexShrink: 0,
                   width: "30px",
                 })}
               >
@@ -76,6 +76,7 @@ export async function FutureForecastList({ location, forecastdays }: Props) {
                   display: "flex",
                   alignItems: "center",
                   gap: "2px",
+                  flexGrow: 1,
                 })}
               >
                 <img
@@ -139,6 +140,7 @@ function Info({ icon: Icon, value }: { icon: Icon; value: string }) {
         alignItems: "center",
         gap: "2px",
         color: "var(--color-gray-500)",
+        whiteSpace: "nowrap",
       })}
     >
       <Icon size={16} />
