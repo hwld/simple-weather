@@ -31,7 +31,7 @@ export async function FutureForecastList({ location, forecastdays }: Props) {
       </div>
       <VStack
         className={css({
-          gap: "8px",
+          gap: { base: "16px", sm: "8px" },
           border: "1px solid",
           borderRadius: "8px",
           borderColor: "var(--color-gray-300)",
@@ -41,7 +41,15 @@ export async function FutureForecastList({ location, forecastdays }: Props) {
       >
         {forecastdays.map((forecast) => {
           return (
-            <HStack key={forecast.date} className={css({ gap: "8px" })}>
+            <HStack
+              key={forecast.date}
+              className={css({
+                gap: "8px",
+                alignItems: "start",
+                borderBottom: "1px solid var(--color-gray-200)",
+                sm: { alignItems: "end", borderBottom: "none" },
+              })}
+            >
               <VStack
                 className={css({
                   alignItems: "end",
@@ -61,45 +69,64 @@ export async function FutureForecastList({ location, forecastdays }: Props) {
                   {format(new Date(forecast.date), "E", { locale: ja })}
                 </div>
               </VStack>
-              <HStack className={css({ gap: "2px", flexGrow: 1 })}>
-                <img
-                  src={forecast.day.condition.icon}
-                  alt="condition"
-                  width={30}
-                  height={30}
-                />
-                <span
-                  className={css({
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap",
-                  })}
-                >
-                  {forecast.day.condition.text}
-                </span>
-              </HStack>
-              <ForecastValue
-                icon={IconTemperature}
-                value={`${forecast.day.maxtemp_c} / ${forecast.day.mintemp_c} ℃`}
-              />
-              <ForecastValue
-                icon={IconUmbrella}
-                value={`${forecast.day.daily_chance_of_rain} %`}
-              />
-              <Anchor
-                href={Routes.detail({
-                  locationQuery: location,
-                  date: forecast.date,
-                })}
+              <div
                 className={css({
-                  width: "24px",
-                  height: "24px",
-                  display: "grid",
-                  placeItems: "center",
+                  flexGrow: 1,
+                  display: "flex",
+                  flexDir: "column",
+                  sm: { flexDir: "row", justifyContent: "space-between" },
                 })}
               >
-                <IconArrowRight size={16} />
-              </Anchor>
+                <HStack className={css({ gap: "2px", flexGrow: 1 })}>
+                  <img
+                    src={forecast.day.condition.icon}
+                    alt="condition"
+                    width={30}
+                    height={30}
+                  />
+                  <span
+                    className={css({
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                    })}
+                  >
+                    {forecast.day.condition.text}
+                  </span>
+                </HStack>
+                <HStack
+                  className={css({
+                    gap: "8px",
+                    paddingLeft: "4px",
+                    justifyContent: "space-between",
+                  })}
+                >
+                  <HStack className={css({ gap: "8px" })}>
+                    <ForecastValue
+                      icon={IconTemperature}
+                      value={`${forecast.day.maxtemp_c} / ${forecast.day.mintemp_c} ℃`}
+                    />
+                    <ForecastValue
+                      icon={IconUmbrella}
+                      value={`${forecast.day.daily_chance_of_rain} %`}
+                    />
+                  </HStack>
+                  <Anchor
+                    href={Routes.detail({
+                      locationQuery: location,
+                      date: forecast.date,
+                    })}
+                    className={css({
+                      width: "24px",
+                      height: "24px",
+                      display: "grid",
+                      placeItems: "center",
+                    })}
+                  >
+                    <IconArrowRight size={16} />
+                  </Anchor>
+                </HStack>
+              </div>
             </HStack>
           );
         })}
@@ -118,7 +145,7 @@ function ForecastValue({ icon: Icon, value }: { icon: Icon; value: string }) {
       })}
     >
       <Icon size={16} />
-      <span className={css({ fontSize: "12px" })}>{value}</span>
+      <span>{value}</span>
     </HStack>
   );
 }
