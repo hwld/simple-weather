@@ -125,7 +125,7 @@ export async function fetchForecast(location: string): Promise<
 export async function fetchSpecificForecast(
   location: string,
   date: string
-): Promise<ForecastDay | undefined> {
+): Promise<{ location: Location; forecastDay: ForecastDay } | undefined> {
   try {
     const json = await ky
       .get("https://api.weatherapi.com/v1/forecast.json", {
@@ -139,7 +139,10 @@ export async function fetchSpecificForecast(
       .json();
 
     const data = ForecastResponseSchema.parse(json);
-    return data.forecast.forecastday[0];
+    return {
+      location: data.location,
+      forecastDay: data.forecast.forecastday[0],
+    };
   } catch (e) {
     if (e instanceof HTTPError) {
       const errorJson = await e.response.json();

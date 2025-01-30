@@ -9,6 +9,7 @@ import { Metadata } from "next";
 import { HStack, VStack } from "@/components/ui/stack";
 import { SpecificForecast } from "@/components/specific-forecast";
 import { Anchor } from "@/components/ui/anchor";
+import { ReactNode } from "react";
 
 export const metadata: Metadata = {
   title: "指定日の天気 - SimpleWeather",
@@ -21,46 +22,68 @@ export default async function DetailPage({ searchParams }: Props) {
     await searchParams
   );
 
+  if (locationQuery === "") {
+    return (
+      <DetailPageLayout date={date}>
+        <EmptySearchQueryPage />
+      </DetailPageLayout>
+    );
+  }
+
+  const specificForecastResult = await fetchSpecificForecast(
+    locationQuery,
+    date
+  );
+  if (specificForecastResult === undefined) {
+    return (
+      <DetailPageLayout date={date}>
+        <LocationNotFoundPage locationName={locationQuery} />
+      </DetailPageLayout>
+    );
+  }
+
+  const { forecastDay, location } = specificForecastResult;
+
+  return (
+    <DetailPageLayout
+      date={date}
+      beforeDate={
+        <>
+          <Anchor href={Routes.home({ locationQuery: location.name })}>
+            {location.name}
+          </Anchor>
+          <IconChevronRight size={14} />
+        </>
+      }
+    >
+      <SpecificForecast forecastDay={forecastDay} />
+    </DetailPageLayout>
+  );
+}
+
+function DetailPageLayout({
+  children,
+  date,
+  beforeDate,
+}: {
+  children: ReactNode;
+  date: string;
+  beforeDate?: ReactNode;
+}) {
   return (
     <VStack className={css({ gap: "24px" })}>
       <h2>
         <HStack
           className={css({ gap: "4px", alignItems: "end", lineHeight: 1 })}
         >
-          {locationQuery !== "" ? (
-            <>
-              <Anchor href={Routes.home({ locationQuery })}>
-                {locationQuery}
-              </Anchor>
-              <IconChevronRight size={14} />
-            </>
-          ) : null}
+          {beforeDate}
           <div className={css({ fontSize: "20px", fontWeight: "bold" })}>
             {format(date, "M月dd日")}
           </div>
           <span>の天気予報</span>
         </HStack>
       </h2>
-      <DetailPageContent locationQuery={locationQuery} date={date} />
+      {children}
     </VStack>
   );
-}
-
-async function DetailPageContent({
-  locationQuery,
-  date,
-}: {
-  locationQuery: string;
-  date: string;
-}) {
-  if (locationQuery === "") {
-    return <EmptySearchQueryPage />;
-  }
-
-  const specificForecast = await fetchSpecificForecast(locationQuery, date);
-  if (specificForecast === undefined) {
-    return <LocationNotFoundPage locationName={locationQuery} />;
-  }
-
-  return <SpecificForecast forecastDay={specificForecast} />;
 }
