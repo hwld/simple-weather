@@ -1,5 +1,5 @@
 import { css } from "../../../styled-system/css";
-import { fetchForecast } from "@/api";
+import { fetchForecast } from "@/api/fetch";
 import { HomeSearchParamsSchema } from "@/routes";
 import { Metadata } from "next";
 import { HStack } from "@/components/ui/stack";

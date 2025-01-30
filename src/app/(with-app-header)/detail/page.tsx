@@ -1,4 +1,4 @@
-import { fetchSpecificForecast } from "@/api";
+import { fetchSpecificForecast } from "@/api/fetch";
 import { EmptySearchQueryPage } from "@/components/empty-search-page";
 import { LocationNotFoundPage } from "@/components/location-not-found-page";
 import { DetailSearchParamsSchema, Routes } from "@/routes";

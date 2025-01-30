@@ -8,7 +8,7 @@ import {
 import { format } from "date-fns";
 import { ja } from "date-fns/locale";
 import { css } from "../../styled-system/css";
-import { type ForecastDay } from "@/api";
+import { type ForecastDay } from "@/api/schema";
 import { Routes } from "@/routes";
 import { VStack, HStack } from "@/components/ui/stack";
 import { Anchor } from "@/components/ui/anchor";

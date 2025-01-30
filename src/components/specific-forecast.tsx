@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { css } from "../../styled-system/css";
-import { ForecastDay } from "@/api";
+import { ForecastDay } from "@/api/schema";
 
 /* eslint-disable @next/next/no-img-element */
 type Props = { forecastDay: ForecastDay };

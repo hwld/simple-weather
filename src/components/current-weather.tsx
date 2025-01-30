@@ -8,10 +8,10 @@ import {
   IconWind,
 } from "@tabler/icons-react";
 import { css } from "../../styled-system/css";
-import { type CurrentWeather } from "@/api";
 import { Routes } from "@/routes";
 import { VStack, HStack } from "@/components/ui/stack";
 import { Anchor } from "@/components/ui/anchor";
+import { type CurrentWeather } from "@/api/schema";
 
 type Props = { location: string; current: CurrentWeather };
 
