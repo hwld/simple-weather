@@ -43,3 +43,10 @@ next-env.d.ts
 ## Panda
 styled-system
 styled-system-studio
+
+# Playwright
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
