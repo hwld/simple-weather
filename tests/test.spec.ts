@@ -22,7 +22,7 @@ const createFetchHandler: (
 };
 
 test.describe("現在の天気ページ", () => {
-  test("未検索時には「検索バーに入力してください」というテキストが存在する", async ({
+  test("未検索時には「検索してください」というテキストが存在する", async ({
     next,
     page,
   }) => {
@@ -31,9 +31,7 @@ test.describe("現在の天気ページ", () => {
     await page.goto(Routes.home({ locationId: "" }));
 
     expect(
-      await page
-        .getByText("検索バーに入力してください", { exact: false })
-        .count()
+      await page.getByText("検索してください", { exact: false }).count()
     ).toBeGreaterThan(0);
   });
 

@@ -21,8 +21,7 @@ export function EmptyLocationIdPage() {
         className={css({ color: "var(--color-primary-500)" })}
       />
       <p className={css({ maxWidth: "300px", textAlign: "center" })}>
-        天気を知りたい地域 (アルファベット)
-        や経緯度を上の検索バーに入力してください
+        上の検索バーから地域を検索してください
       </p>
     </VStack>
   );
