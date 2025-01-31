@@ -9,6 +9,7 @@ import { ReactNode } from "react";
 // 今のところreact-queryのデータはhydrationを考えていないため、シンプルに実装する
 
 const queryClient = new QueryClient({
+  defaultOptions: { queries: { retry: 1 } },
   queryCache: new QueryCache({
     onError: (error) => {
       console.error(error);

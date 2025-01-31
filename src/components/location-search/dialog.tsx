@@ -7,7 +7,12 @@ import {
   UseFloatingReturn,
   UseInteractionsReturn,
 } from "@floating-ui/react";
-import { IconMapPin, IconSearch } from "@tabler/icons-react";
+import {
+  IconAlertCircle,
+  IconLoader2,
+  IconMapPin,
+  IconSearch,
+} from "@tabler/icons-react";
 import { Command } from "cmdk";
 import { css } from "../../../styled-system/css";
 import {
@@ -19,11 +24,19 @@ import {
   Routes,
 } from "@/routes";
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
-import { ReactNode, SyntheticEvent, useEffect, useRef, useState } from "react";
+import {
+  ReactNode,
+  SyntheticEvent,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import ky from "ky";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { searchParamsToObject } from "@/app/utils";
+import { useDebouncedValue } from "@mantine/hooks";
 
 type Props = {
   onClose: () => void;
@@ -40,10 +53,19 @@ export function LocationSearchDialog({
   floatingProps: { getFloatingProps, setFloatingRef },
 }: Props) {
   const [query, setQuery] = useState("");
-  const { data: locations = [] } = useQuery({
-    queryKey: ["search-location", query],
+  const [debouncedQuery] = useDebouncedValue(query, 350);
+
+  const {
+    data: locations = [],
+    isFetching,
+    isError,
+  } = useQuery({
+    queryKey: ["search-location", debouncedQuery],
+    enabled: debouncedQuery.length > 0,
     queryFn: async () => {
-      const response = await ky.get(ApiRoutes.locationSearch({ query })).json();
+      const response = await ky
+        .get(ApiRoutes.locationSearch({ query: debouncedQuery }), { retry: 0 })
+        .json();
       const data = LocationSearchResponseSchema.parse(response);
 
       return data.locations;
@@ -76,6 +98,36 @@ export function LocationSearchDialog({
       window.removeEventListener("resize", updateListHeight);
     };
   }, []);
+
+  const emptyContent = useMemo(() => {
+    if (debouncedQuery.length === 0) {
+      return <div>地域名や経緯度を入力してください</div>;
+    }
+
+    if (!isFetching) {
+      if (isError) {
+        return (
+          <HStack
+            className={css({
+              gap: "8px",
+              alignItems: "start",
+              color: "var(--color-error)",
+            })}
+          >
+            <IconAlertCircle />
+            <VStack>
+              <p>エラーが発生しました</p>
+              <p>しばらく経ってからもう一度試してみてください</p>
+            </VStack>
+          </HStack>
+        );
+      } else {
+        return <div>地域が見つかりませんでした</div>;
+      }
+    }
+
+    return null;
+  }, [debouncedQuery.length, isError, isFetching]);
 
   return (
     <FloatingOverlay
@@ -152,6 +204,7 @@ export function LocationSearchDialog({
                   value={query}
                   onValueChange={setQuery}
                   className={css({
+                    flexGrow: 1,
                     height: "100%",
                     width: "100%",
                     _focusVisible: {
@@ -163,6 +216,16 @@ export function LocationSearchDialog({
                     },
                   })}
                 />
+                {isFetching ? (
+                  <Command.Loading>
+                    <IconLoader2
+                      className={css({
+                        color: "var(--color-gray-500)",
+                        animation: "loading 1s linear infinite",
+                      })}
+                    />
+                  </Command.Loading>
+                ) : null}
               </HStack>
               <Button
                 onClick={onClose}
@@ -188,6 +251,11 @@ export function LocationSearchDialog({
                 sm: { height: "300px" },
               })}
             >
+              <Command.Empty
+                className={css({ fontSize: "12px", padding: "8px" })}
+              >
+                {emptyContent}
+              </Command.Empty>
               {locations.map((l) => {
                 return (
                   <LocationItem key={l.id} location={l} onClose={onClose} />

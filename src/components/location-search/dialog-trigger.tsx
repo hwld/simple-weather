@@ -37,7 +37,6 @@ export function LocationSearchDialogTrigger() {
         className={css({
           display: "flex",
           alignItems: "center",
-          bg: "var(--color-gray-100)",
           transition: "all",
           transitionDuration: "0.1s",
           _hover: {
