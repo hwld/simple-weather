@@ -5,7 +5,7 @@ import {
 } from "next/experimental/testmode/playwright";
 import { mockCurrentWeather, mockForecast, mockLocation } from "./mocks";
 import { Routes } from "@/routes";
-import { ForecastErrorResopnse, ForecastResponse } from "@/api/schema";
+import { WeatherApiErrorResopnse, ForecastResponse } from "@/api/schema";
 import { ForecastApiUrl } from "@/api/url";
 
 const createFetchHandler: (
@@ -69,7 +69,7 @@ test.describe("現在の天気ページ", () => {
         new Response(
           JSON.stringify({
             error: { code: 1006 },
-          } satisfies ForecastErrorResopnse),
+          } satisfies WeatherApiErrorResopnse),
           { status: 400 }
         )
       )
@@ -129,7 +129,7 @@ test.describe("指定日の天気ページ", () => {
         new Response(
           JSON.stringify({
             error: { code: 1006 },
-          } satisfies ForecastErrorResopnse),
+          } satisfies WeatherApiErrorResopnse),
           { status: 400 }
         )
       )

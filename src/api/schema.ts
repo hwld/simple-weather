@@ -69,12 +69,29 @@ export const ForecastResponseSchema = z.object({
 
 export type ForecastResponse = z.infer<typeof ForecastResponseSchema>;
 
-export const ForecastErrorCode = {
+export const SearchedLocationSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  region: z.string(),
+  country: z.string(),
+  lat: z.number(),
+  lon: z.number(),
+});
+
+export type SearchedLocation = z.infer<typeof SearchedLocationSchema>;
+
+export const SearchResponseSchema = z.array(SearchedLocationSchema);
+
+export type SearchResponse = z.infer<typeof SearchResponseSchema>;
+
+export const WeatherAPIErrorCode = {
   LocationNotFound: 1006,
 } as const;
 
-export const ForecastErrorResopnseSchema = z.object({
+export const WeatherApiErrorResopnseSchema = z.object({
   error: z.object({ code: z.number() }),
 });
 
-export type ForecastErrorResopnse = z.infer<typeof ForecastErrorResopnseSchema>;
+export type WeatherApiErrorResopnse = z.infer<
+  typeof WeatherApiErrorResopnseSchema
+>;

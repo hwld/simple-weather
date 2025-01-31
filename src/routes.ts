@@ -1,3 +1,4 @@
+import { SearchedLocationSchema } from "@/api/schema";
 import { isValid, parse } from "date-fns";
 import { z } from "zod";
 
@@ -41,20 +42,16 @@ type LocationSearchApiSearchParams = z.infer<
   typeof LocationSearchApiSearchParamsSchema
 >;
 
-// TODO: api/schemaと被っちゃう
-const LocationSchema = z.object({
-  id: z.number(),
-  name: z.string(),
-  region: z.string(),
-  country: z.string(),
-  lat: z.number(),
-  lon: z.number(),
-});
+// TODO: api/schemaと名前が被っちゃう
+
+// Route handlerが返すlocationをそのまま使う
+// 将来的にスキーマを変えたくなっても分離するのは容易だと思う
+const LocationSchema = SearchedLocationSchema;
 
 export type Location = z.infer<typeof LocationSchema>;
 
 export const LocationSearchResponseSchema = z.object({
-  locations: LocationSchema.array(),
+  locations: z.array(LocationSchema),
 });
 
 export type LocationSearchResponse = z.infer<

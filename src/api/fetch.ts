@@ -3,8 +3,8 @@ import "server-only";
 import {
   CurrentWeather,
   ForecastDay,
-  ForecastErrorCode,
-  ForecastErrorResopnseSchema,
+  WeatherAPIErrorCode,
+  WeatherApiErrorResopnseSchema,
   ForecastResponseSchema,
   Location,
 } from "@/api/schema";
@@ -52,11 +52,11 @@ export async function fetchForecast(location: string): FetchForecastResult {
     };
   } catch (e) {
     if (e instanceof HTTPError) {
-      const { error } = ForecastErrorResopnseSchema.parse(
+      const { error } = WeatherApiErrorResopnseSchema.parse(
         await e.response.json()
       );
       // locationが見つからなかった場合にはundefinedを返す
-      if (error.code === ForecastErrorCode.LocationNotFound) {
+      if (error.code === WeatherAPIErrorCode.LocationNotFound) {
         return undefined;
       }
     }
@@ -97,11 +97,11 @@ export async function fetchSpecificForecast(
     };
   } catch (e) {
     if (e instanceof HTTPError) {
-      const { error } = ForecastErrorResopnseSchema.parse(
+      const { error } = WeatherApiErrorResopnseSchema.parse(
         await e.response.json()
       );
       // locationが見つからなかった場合にはundefinedを返す
-      if (error.code === ForecastErrorCode.LocationNotFound) {
+      if (error.code === WeatherAPIErrorCode.LocationNotFound) {
         return undefined;
       }
     }
