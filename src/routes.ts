@@ -3,12 +3,14 @@ import { isValid, parse } from "date-fns";
 import { z } from "zod";
 
 export const HomeSearchParamsSchema = z.object({
-  locationQuery: z.string().default(""),
+  /** 地域検索の結果得られたID */
+  locationId: z.string().default(""),
 });
 export type HomeSearchParams = z.infer<typeof HomeSearchParamsSchema>;
 
 export const DetailSearchParamsSchema = z.object({
-  locationQuery: z.string().default(""),
+  /** 地域検索の結果得られたID */
+  locationId: z.string().default(""),
 
   /** yyyy-MM-dd形式の日付 */
   date: z.string().refine((val) => {

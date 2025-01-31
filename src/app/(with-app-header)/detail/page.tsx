@@ -1,5 +1,5 @@
 import { fetchSpecificForecast } from "@/api/fetch";
-import { EmptySearchQueryPage } from "@/components/empty-search-page";
+import { EmptyLocationIdPage } from "@/components/empty-location-id-page";
 import { LocationNotFoundPage } from "@/components/location-not-found-page";
 import { DetailSearchParamsSchema, Routes } from "@/routes";
 import { IconChevronRight } from "@tabler/icons-react";
@@ -18,26 +18,23 @@ export const metadata: Metadata = {
 type Props = { searchParams: Promise<unknown> };
 
 export default async function DetailPage({ searchParams }: Props) {
-  const { locationQuery, date } = DetailSearchParamsSchema.parse(
+  const { locationId, date } = DetailSearchParamsSchema.parse(
     await searchParams
   );
 
-  if (locationQuery === "") {
+  if (locationId === "") {
     return (
       <DetailPageLayout date={date}>
-        <EmptySearchQueryPage />
+        <EmptyLocationIdPage />
       </DetailPageLayout>
     );
   }
 
-  const specificForecastResult = await fetchSpecificForecast(
-    locationQuery,
-    date
-  );
+  const specificForecastResult = await fetchSpecificForecast(locationId, date);
   if (specificForecastResult === undefined) {
     return (
       <DetailPageLayout date={date}>
-        <LocationNotFoundPage locationName={locationQuery} />
+        <LocationNotFoundPage />
       </DetailPageLayout>
     );
   }
@@ -49,9 +46,7 @@ export default async function DetailPage({ searchParams }: Props) {
       date={date}
       beforeDate={
         <>
-          <Anchor href={Routes.home({ locationQuery: location.name })}>
-            {location.name}
-          </Anchor>
+          <Anchor href={Routes.home({ locationId })}>{location.name}</Anchor>
           <IconChevronRight size={14} />
         </>
       }

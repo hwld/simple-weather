@@ -2,7 +2,7 @@ import { IconSearch } from "@tabler/icons-react";
 import { css } from "../../styled-system/css";
 import { VStack } from "@/components/ui/stack";
 
-export function EmptySearchQueryPage() {
+export function EmptyLocationIdPage() {
   return (
     <VStack
       className={css({

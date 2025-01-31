@@ -25,14 +25,14 @@ type FetchForecastResult = Promise<
 /**
  * 位置情報、現在の天気、明日以降の天気予報を取得
  */
-export async function fetchForecast(location: string): FetchForecastResult {
+export async function fetchForecast(locationId: string): FetchForecastResult {
   try {
     const json = await ky
       .get(ForecastApiUrl, {
         searchParams: {
           key: WeatherApiKey,
           lang: "ja",
-          q: location,
+          q: `id:${locationId}`,
           days: 7,
         },
       })
@@ -71,11 +71,11 @@ type FetchSpecificForecastResult = Promise<
 /**
  *  指定された地域の指定された日の予報を取得する
  *
- * @param location 地域の名前
+ * @param locationId 検索の結果得られた地域のID
  * @param date yyyy-MM-dd形式の日付
  */
 export async function fetchSpecificForecast(
-  location: string,
+  locationId: string,
   date: string
 ): FetchSpecificForecastResult {
   try {
@@ -84,7 +84,7 @@ export async function fetchSpecificForecast(
         searchParams: {
           key: WeatherApiKey,
           lang: "ja",
-          q: location,
+          q: `id:${locationId}`,
           d: date,
         },
       })

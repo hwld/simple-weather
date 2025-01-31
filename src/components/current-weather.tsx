@@ -13,9 +13,12 @@ import { VStack, HStack } from "@/components/ui/stack";
 import { Anchor } from "@/components/ui/anchor";
 import { type CurrentWeather } from "@/api/schema";
 
-type Props = { location: string; current: CurrentWeather };
+type Props = {
+  locationId: string;
+  current: CurrentWeather;
+};
 
-export async function CurrentWeather({ location, current }: Props) {
+export async function CurrentWeather({ locationId, current }: Props) {
   const lastUpdatedTime = format(
     current.last_updated_epoch,
     "MM月dd日 HH時mm分ss秒"
@@ -47,7 +50,7 @@ export async function CurrentWeather({ location, current }: Props) {
               lineHeight: 1,
             })}
             href={Routes.detail({
-              locationQuery: location,
+              locationId: locationId,
               date: current.last_updated_date,
             })}
           >

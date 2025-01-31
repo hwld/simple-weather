@@ -200,7 +200,7 @@ export function LocationSearchDialog({
                   })}
                 />
                 <Command.Input
-                  placeholder="「地域名(アルファベット)」・「緯度,軽度」"
+                  placeholder="地域名(アルファベット)・緯度,軽度"
                   value={query}
                   onValueChange={setQuery}
                   className={css({
@@ -304,7 +304,7 @@ function LocationItem({
   const getRoute = () => {
     switch (currentPath) {
       case BasePaths.home: {
-        return Routes.home({ locationQuery: `${location.id}` });
+        return Routes.home({ locationId: `${location.id}` });
       }
       case BasePaths.detail: {
         const params = DetailSearchParamsSchema.parse(
@@ -312,25 +312,23 @@ function LocationItem({
         );
 
         return Routes.detail({
-          locationQuery: `${location.id}`,
+          locationId: `${location.id}`,
           date: params.date,
         });
       }
       default: {
-        return Routes.home({ locationQuery: `${location.id}` });
+        return Routes.home({ locationId: `${location.id}` });
       }
     }
   };
 
   const handleSelect = () => {
-    console.log("select");
     // TODO: ページごとに遷移先を変える
     router.push(getRoute());
     onClose();
   };
 
   const handleItemClick = (e: SyntheticEvent) => {
-    console.log("item");
     e.stopPropagation();
     onClose();
   };

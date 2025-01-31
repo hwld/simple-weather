@@ -13,9 +13,9 @@ import { Routes } from "@/routes";
 import { VStack, HStack } from "@/components/ui/stack";
 import { Anchor } from "@/components/ui/anchor";
 
-type Props = { location: string; forecastdays: ForecastDay[] };
+type Props = { locationId: string; forecastdays: ForecastDay[] };
 
-export async function FutureForecastList({ location, forecastdays }: Props) {
+export async function FutureForecastList({ locationId, forecastdays }: Props) {
   return (
     <div
       className={css({
@@ -113,7 +113,7 @@ export async function FutureForecastList({ location, forecastdays }: Props) {
                   </HStack>
                   <Anchor
                     href={Routes.detail({
-                      locationQuery: location,
+                      locationId,
                       date: forecast.date,
                     })}
                     className={css({

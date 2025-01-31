@@ -32,7 +32,7 @@ export function PageNavigation() {
           borderRadius: "4px",
           fontWeight: "bold",
         })}
-        href={Routes.home({ locationQuery: "" })}
+        href={Routes.home({ locationId: "" })}
       >
         現在の天気
       </Link>

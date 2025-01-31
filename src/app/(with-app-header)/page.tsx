@@ -4,7 +4,7 @@ import { HomeSearchParamsSchema } from "@/routes";
 import { Metadata } from "next";
 import { HStack } from "@/components/ui/stack";
 import { CurrentWeather } from "@/components/current-weather";
-import { EmptySearchQueryPage } from "@/components/empty-search-page";
+import { EmptyLocationIdPage } from "@/components/empty-location-id-page";
 import { FutureForecastList } from "@/components/future-forecast-list";
 import { LocationNotFoundPage } from "@/components/location-not-found-page";
 
@@ -15,15 +15,15 @@ export const metadata: Metadata = {
 type Props = { searchParams: Promise<unknown> };
 
 export default async function HomePage({ searchParams }: Props) {
-  const { locationQuery } = HomeSearchParamsSchema.parse(await searchParams);
+  const { locationId } = HomeSearchParamsSchema.parse(await searchParams);
 
-  if (locationQuery === "") {
-    return <EmptySearchQueryPage />;
+  if (locationId === "") {
+    return <EmptyLocationIdPage />;
   }
 
-  const forecastResult = await fetchForecast(locationQuery);
+  const forecastResult = await fetchForecast(locationId);
   if (forecastResult === undefined) {
-    return <LocationNotFoundPage locationName={locationQuery} />;
+    return <LocationNotFoundPage />;
   }
 
   const { location, current, forecastdays } = forecastResult;
@@ -53,9 +53,9 @@ export default async function HomePage({ searchParams }: Props) {
           <div className={css({ wordBreak: "keep-all" })}>の天気予報</div>
         </HStack>
       </h2>
-      <CurrentWeather location={location.name} current={current} />
+      <CurrentWeather locationId={locationId} current={current} />
       <FutureForecastList
-        location={location.name}
+        locationId={locationId}
         forecastdays={forecastdays.slice(1)}
       />
     </div>

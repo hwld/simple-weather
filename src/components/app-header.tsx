@@ -1,8 +1,8 @@
 import { Suspense } from "react";
 import { css } from "../../styled-system/css";
 import { PageNavigation } from "@/components/page-navigation";
-import { SearchForm } from "@/components/search-form";
 import { VStack, HStack } from "@/components/ui/stack";
+import { LocationSearchDialogTrigger } from "@/components/location-search/dialog-trigger";
 
 export function AppHeader() {
   return (
@@ -24,7 +24,7 @@ export function AppHeader() {
         </HStack>
       </h1>
       <Suspense>
-        <SearchForm />
+        <LocationSearchDialogTrigger />
       </Suspense>
     </VStack>
   );
