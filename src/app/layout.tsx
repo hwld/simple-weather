@@ -1,5 +1,5 @@
 import "../style/global.css";
-import { css } from "../../styled-system/css";
+import { ReactQueryProvider } from "@/components/react-query-provider";
 
 export default function RootLayout({
   children,
@@ -7,8 +7,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ja" className={css({ scrollbarGutter: "stable" })}>
-      <body>{children}</body>
+    <html lang="ja">
+      <body>
+        <ReactQueryProvider>{children}</ReactQueryProvider>
+      </body>
     </html>
   );
 }
