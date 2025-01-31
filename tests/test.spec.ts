@@ -21,20 +21,22 @@ const createFetchHandler: (
   };
 };
 
-test.describe("現在の天気ページ", () => {
-  test("未検索時には「検索してください」というテキストが存在する", async ({
+test.describe("ホームページ", () => {
+  test("「検索してください」というテキストが存在する", async ({
     next,
     page,
   }) => {
     next.onFetch(() => "abort");
 
-    await page.goto(Routes.home({ locationId: "" }));
+    await page.goto(Routes.home());
 
     expect(
       await page.getByText("検索してください", { exact: false }).count()
     ).toBeGreaterThan(0);
   });
+});
 
+test.describe("現在の天気ページ", () => {
   test("検索した地域の天気情報が取得できた場合は地域名が存在する", async ({
     next,
     page,
@@ -51,7 +53,7 @@ test.describe("現在の天気ページ", () => {
       )
     );
 
-    await page.goto(Routes.home({ locationId: "dummy" }));
+    await page.goto(Routes.weatherSummary({ locationId: "dummy" }));
 
     expect(
       await page.getByText(mockLocation.name, { exact: false }).count()
@@ -73,7 +75,7 @@ test.describe("現在の天気ページ", () => {
       )
     );
 
-    await page.goto(Routes.home({ locationId: "dummy" }));
+    await page.goto(Routes.weatherSummary({ locationId: "dummy" }));
 
     expect(
       await page.getByText("見つかりませんでした", { exact: false }).count()
@@ -86,7 +88,7 @@ test.describe("現在の天気ページ", () => {
   }) => {
     next.onFetch(createFetchHandler(new Response(null, { status: 500 })));
 
-    await page.goto(Routes.home({ locationId: "dummy" }));
+    await page.goto(Routes.weatherSummary({ locationId: "dummy" }));
 
     expect(
       await page.getByText("エラーが発生しました", { exact: false }).count()
@@ -111,7 +113,9 @@ test.describe("指定日の天気ページ", () => {
       )
     );
 
-    await page.goto(Routes.detail({ locationId: "dummy", date: "1970-01-01" }));
+    await page.goto(
+      Routes.weatherDetail({ locationId: "dummy", date: "1970-01-01" })
+    );
 
     expect(
       await page.getByText(mockLocation.name, { exact: false }).count()
@@ -133,7 +137,9 @@ test.describe("指定日の天気ページ", () => {
       )
     );
 
-    await page.goto(Routes.detail({ locationId: "dummy", date: "1970-01-01" }));
+    await page.goto(
+      Routes.weatherDetail({ locationId: "dummy", date: "1970-01-01" })
+    );
 
     expect(
       await page.getByText("見つかりませんでした", { exact: false }).count()
@@ -146,7 +152,9 @@ test.describe("指定日の天気ページ", () => {
   }) => {
     next.onFetch(() => "abort");
 
-    await page.goto(Routes.detail({ locationId: "dummy", date: "wrong" }));
+    await page.goto(
+      Routes.weatherDetail({ locationId: "dummy", date: "wrong" })
+    );
 
     expect(
       await page.getByText("エラーが発生しました", { exact: false }).count()
@@ -159,7 +167,9 @@ test.describe("指定日の天気ページ", () => {
   }) => {
     next.onFetch(createFetchHandler(new Response(null, { status: 500 })));
 
-    await page.goto(Routes.detail({ locationId: "dummy", date: "1970-01-01" }));
+    await page.goto(
+      Routes.weatherDetail({ locationId: "dummy", date: "1970-01-01" })
+    );
 
     expect(
       await page.getByText("エラーが発生しました", { exact: false }).count()

@@ -85,7 +85,7 @@ export async function fetchSpecificForecast(
           key: WeatherApiKey,
           lang: "ja",
           q: `id:${locationId}`,
-          d: date,
+          dt: date,
         },
       })
       .json();

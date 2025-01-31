@@ -49,7 +49,7 @@ export async function CurrentWeather({ locationId, current }: Props) {
               alignItems: "center",
               lineHeight: 1,
             })}
-            href={Routes.detail({
+            href={Routes.weatherDetail({
               locationId: locationId,
               date: current.last_updated_date,
             })}

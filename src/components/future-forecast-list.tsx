@@ -112,7 +112,7 @@ export async function FutureForecastList({ locationId, forecastdays }: Props) {
                     />
                   </HStack>
                   <Anchor
-                    href={Routes.detail({
+                    href={Routes.weatherDetail({
                       locationId,
                       date: forecast.date,
                     })}

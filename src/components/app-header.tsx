@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import { css } from "../../styled-system/css";
-import { PageNavigation } from "@/components/page-navigation";
+import { HomePageNavigation } from "@/components/home-page-navigation";
 import { VStack, HStack } from "@/components/ui/stack";
 import { LocationSearchDialogTrigger } from "@/components/location-search/dialog-trigger";
 
@@ -20,7 +20,7 @@ export function AppHeader() {
           <div className={css({ fontSize: "16px", fontWeight: "bold" })}>
             SimpleWeather
           </div>
-          <PageNavigation />
+          <HomePageNavigation />
         </HStack>
       </h1>
       <Suspense>

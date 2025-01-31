@@ -17,11 +17,11 @@ import { Command } from "cmdk";
 import { css } from "../../../styled-system/css";
 import {
   ApiRoutes,
-  BasePaths,
-  DetailSearchParamsSchema,
   Location,
   LocationSearchResponseSchema,
   Routes,
+  isWeatherSummaryPage,
+  isWeatherDetailPage,
 } from "@/routes";
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import {
@@ -34,8 +34,7 @@ import {
 } from "react";
 import ky from "ky";
 import Link from "next/link";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { searchParamsToObject } from "@/app/utils";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import { useDebouncedValue } from "@mantine/hooks";
 
 type Props = {
@@ -298,28 +297,25 @@ function LocationItem({
   onClose: () => void;
 }) {
   const router = useRouter();
-  const searchParams = useSearchParams();
   const currentPath = usePathname();
+  const params = useParams();
 
+  // 現在いるページに応じてリンクのパスを変える
   const getRoute = () => {
-    switch (currentPath) {
-      case BasePaths.home: {
-        return Routes.home({ locationId: `${location.id}` });
-      }
-      case BasePaths.detail: {
-        const params = DetailSearchParamsSchema.parse(
-          searchParamsToObject(searchParams)
-        );
+    const args = { currentPath, params };
 
-        return Routes.detail({
-          locationId: `${location.id}`,
-          date: params.date,
-        });
-      }
-      default: {
-        return Routes.home({ locationId: `${location.id}` });
-      }
+    if (isWeatherSummaryPage(args)) {
+      return Routes.weatherSummary({ locationId: `${location.id}` });
     }
+
+    if (isWeatherDetailPage(args)) {
+      return Routes.weatherDetail({
+        locationId: `${location.id}`,
+        date: args.params.date,
+      });
+    }
+
+    return Routes.weatherSummary({ locationId: `${location.id}` });
   };
 
   const handleSelect = () => {

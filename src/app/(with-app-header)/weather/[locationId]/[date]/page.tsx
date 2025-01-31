@@ -1,9 +1,8 @@
 import { fetchSpecificForecast } from "@/api/fetch";
-import { EmptyLocationIdPage } from "@/components/empty-location-id-page";
 import { LocationNotFoundPage } from "@/components/location-not-found-page";
-import { DetailSearchParamsSchema, Routes } from "@/routes";
+import { WeatherDetailParamsSchema, Routes } from "@/routes";
 import { IconChevronRight } from "@tabler/icons-react";
-import { css } from "../../../../styled-system/css";
+import { css } from "../../../../../../styled-system/css";
 import { format } from "date-fns";
 import { Metadata } from "next";
 import { HStack, VStack } from "@/components/ui/stack";
@@ -15,20 +14,10 @@ export const metadata: Metadata = {
   title: "指定日の天気 - SimpleWeather",
 };
 
-type Props = { searchParams: Promise<unknown> };
+type Props = { params: Promise<unknown> };
 
-export default async function DetailPage({ searchParams }: Props) {
-  const { locationId, date } = DetailSearchParamsSchema.parse(
-    await searchParams
-  );
-
-  if (locationId === "") {
-    return (
-      <DetailPageLayout date={date}>
-        <EmptyLocationIdPage />
-      </DetailPageLayout>
-    );
-  }
+export default async function WeatherDetailPage({ params }: Props) {
+  const { locationId, date } = WeatherDetailParamsSchema.parse(await params);
 
   const specificForecastResult = await fetchSpecificForecast(locationId, date);
   if (specificForecastResult === undefined) {
@@ -46,7 +35,9 @@ export default async function DetailPage({ searchParams }: Props) {
       date={date}
       beforeDate={
         <>
-          <Anchor href={Routes.home({ locationId })}>{location.name}</Anchor>
+          <Anchor href={Routes.weatherSummary({ locationId })}>
+            {location.name}
+          </Anchor>
           <IconChevronRight size={14} />
         </>
       }

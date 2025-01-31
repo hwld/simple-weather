@@ -3,6 +3,7 @@ import { IconExclamationCircle, IconHome } from "@tabler/icons-react";
 import { css } from "../../styled-system/css";
 import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
+import { Routes } from "@/routes";
 
 type Props = { error: Error; reset: () => void };
 
@@ -13,7 +14,7 @@ export default function UnhandledErrorPage({ error }: Props) {
 
   const handleGoToHome = () => {
     // useRouter()を使用してもエラー画面がリセットされないので、windowを直接操作する
-    window.location.replace("/");
+    window.location.replace(Routes.home());
   };
 
   return (

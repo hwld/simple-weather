@@ -1,63 +1,33 @@
-import { css } from "../../../styled-system/css";
-import { fetchForecast } from "@/api/fetch";
-import { HomeSearchParamsSchema } from "@/routes";
 import { Metadata } from "next";
-import { HStack } from "@/components/ui/stack";
-import { CurrentWeather } from "@/components/current-weather";
-import { EmptyLocationIdPage } from "@/components/empty-location-id-page";
-import { FutureForecastList } from "@/components/future-forecast-list";
-import { LocationNotFoundPage } from "@/components/location-not-found-page";
+import { VStack } from "@/components/ui/stack";
+import { IconSearch } from "@tabler/icons-react";
+import { css } from "../../../styled-system/css";
 
 export const metadata: Metadata = {
-  title: "現在の天気 - SimpleWeather",
+  title: "ホーム - SimpleWeather",
 };
 
-type Props = { searchParams: Promise<unknown> };
-
-export default async function HomePage({ searchParams }: Props) {
-  const { locationId } = HomeSearchParamsSchema.parse(await searchParams);
-
-  if (locationId === "") {
-    return <EmptyLocationIdPage />;
-  }
-
-  const forecastResult = await fetchForecast(locationId);
-  if (forecastResult === undefined) {
-    return <LocationNotFoundPage />;
-  }
-
-  const { location, current, forecastdays } = forecastResult;
-
+export default async function HomePage() {
   return (
-    <div
+    <VStack
       className={css({
-        h: "100%",
-        display: "grid",
-        gridTemplateRows: "auto auto 1fr",
+        bg: "var(--color-gray-50)",
+        border: "solid 1px var(--color-primary-500)",
+        padding: "32px",
+        borderRadius: "8px",
+        height: "300px",
         gap: "24px",
+        justifyContent: "center",
+        alignItems: "center",
       })}
     >
-      <h2>
-        <HStack
-          className={css({ alignItems: "end", gap: "4px", lineHeight: 1 })}
-        >
-          <div
-            className={css({
-              fontSize: "20px",
-              fontWeight: "bold",
-              flexWrap: "wrap",
-            })}
-          >
-            {location.name}
-          </div>
-          <div className={css({ wordBreak: "keep-all" })}>の天気予報</div>
-        </HStack>
-      </h2>
-      <CurrentWeather locationId={locationId} current={current} />
-      <FutureForecastList
-        locationId={locationId}
-        forecastdays={forecastdays.slice(1)}
+      <IconSearch
+        size={50}
+        className={css({ color: "var(--color-primary-500)" })}
       />
-    </div>
+      <p className={css({ maxWidth: "300px", textAlign: "center" })}>
+        上の検索バーから地域を検索してください
+      </p>
+    </VStack>
   );
 }
