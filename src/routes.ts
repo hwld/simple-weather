@@ -32,3 +32,38 @@ export const Routes = {
     return `${BasePaths.detail}?${searchParams.toString()}`;
   },
 };
+
+export const LocationSearchApiSearchParamsSchema = z.object({
+  query: z.string(),
+});
+
+type LocationSearchApiSearchParams = z.infer<
+  typeof LocationSearchApiSearchParamsSchema
+>;
+
+// TODO: api/schemaと被っちゃう
+const LocationSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  region: z.string(),
+  country: z.string(),
+  lat: z.number(),
+  lon: z.number(),
+});
+
+export type Location = z.infer<typeof LocationSchema>;
+
+export const LocationSearchResponseSchema = z.object({
+  locations: LocationSchema.array(),
+});
+
+export type LocationSearchResponse = z.infer<
+  typeof LocationSearchResponseSchema
+>;
+
+export const ApiRoutes = {
+  locationSearch: (params: LocationSearchApiSearchParams) => {
+    const searchParams = new URLSearchParams(params);
+    return `/location-search?${searchParams.toString()}`;
+  },
+};
