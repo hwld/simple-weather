@@ -6,6 +6,7 @@ import { HStack } from "@/components/ui/stack";
 import { CurrentWeather } from "@/components/current-weather";
 import { FutureForecastList } from "@/components/future-forecast-list";
 import { LocationNotFoundPage } from "@/components/location-not-found-page";
+import { isErr } from "@/app/utils";
 
 export const metadata: Metadata = {
   title: "現在の天気 - SimpleWeather",
@@ -17,11 +18,11 @@ export default async function WeatherSummaryPage({ params }: Props) {
   const { locationId } = WeatherSummaryParamsSchema.parse(await params);
 
   const forecastResult = await fetchForecast(locationId);
-  if (forecastResult === undefined) {
+  if (isErr(forecastResult)) {
     return <LocationNotFoundPage />;
   }
 
-  const { location, current, forecastdays } = forecastResult;
+  const { location, current, forecastdays } = forecastResult.value;
 
   return (
     <div

@@ -37,7 +37,7 @@ export function HomePageNavigation() {
   } else {
     return (
       <Link className={className} href={Routes.home()}>
-        ホーム画面
+        ホーム画面へ
       </Link>
     );
   }

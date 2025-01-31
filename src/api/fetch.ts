@@ -12,14 +12,17 @@ import { format } from "date-fns";
 import ky, { HTTPError } from "ky";
 import { ForecastApiUrl } from "@/api/url";
 import { WeatherApiKey } from "@/api/consts";
+import { Result } from "@/app/utils";
 
 type FetchForecastResult = Promise<
-  | {
+  Result<
+    {
       location: Location;
       current: CurrentWeather;
       forecastdays: ForecastDay[];
-    }
-  | undefined
+    },
+    string
+  >
 >;
 
 /**
@@ -39,7 +42,7 @@ export async function fetchForecast(locationId: string): FetchForecastResult {
       .json();
 
     const data = ForecastResponseSchema.parse(json);
-    return {
+    return Result.ok({
       location: data.location,
       current: {
         ...data.current,
@@ -49,15 +52,14 @@ export async function fetchForecast(locationId: string): FetchForecastResult {
         ),
       },
       forecastdays: data.forecast.forecastday,
-    };
+    });
   } catch (e) {
     if (e instanceof HTTPError) {
       const { error } = WeatherApiErrorResopnseSchema.parse(
         await e.response.json()
       );
-      // locationが見つからなかった場合にはundefinedを返す
       if (error.code === WeatherAPIErrorCode.LocationNotFound) {
-        return undefined;
+        return Result.err("LocationNotFound");
       }
     }
     throw e;
@@ -65,7 +67,10 @@ export async function fetchForecast(locationId: string): FetchForecastResult {
 }
 
 type FetchSpecificForecastResult = Promise<
-  { location: Location; forecastDay: ForecastDay } | undefined
+  Result<
+    { location: Location; forecastDay: ForecastDay },
+    "LocationNotFound" | "DataNotFound"
+  >
 >;
 
 /**
@@ -91,10 +96,16 @@ export async function fetchSpecificForecast(
       .json();
 
     const data = ForecastResponseSchema.parse(json);
-    return {
+
+    // 指定された日付のデータが存在しないと空になる
+    if (!data.forecast.forecastday[0]) {
+      return Result.err("DataNotFound");
+    }
+
+    return Result.ok({
       location: data.location,
       forecastDay: data.forecast.forecastday[0],
-    };
+    });
   } catch (e) {
     if (e instanceof HTTPError) {
       const { error } = WeatherApiErrorResopnseSchema.parse(
@@ -102,7 +113,7 @@ export async function fetchSpecificForecast(
       );
       // locationが見つからなかった場合にはundefinedを返す
       if (error.code === WeatherAPIErrorCode.LocationNotFound) {
-        return undefined;
+        return Result.err("LocationNotFound");
       }
     }
     throw e;

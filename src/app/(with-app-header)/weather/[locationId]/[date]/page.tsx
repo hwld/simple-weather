@@ -9,6 +9,8 @@ import { HStack, VStack } from "@/components/ui/stack";
 import { SpecificForecast } from "@/components/specific-forecast";
 import { Anchor } from "@/components/ui/anchor";
 import { ReactNode } from "react";
+import { isErr } from "@/app/utils";
+import { WeatherDataNotFoundPage } from "@/components/weather-data-not-found-page";
 
 export const metadata: Metadata = {
   title: "指定日の天気 - SimpleWeather",
@@ -20,15 +22,30 @@ export default async function WeatherDetailPage({ params }: Props) {
   const { locationId, date } = WeatherDetailParamsSchema.parse(await params);
 
   const specificForecastResult = await fetchSpecificForecast(locationId, date);
-  if (specificForecastResult === undefined) {
-    return (
-      <DetailPageLayout date={date}>
-        <LocationNotFoundPage />
-      </DetailPageLayout>
-    );
+
+  if (isErr(specificForecastResult)) {
+    switch (specificForecastResult.error) {
+      case "LocationNotFound": {
+        return (
+          <DetailPageLayout date={date}>
+            <LocationNotFoundPage />
+          </DetailPageLayout>
+        );
+      }
+      case "DataNotFound": {
+        return (
+          <DetailPageLayout date={date}>
+            <WeatherDataNotFoundPage date={date} />
+          </DetailPageLayout>
+        );
+      }
+      default: {
+        throw new Error(specificForecastResult.error satisfies never);
+      }
+    }
   }
 
-  const { forecastDay, location } = specificForecastResult;
+  const { forecastDay, location } = specificForecastResult.value;
 
   return (
     <DetailPageLayout
