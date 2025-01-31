@@ -1,9 +1,10 @@
 import { Icon } from "@tabler/icons-react";
-import { ComponentPropsWithoutRef } from "react";
+import { ComponentPropsWithoutRef, ForwardedRef } from "react";
 import { css, cx } from "../../../styled-system/css";
 
 type Props = {
-  icon: Icon;
+  icon?: Icon;
+  ref?: ForwardedRef<HTMLButtonElement>;
 } & ComponentPropsWithoutRef<"button">;
 
 export function Button({ icon: Icon, children, className, ...props }: Props) {
@@ -29,7 +30,7 @@ export function Button({ icon: Icon, children, className, ...props }: Props) {
       )}
       {...props}
     >
-      <Icon size={18} />
+      {Icon ? <Icon size={18} /> : null}
       {children}
     </button>
   );
