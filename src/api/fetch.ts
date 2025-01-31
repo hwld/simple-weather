@@ -10,6 +10,8 @@ import {
 } from "@/api/schema";
 import { format } from "date-fns";
 import ky, { HTTPError } from "ky";
+import { ForecastApiUrl } from "@/api/url";
+import { WeatherApiKey } from "@/api/consts";
 
 type FetchForecastResult = Promise<
   | {
@@ -26,9 +28,9 @@ type FetchForecastResult = Promise<
 export async function fetchForecast(location: string): FetchForecastResult {
   try {
     const json = await ky
-      .get("https://api.weatherapi.com/v1/forecast.json", {
+      .get(ForecastApiUrl, {
         searchParams: {
-          key: process.env.WEATHER_API_KEY ?? "",
+          key: WeatherApiKey,
           lang: "ja",
           q: location,
           days: 7,
@@ -78,9 +80,9 @@ export async function fetchSpecificForecast(
 ): FetchSpecificForecastResult {
   try {
     const json = await ky
-      .get("https://api.weatherapi.com/v1/forecast.json", {
+      .get(ForecastApiUrl, {
         searchParams: {
-          key: process.env.WEATHER_API_KEY ?? "",
+          key: WeatherApiKey,
           lang: "ja",
           q: location,
           d: date,
