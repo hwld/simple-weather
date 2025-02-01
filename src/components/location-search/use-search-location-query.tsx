@@ -1,4 +1,5 @@
-import { ApiRoutes, LocationSearchResponseSchema } from "@/routes";
+import { ApiRoutes } from "@/routes";
+import { LocationSearchResponseSchema } from "@/app/location-search/schema";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import ky from "ky";
 

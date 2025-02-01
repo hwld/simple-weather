@@ -1,6 +1,6 @@
 import { fetchSpecificForecast } from "@/backend/weather/fetch";
 import { LocationNotFoundPage } from "@/components/location-not-found-page";
-import { WeatherDetailParamsSchema, Routes } from "@/routes";
+import { Routes } from "@/routes";
 import { IconChevronRight } from "@tabler/icons-react";
 import { css } from "../../../../../../styled-system/css";
 import { format } from "date-fns";
@@ -11,6 +11,7 @@ import { Anchor } from "@/components/ui/anchor";
 import { ReactNode } from "react";
 import { WeatherDataNotFoundPage } from "@/components/weather-data-not-found-page";
 import { isErr } from "@/utils/result";
+import { WeatherDetailParamsSchema } from "@/app/(with-app-header)/weather/[locationId]/[date]/schema";
 
 export const metadata: Metadata = {
   title: "指定日の天気 - SimpleWeather",

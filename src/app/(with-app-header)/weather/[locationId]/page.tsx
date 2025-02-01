@@ -1,12 +1,12 @@
 import { css } from "../../../../../styled-system/css";
 import { fetchForecast } from "@/backend/weather/fetch";
-import { WeatherSummaryParamsSchema } from "@/routes";
-import { Metadata } from "next";
 import { HStack, VStack } from "@/components/ui/stack";
 import { CurrentWeather } from "@/components/current-weather";
 import { FutureForecastList } from "@/components/future-forecast-list";
 import { LocationNotFoundPage } from "@/components/location-not-found-page";
 import { isErr } from "@/utils/result";
+import { Metadata } from "next";
+import { WeatherSummaryParamsSchema } from "@/app/(with-app-header)/weather/[locationId]/schema";
 
 export const metadata: Metadata = {
   title: "現在の天気 - SimpleWeather",
