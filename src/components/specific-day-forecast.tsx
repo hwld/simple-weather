@@ -6,7 +6,7 @@ import { Card } from "@/components/ui/card";
 /* eslint-disable @next/next/no-img-element */
 type Props = { forecastDay: ForecastDay };
 
-export async function SpecificForecast({ forecastDay }: Props) {
+export async function SpecificDayForecast({ forecastDay }: Props) {
   return (
     <Card noPadding className={css({ overflow: "hidden" })}>
       <div

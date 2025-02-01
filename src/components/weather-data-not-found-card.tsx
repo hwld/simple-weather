@@ -6,7 +6,7 @@ import { Card } from "@/components/ui/card";
 
 type Props = { date: string };
 
-export async function WeatherDataNotFoundPage({ date }: Props) {
+export async function WeatherDataNotFoundCard({ date }: Props) {
   return (
     <Card>
       <VStack

@@ -209,7 +209,7 @@ export function LocationSearchDialog({
                   <LocationSearchResultItem
                     key={l.id}
                     location={l}
-                    onClose={onClose}
+                    onBeforeNavigate={onClose}
                   />
                 );
               })}

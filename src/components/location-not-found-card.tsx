@@ -3,7 +3,7 @@ import { css } from "../../styled-system/css";
 import { VStack } from "./ui/stack";
 import { Card } from "@/components/ui/card";
 
-export async function LocationNotFoundPage() {
+export async function LocationNotFoundCard() {
   return (
     <Card>
       <VStack

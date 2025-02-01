@@ -69,7 +69,7 @@ export async function fetchForecast(locationId: string): FetchForecastResult {
   }
 }
 
-type FetchSpecificForecastResult = Promise<
+type FetchSpecificDayForecastResult = Promise<
   Result<
     { location: ForecastLocation; forecastDay: ForecastDay },
     "LocationNotFound" | "DataNotFound"
@@ -82,10 +82,10 @@ type FetchSpecificForecastResult = Promise<
  * @param locationId 検索の結果得られた地域のID
  * @param date yyyy-MM-dd形式の日付
  */
-export async function fetchSpecificForecast(
+export async function fetchSpecificDayForecast(
   locationId: string,
   date: string
-): FetchSpecificForecastResult {
+): FetchSpecificDayForecastResult {
   try {
     const json = await ky
       .get(ForecastApiUrl, {

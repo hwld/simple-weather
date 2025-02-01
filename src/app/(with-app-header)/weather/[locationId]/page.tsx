@@ -3,7 +3,7 @@ import { fetchForecast } from "@/backend/weather/fetch";
 import { HStack, VStack } from "@/components/ui/stack";
 import { CurrentWeather } from "@/components/current-weather";
 import { FutureForecastList } from "@/components/future-forecast-list";
-import { LocationNotFoundPage } from "@/components/location-not-found-page";
+import { LocationNotFoundCard } from "@/components/location-not-found-card";
 import { isErr } from "@/utils/result";
 import { Metadata } from "next";
 import { WeatherSummaryParamsSchema } from "@/app/(with-app-header)/weather/[locationId]/schema";
@@ -19,7 +19,7 @@ export default async function WeatherSummaryPage({ params }: Props) {
 
   const forecastResult = await fetchForecast(locationId);
   if (isErr(forecastResult)) {
-    return <LocationNotFoundPage />;
+    return <LocationNotFoundCard />;
   }
 
   const { location, current, forecastdays } = forecastResult.value;

@@ -10,10 +10,13 @@ import { Location } from "@/backend/weather/schema";
 
 type Props = {
   location: Location;
-  onClose: () => void;
+  onBeforeNavigate: () => void;
 };
 
-export function LocationSearchResultItem({ location, onClose }: Props) {
+export function LocationSearchResultItem({
+  location,
+  onBeforeNavigate,
+}: Props) {
   const router = useRouter();
   const currentPath = usePathname();
   const params = useParams();
@@ -37,14 +40,13 @@ export function LocationSearchResultItem({ location, onClose }: Props) {
   };
 
   const handleSelect = () => {
-    // TODO: ページごとに遷移先を変える
+    onBeforeNavigate();
     router.push(getRoute());
-    onClose();
   };
 
-  const handleItemClick = (e: SyntheticEvent) => {
+  const handleLinkClick = (e: SyntheticEvent) => {
     e.stopPropagation();
-    onClose();
+    onBeforeNavigate();
   };
 
   return (
@@ -66,7 +68,7 @@ export function LocationSearchResultItem({ location, onClose }: Props) {
           gap: "var(--space-sm)",
         })}
         href={getRoute()}
-        onClick={handleItemClick}
+        onClick={handleLinkClick}
       >
         <IconMapPin
           className={css({ flexShrink: 0, width: "20px", height: "20px" })}

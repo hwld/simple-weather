@@ -1,15 +1,15 @@
-import { fetchSpecificForecast } from "@/backend/weather/fetch";
-import { LocationNotFoundPage } from "@/components/location-not-found-page";
+import { fetchSpecificDayForecast } from "@/backend/weather/fetch";
+import { LocationNotFoundCard } from "@/components/location-not-found-card";
 import { Routes } from "@/routes";
 import { IconChevronRight } from "@tabler/icons-react";
 import { css } from "../../../../../../styled-system/css";
 import { format } from "date-fns";
 import { Metadata } from "next";
 import { HStack, VStack } from "@/components/ui/stack";
-import { SpecificForecast } from "@/components/specific-forecast";
+import { SpecificDayForecast } from "@/components/specific-day-forecast";
 import { Anchor } from "@/components/ui/anchor";
 import { ReactNode } from "react";
-import { WeatherDataNotFoundPage } from "@/components/weather-data-not-found-page";
+import { WeatherDataNotFoundCard } from "@/components/weather-data-not-found-card";
 import { isErr } from "@/utils/result";
 import { WeatherDetailParamsSchema } from "@/app/(with-app-header)/weather/[locationId]/[date]/schema";
 
@@ -22,34 +22,37 @@ type Props = { params: Promise<unknown> };
 export default async function WeatherDetailPage({ params }: Props) {
   const { locationId, date } = WeatherDetailParamsSchema.parse(await params);
 
-  const specificForecastResult = await fetchSpecificForecast(locationId, date);
+  const specificDayForecastResult = await fetchSpecificDayForecast(
+    locationId,
+    date
+  );
 
-  if (isErr(specificForecastResult)) {
-    switch (specificForecastResult.error) {
+  if (isErr(specificDayForecastResult)) {
+    switch (specificDayForecastResult.error) {
       case "LocationNotFound": {
         return (
-          <DetailPageLayout date={date}>
-            <LocationNotFoundPage />
-          </DetailPageLayout>
+          <WeatherDetailPageLayout date={date}>
+            <LocationNotFoundCard />
+          </WeatherDetailPageLayout>
         );
       }
       case "DataNotFound": {
         return (
-          <DetailPageLayout date={date}>
-            <WeatherDataNotFoundPage date={date} />
-          </DetailPageLayout>
+          <WeatherDetailPageLayout date={date}>
+            <WeatherDataNotFoundCard date={date} />
+          </WeatherDetailPageLayout>
         );
       }
       default: {
-        throw new Error(specificForecastResult.error satisfies never);
+        throw new Error(specificDayForecastResult.error satisfies never);
       }
     }
   }
 
-  const { forecastDay, location } = specificForecastResult.value;
+  const { forecastDay, location } = specificDayForecastResult.value;
 
   return (
-    <DetailPageLayout
+    <WeatherDetailPageLayout
       date={date}
       beforeDate={
         <>
@@ -60,12 +63,12 @@ export default async function WeatherDetailPage({ params }: Props) {
         </>
       }
     >
-      <SpecificForecast forecastDay={forecastDay} />
-    </DetailPageLayout>
+      <SpecificDayForecast forecastDay={forecastDay} />
+    </WeatherDetailPageLayout>
   );
 }
 
-function DetailPageLayout({
+function WeatherDetailPageLayout({
   children,
   date,
   beforeDate,
