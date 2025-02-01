@@ -11,7 +11,10 @@ import { IconAlertCircle, IconLoader2, IconSearch } from "@tabler/icons-react";
 import { Command } from "cmdk";
 import { css } from "../../../styled-system/css";
 import { useMemo, useRef, useState } from "react";
-import { LocationSearchResultItem } from "@/components/location-search/result-item";
+import {
+  GetLocationNavRoute,
+  LocationSearchResultItem,
+} from "@/components/location-search/result-item";
 import { KbdGuide, Kbd } from "@/components/location-search/kbd";
 import { useSearchLocationQuery } from "@/components/location-search/use-search-location-query";
 import { useAvailableWindowHeight } from "@/components/location-search/use-available-window-height";
@@ -19,6 +22,7 @@ import { useDebouncedValue } from "@/components/use-debounced-value";
 
 type Props = {
   onClose: () => void;
+  onGetLocationNavRoute: GetLocationNavRoute;
   floatingContext: FloatingContext;
   floatingProps: {
     getFloatingProps: UseInteractionsReturn["getFloatingProps"];
@@ -27,6 +31,7 @@ type Props = {
 };
 
 export function LocationSearchDialog({
+  onGetLocationNavRoute,
   onClose,
   floatingContext,
   floatingProps: { getFloatingProps, setFloatingRef },
@@ -210,6 +215,7 @@ export function LocationSearchDialog({
                     key={l.id}
                     location={l}
                     onBeforeNavigate={onClose}
+                    onGetLocationNavRoute={onGetLocationNavRoute}
                   />
                 );
               })}

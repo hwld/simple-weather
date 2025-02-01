@@ -8,13 +8,19 @@ import {
   useInteractions,
 } from "@floating-ui/react";
 import { IconCommand, IconSearch } from "@tabler/icons-react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { css } from "../../../styled-system/css";
 import { Kbd } from "@/components/location-search/kbd";
 import { isServer } from "@tanstack/react-query";
 import { HStack } from "@/components/ui/stack";
+import { useParams, usePathname } from "next/navigation";
+import { isWeatherDetailPage, Routes } from "@/routes";
+import { format } from "date-fns";
+import { GetLocationNavRoute } from "@/components/location-search/result-item";
 
 export function LocationSearchDialogTrigger() {
+  const currentPath = usePathname();
+  const params = useParams();
   const [isOpen, setIsOpen] = useState(false);
 
   const handleClose = () => {
@@ -47,6 +53,31 @@ export function LocationSearchDialogTrigger() {
       window.removeEventListener("keydown", handleKeydown);
     };
   }, []);
+
+  // 現在いるページによって検索後に遷移するページが異なるので、その情報をここで取得しておく
+  const { triggerText, getLocationNavRoute } = useMemo((): {
+    triggerText: string;
+    getLocationNavRoute: GetLocationNavRoute;
+  } => {
+    const args = { currentPath, params };
+
+    if (isWeatherDetailPage(args)) {
+      return {
+        triggerText: `${format(args.params.date, "M月d日")}の天気を知りたい地域を検索`,
+        getLocationNavRoute: (locationId) =>
+          Routes.weatherDetail({
+            locationId: `${locationId}`,
+            date: args.params.date,
+          }),
+      };
+    }
+
+    return {
+      triggerText: "現在の天気を知りたい地域を検索",
+      getLocationNavRoute: (locationId) =>
+        Routes.weatherSummary({ locationId: `${locationId}` }),
+    };
+  }, [currentPath, params]);
 
   return (
     <>
@@ -81,7 +112,7 @@ export function LocationSearchDialogTrigger() {
             className={css({ color: "var(--color-gray-500)" })}
           />
           <div className={css({ color: "var(--color-gray-500)" })}>
-            地域を検索
+            {triggerText}
           </div>
         </HStack>
         <Kbd>
@@ -96,6 +127,7 @@ export function LocationSearchDialogTrigger() {
         <LocationSearchDialog
           floatingContext={context}
           floatingProps={{ getFloatingProps, setFloatingRef: refs.setFloating }}
+          onGetLocationNavRoute={getLocationNavRoute}
           onClose={handleClose}
         />
       ) : null}

@@ -1,47 +1,37 @@
 import { VStack } from "@/components/ui/stack";
-import { isWeatherSummaryPage, Routes, isWeatherDetailPage } from "@/routes";
 import { IconMapPin } from "@tabler/icons-react";
 import { Command } from "cmdk";
 import Link from "next/link";
-import { useParams, usePathname, useRouter } from "next/navigation";
-import { SyntheticEvent } from "react";
+import { useRouter } from "next/navigation";
+import { SyntheticEvent, useMemo } from "react";
 import { css } from "../../../styled-system/css";
 import { Location } from "@/backend/weather/schema";
 
+/**
+ *  locationをクリックしたときに遷移するRouteを取得する関数
+ */
+export type GetLocationNavRoute = (locationId: number) => string;
+
 type Props = {
   location: Location;
+  onGetLocationNavRoute: GetLocationNavRoute;
   onBeforeNavigate: () => void;
 };
 
 export function LocationSearchResultItem({
   location,
+  onGetLocationNavRoute,
   onBeforeNavigate,
 }: Props) {
   const router = useRouter();
-  const currentPath = usePathname();
-  const params = useParams();
 
-  // 現在いるページに応じてリンクのパスを変える
-  const getRoute = () => {
-    const args = { currentPath, params };
-
-    if (isWeatherSummaryPage(args)) {
-      return Routes.weatherSummary({ locationId: `${location.id}` });
-    }
-
-    if (isWeatherDetailPage(args)) {
-      return Routes.weatherDetail({
-        locationId: `${location.id}`,
-        date: args.params.date,
-      });
-    }
-
-    return Routes.weatherSummary({ locationId: `${location.id}` });
-  };
+  const locationNavRoute = useMemo(() => {
+    return onGetLocationNavRoute(location.id);
+  }, [location.id, onGetLocationNavRoute]);
 
   const handleSelect = () => {
     onBeforeNavigate();
-    router.push(getRoute());
+    router.push(locationNavRoute);
   };
 
   const handleLinkClick = (e: SyntheticEvent) => {
@@ -67,7 +57,7 @@ export function LocationSearchResultItem({
           alignItems: "start",
           gap: "var(--space-sm)",
         })}
-        href={getRoute()}
+        href={locationNavRoute}
         onClick={handleLinkClick}
       >
         <IconMapPin
