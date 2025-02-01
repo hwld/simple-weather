@@ -1,21 +1,14 @@
 import { ReactNode } from "react";
 import { css } from "../../styled-system/css";
 import { ForecastDay } from "@/api/schema";
+import { Card } from "@/components/ui/card";
 
 /* eslint-disable @next/next/no-img-element */
 type Props = { forecastDay: ForecastDay };
 
 export async function SpecificForecast({ forecastDay }: Props) {
   return (
-    <div
-      className={css({
-        border: "1px solid",
-        borderRadius: "8px",
-        borderColor: "var(--color-gray-300)",
-        backgroundColor: "var(--color-gray-50)",
-        overflow: "hidden",
-      })}
-    >
+    <Card noPadding className={css({ overflow: "hidden" })}>
       <div
         className={css({
           display: "grid",
@@ -63,7 +56,7 @@ export async function SpecificForecast({ forecastDay }: Props) {
           );
         })}
       </div>
-    </div>
+    </Card>
   );
 }
 

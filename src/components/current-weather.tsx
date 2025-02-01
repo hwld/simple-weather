@@ -12,6 +12,7 @@ import { Routes } from "@/routes";
 import { VStack, HStack } from "@/components/ui/stack";
 import { Anchor } from "@/components/ui/anchor";
 import { type CurrentWeather } from "@/api/schema";
+import { Card } from "@/components/ui/card";
 
 type Props = {
   locationId: string;
@@ -31,78 +32,72 @@ export async function CurrentWeather({ locationId, current }: Props) {
       >
         {`今の天気 (${lastUpdatedTime} 時点)`}
       </div>
-      <VStack
-        className={css({
-          gap: "24px",
-          border: "1px solid var(--color-gray-300)",
-          borderRadius: "8px",
-          backgroundColor: "var(--color-gray-50)",
-          padding: "16px",
-        })}
-      >
-        <VStack className={css({ gap: "4px" })}>
-          <Anchor
-            className={css({
-              width: "fit",
-              height: "24px",
-              display: "flex",
-              alignItems: "center",
-              lineHeight: 1,
-            })}
-            href={Routes.weatherDetail({
-              locationId: locationId,
-              date: current.last_updated_date,
-            })}
-          >
-            <span className={css({ fontSize: "12px" })}>詳細を見る</span>
-            <IconArrowRight size={16} />
-          </Anchor>
-          <HStack className={css({ gap: "8px", alignItems: "end" })}>
-            <img
-              src={current.condition.icon}
-              alt="condition"
-              className={css({ width: "100px", height: "100px" })}
-            />
-            <VStack className={css({ gap: "4px" })}>
-              <HStack
-                className={css({
-                  gap: "4px",
-                  alignItems: "end",
-                  lineHeight: 1,
-                })}
-              >
-                <div
+      <Card>
+        <VStack className={css({ gap: "24px" })}>
+          <VStack className={css({ gap: "4px" })}>
+            <Anchor
+              className={css({
+                width: "fit",
+                height: "24px",
+                display: "flex",
+                alignItems: "center",
+                lineHeight: 1,
+              })}
+              href={Routes.weatherDetail({
+                locationId: locationId,
+                date: current.last_updated_date,
+              })}
+            >
+              <span className={css({ fontSize: "12px" })}>詳細を見る</span>
+              <IconArrowRight size={16} />
+            </Anchor>
+            <HStack className={css({ gap: "8px", alignItems: "end" })}>
+              <img
+                src={current.condition.icon}
+                alt="condition"
+                className={css({ width: "100px", height: "100px" })}
+              />
+              <VStack className={css({ gap: "4px" })}>
+                <HStack
                   className={css({
-                    fontSize: "40px",
-                    fontWeight: "bold",
+                    gap: "4px",
+                    alignItems: "end",
+                    lineHeight: 1,
                   })}
                 >
-                  {current.temp_c}
-                </div>
-                <div className={css({ fontSize: "32px" })}>℃</div>
-              </HStack>
-              <div>{current.condition.text}</div>
-            </VStack>
+                  <div
+                    className={css({
+                      fontSize: "40px",
+                      fontWeight: "bold",
+                    })}
+                  >
+                    {current.temp_c}
+                  </div>
+                  <div className={css({ fontSize: "32px" })}>℃</div>
+                </HStack>
+                <div>{current.condition.text}</div>
+              </VStack>
+            </HStack>
+          </VStack>
+          <HStack className={css({ gap: "16px", paddingInline: "16px" })}>
+            <WeatherSubItem
+              icon={IconDroplet}
+              label="湿度"
+              value={`${current.humidity}%`}
+            />
+            <WeatherSubItem
+              icon={IconUmbrella}
+              label="降水量"
+              value={`${current.precip_mm}mm`}
+            />
+            <WeatherSubItem
+              icon={IconWind}
+              label="風速"
+              value={`${current.wind_kph}km/h`}
+            />
           </HStack>
         </VStack>
-        <HStack className={css({ gap: "16px", paddingInline: "16px" })}>
-          <WeatherSubItem
-            icon={IconDroplet}
-            label="湿度"
-            value={`${current.humidity}%`}
-          />
-          <WeatherSubItem
-            icon={IconUmbrella}
-            label="降水量"
-            value={`${current.precip_mm}mm`}
-          />
-          <WeatherSubItem
-            icon={IconWind}
-            label="風速"
-            value={`${current.wind_kph}km/h`}
-          />
-        </HStack>
-      </VStack>
+      </Card>
     </VStack>
   );
 }

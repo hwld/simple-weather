@@ -10,9 +10,10 @@ export function AppHeader() {
       className={css({
         gap: "24px",
         backgroundColor: "var(--color-gray-50)",
-        border: "1px solid var(--color-gray-300)",
+        border: "1px solid var(--color-gray-200)",
         borderRadius: "0 0 8px 8px",
         padding: "16px",
+        boxShadow: "var(--shadow-md)",
       })}
     >
       <h1>
