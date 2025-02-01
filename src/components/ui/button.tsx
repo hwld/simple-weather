@@ -15,7 +15,7 @@ export function Button({ icon: Icon, children, className, ...props }: Props) {
           display: "flex",
           gap: "var(--space-xs)",
           alignItems: "center",
-          borderRadius: "4px",
+          borderRadius: "var(--rounded-sm)",
           height: "28px",
           minWidth: "64px",
           paddingInline: "var(--space-sm)",

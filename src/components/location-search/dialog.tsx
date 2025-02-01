@@ -131,9 +131,7 @@ export function LocationSearchDialog({
   return (
     <FloatingOverlay
       lockScroll
-      className={css({
-        backgroundColor: "rgb(0 0 0 / 0.2)",
-      })}
+      className={css({ backgroundColor: "rgb(0 0 0 / 0.2)" })}
     >
       <FloatingFocusManager context={floatingContext}>
         <div
@@ -146,7 +144,7 @@ export function LocationSearchDialog({
             inset: 0,
             overflow: "hidden",
             sm: {
-              rounded: "8px",
+              rounded: "var(--rounded-md)",
               inset: "auto 0",
               margin: "60px auto 0 auto",
               width: "400px",
@@ -178,7 +176,7 @@ export function LocationSearchDialog({
                   width: "100%",
                   border: "1px solid var(--color-gray-300)",
                   height: "32px",
-                  rounded: "4px",
+                  rounded: "var(--rounded-sm)",
                   overflow: "hidden",
                   paddingInline: "var(--space-xs)",
                   gap: "var(--space-xs)",
@@ -337,7 +335,7 @@ function LocationItem({
       value={`${location.id}`}
       onSelect={handleSelect}
       className={css({
-        rounded: "4px",
+        rounded: "var(--rounded-sm)",
         '&[data-selected="true"]': {
           bg: "var(--color-gray-200)",
         },
@@ -398,7 +396,7 @@ function Kbd({ children }: { children: ReactNode }) {
   return (
     <kbd
       className={css({
-        borderRadius: "4px",
+        borderRadius: "var(--rounded-sm)",
         fontSize: "12px",
         border: "1px solid var(--color-gray-300)",
         bg: "var(--color-gray-200)",

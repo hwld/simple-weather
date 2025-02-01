@@ -8,6 +8,9 @@
     --space-xl: 32px;
     --space-2xl: 40px;
 
+    --rounded-sm: 4px;
+    --rounded-md: 8px;
+
     --color-gray-50: oklch(0.985 0.001 106.423);
     --color-gray-100: oklch(0.97 0.001 106.424);
     --color-gray-200: oklch(0.923 0.003 48.717);

@@ -58,7 +58,7 @@ export async function CurrentWeather({ locationId, current }: Props) {
                   width: "100px",
                   height: "100px",
                   border: "1px solid var(--color-gray-200)",
-                  borderRadius: "8px",
+                  borderRadius: "var(--rounded-md)",
                 })}
               >
                 <img

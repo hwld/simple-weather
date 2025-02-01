@@ -49,7 +49,7 @@ export function LocationSearchDialogTrigger() {
           },
           border: "1px solid var(--color-gray-300)",
           height: "32px",
-          borderRadius: "4px",
+          borderRadius: "var(--rounded-sm)",
           gap: "var(--space-sm)",
           paddingInline: "var(--space-sm)",
           cursor: "pointer",

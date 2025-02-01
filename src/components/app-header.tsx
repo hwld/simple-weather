@@ -11,7 +11,7 @@ export function AppHeader() {
         gap: "var(--space-lg)",
         backgroundColor: "var(--color-gray-50)",
         border: "1px solid var(--color-gray-200)",
-        borderRadius: "0 0 8px 8px",
+        borderRadius: "0 0 var(--rounded-md) var(--rounded-md)",
         padding: "var(--space-md)",
         boxShadow: "var(--shadow-md)",
       })}

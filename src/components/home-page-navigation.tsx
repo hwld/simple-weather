@@ -28,7 +28,7 @@ export function HomePageNavigation() {
     display: "flex",
     alignItems: "center",
     paddingInline: "var(--space-sm)",
-    borderRadius: "4px",
+    borderRadius: "var(--rounded-sm)",
     fontWeight: "bold",
     wordBreak: "keep-all",
   });
