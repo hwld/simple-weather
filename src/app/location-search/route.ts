@@ -1,7 +1,7 @@
 import { WeatherApiKey } from "@/api/consts";
 import { SearchResponseSchema } from "@/api/schema";
 import { SearchApiUrl } from "@/api/url";
-import { searchParamsToObject } from "@/app/utils";
+import { searchParamsToObject } from "@/utils/search-params-to-object";
 import {
   LocationSearchApiSearchParamsSchema,
   LocationSearchResponse,

@@ -6,7 +6,7 @@ import { HStack, VStack } from "@/components/ui/stack";
 import { CurrentWeather } from "@/components/current-weather";
 import { FutureForecastList } from "@/components/future-forecast-list";
 import { LocationNotFoundPage } from "@/components/location-not-found-page";
-import { isErr } from "@/app/utils";
+import { isErr } from "@/utils/result";
 
 export const metadata: Metadata = {
   title: "現在の天気 - SimpleWeather",

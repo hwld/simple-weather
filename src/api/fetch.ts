@@ -12,7 +12,7 @@ import { format } from "date-fns";
 import ky, { HTTPError } from "ky";
 import { ForecastApiUrl } from "@/api/url";
 import { WeatherApiKey } from "@/api/consts";
-import { Result } from "@/app/utils";
+import { Result } from "@/utils/result";
 
 type FetchForecastResult = Promise<
   Result<
