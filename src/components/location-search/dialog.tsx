@@ -11,11 +11,11 @@ import { IconAlertCircle, IconLoader2, IconSearch } from "@tabler/icons-react";
 import { Command } from "cmdk";
 import { css } from "../../../styled-system/css";
 import { useMemo, useRef, useState } from "react";
-import { useDebouncedValue } from "@mantine/hooks";
 import { LocationSearchResultItem } from "@/components/location-search/result-item";
 import { KbdGuide, Kbd } from "@/components/location-search/kbd";
 import { useSearchLocationQuery } from "@/components/location-search/use-search-location-query";
 import { useAvailableWindowHeight } from "@/components/location-search/use-available-window-height";
+import { useDebouncedValue } from "@/components/use-debounced-value";
 
 type Props = {
   onClose: () => void;
@@ -32,7 +32,7 @@ export function LocationSearchDialog({
   floatingProps: { getFloatingProps, setFloatingRef },
 }: Props) {
   const [query, setQuery] = useState("");
-  const [debouncedQuery] = useDebouncedValue(query, 350);
+  const debouncedQuery = useDebouncedValue(query, 350);
 
   const { locations, isError, isFetching } =
     useSearchLocationQuery(debouncedQuery);
