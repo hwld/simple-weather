@@ -7,12 +7,15 @@ import {
   WeatherApiErrorResopnseSchema,
   ForecastResponseSchema,
   ForecastLocation,
+  SearchResponseSchema,
+  Location,
 } from "@/api/schema";
 import { format } from "date-fns";
 import ky, { HTTPError } from "ky";
-import { ForecastApiUrl } from "@/api/url";
-import { WeatherApiKey } from "@/api/consts";
+import { ForecastApiUrl, SearchApiUrl } from "@/api/url";
 import { Result } from "@/utils/result";
+
+const WeatherApiKey = process.env.WEATHER_API_KEY ?? "";
 
 type FetchForecastResult = Promise<
   Result<
@@ -116,6 +119,32 @@ export async function fetchSpecificForecast(
         return Result.err("LocationNotFound");
       }
     }
+    throw e;
+  }
+}
+
+type FetchLocationsResult = Promise<{ locations: Location[] }>;
+
+/**
+ * 地域を検索する
+ *
+ * @param query
+ * @returns
+ */
+export async function fetchLocations(query: string): FetchLocationsResult {
+  try {
+    const json = await ky
+      .get(SearchApiUrl, {
+        searchParams: {
+          key: WeatherApiKey,
+          q: query,
+        },
+      })
+      .json();
+
+    const data = SearchResponseSchema.parse(json);
+    return { locations: data };
+  } catch (e) {
     throw e;
   }
 }

@@ -1,12 +1,9 @@
-import { WeatherApiKey } from "@/api/consts";
-import { SearchResponseSchema } from "@/api/schema";
-import { SearchApiUrl } from "@/api/url";
 import { searchParamsToObject } from "@/utils/search-params-to-object";
 import {
   LocationSearchApiSearchParamsSchema,
   LocationSearchResponse,
 } from "@/routes";
-import ky from "ky";
+import { fetchLocations } from "@/api/fetch";
 
 export const dynamic = "force-dynamic";
 
@@ -21,17 +18,9 @@ export async function GET(req: Request) {
       return new Response("Bad Request", { status: 400 });
     }
 
-    const json = await ky
-      .get(SearchApiUrl, {
-        searchParams: {
-          key: WeatherApiKey,
-          q: paramsResult.data.query,
-        },
-      })
-      .json();
+    const { locations } = await fetchLocations(paramsResult.data.query);
 
-    const data = SearchResponseSchema.parse(json);
-    return Response.json({ locations: data } satisfies LocationSearchResponse, {
+    return Response.json({ locations } satisfies LocationSearchResponse, {
       headers: { "Content-Type": "application/json" },
     });
   } catch (e) {
