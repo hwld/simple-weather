@@ -55,21 +55,21 @@ const ForecastDaySchema = z.object({
 
 export type ForecastDay = z.infer<typeof ForecastDaySchema>;
 
-const LocationSchema = z.object({
+const ForecastLocationSchema = z.object({
   name: z.string(),
 });
 
-export type Location = z.infer<typeof LocationSchema>;
+export type ForecastLocation = z.infer<typeof ForecastLocationSchema>;
 
 export const ForecastResponseSchema = z.object({
-  location: LocationSchema,
+  location: ForecastLocationSchema,
   current: CurrentWeatherSchema,
   forecast: z.object({ forecastday: z.array(ForecastDaySchema) }),
 });
 
 export type ForecastResponse = z.infer<typeof ForecastResponseSchema>;
 
-export const SearchedLocationSchema = z.object({
+export const LocationSchema = z.object({
   id: z.number(),
   name: z.string(),
   region: z.string(),
@@ -78,9 +78,9 @@ export const SearchedLocationSchema = z.object({
   lon: z.number(),
 });
 
-export type SearchedLocation = z.infer<typeof SearchedLocationSchema>;
+export type Location = z.infer<typeof LocationSchema>;
 
-export const SearchResponseSchema = z.array(SearchedLocationSchema);
+export const SearchResponseSchema = z.array(LocationSchema);
 
 export type SearchResponse = z.infer<typeof SearchResponseSchema>;
 

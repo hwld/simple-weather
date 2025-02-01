@@ -2,10 +2,10 @@ import {
   CurrentWeather,
   ForecastDay,
   ForecastResponse,
-  Location,
+  ForecastLocation,
 } from "@/api/schema";
 
-export const mockLocation: Location = { name: "mockLocation" };
+export const mockForecastLocation: ForecastLocation = { name: "mockLocation" };
 
 const mockImageUrl =
   "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";

@@ -6,7 +6,7 @@ import {
   WeatherAPIErrorCode,
   WeatherApiErrorResopnseSchema,
   ForecastResponseSchema,
-  Location,
+  ForecastLocation,
 } from "@/api/schema";
 import { format } from "date-fns";
 import ky, { HTTPError } from "ky";
@@ -17,7 +17,7 @@ import { Result } from "@/utils/result";
 type FetchForecastResult = Promise<
   Result<
     {
-      location: Location;
+      location: ForecastLocation;
       current: CurrentWeather;
       forecastdays: ForecastDay[];
     },
@@ -68,7 +68,7 @@ export async function fetchForecast(locationId: string): FetchForecastResult {
 
 type FetchSpecificForecastResult = Promise<
   Result<
-    { location: Location; forecastDay: ForecastDay },
+    { location: ForecastLocation; forecastDay: ForecastDay },
     "LocationNotFound" | "DataNotFound"
   >
 >;

@@ -3,7 +3,11 @@ import {
   expect,
   NextFixture,
 } from "next/experimental/testmode/playwright";
-import { mockCurrentWeather, mockForecast, mockLocation } from "./mocks";
+import {
+  mockCurrentWeather,
+  mockForecast,
+  mockForecastLocation,
+} from "./mocks";
 import { Routes } from "@/routes";
 import { WeatherApiErrorResopnse, ForecastResponse } from "@/api/schema";
 import { ForecastApiUrl } from "@/api/url";
@@ -45,7 +49,7 @@ test.describe("現在の天気ページ", () => {
       createFetchHandler(
         new Response(
           JSON.stringify({
-            location: mockLocation,
+            location: mockForecastLocation,
             current: mockCurrentWeather,
             forecast: mockForecast,
           } satisfies ForecastResponse)
@@ -56,7 +60,7 @@ test.describe("現在の天気ページ", () => {
     await page.goto(Routes.weatherSummary({ locationId: "dummy" }));
 
     expect(
-      await page.getByText(mockLocation.name, { exact: false }).count()
+      await page.getByText(mockForecastLocation.name, { exact: false }).count()
     ).toBeGreaterThan(0);
   });
 
@@ -105,7 +109,7 @@ test.describe("指定日の天気ページ", () => {
       createFetchHandler(
         new Response(
           JSON.stringify({
-            location: mockLocation,
+            location: mockForecastLocation,
             current: mockCurrentWeather,
             forecast: mockForecast,
           } satisfies ForecastResponse)
@@ -118,7 +122,7 @@ test.describe("指定日の天気ページ", () => {
     );
 
     expect(
-      await page.getByText(mockLocation.name, { exact: false }).count()
+      await page.getByText(mockForecastLocation.name, { exact: false }).count()
     ).toBeGreaterThan(0);
   });
 

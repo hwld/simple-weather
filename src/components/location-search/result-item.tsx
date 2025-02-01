@@ -1,16 +1,12 @@
 import { VStack } from "@/components/ui/stack";
-import {
-  isWeatherSummaryPage,
-  Routes,
-  isWeatherDetailPage,
-  Location,
-} from "@/routes";
+import { isWeatherSummaryPage, Routes, isWeatherDetailPage } from "@/routes";
 import { IconMapPin } from "@tabler/icons-react";
 import { Command } from "cmdk";
 import Link from "next/link";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { SyntheticEvent } from "react";
 import { css } from "../../../styled-system/css";
+import { Location } from "@/api/schema";
 
 type Props = {
   location: Location;
