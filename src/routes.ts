@@ -1,4 +1,4 @@
-import { LocationSchema } from "@/api/schema";
+import { LocationSchema } from "@/backend/weather/schema";
 import { isValid, parse } from "date-fns";
 import { z } from "zod";
 

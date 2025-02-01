@@ -11,7 +11,7 @@ import { css } from "../../styled-system/css";
 import { Routes } from "@/routes";
 import { VStack, HStack } from "@/components/ui/stack";
 import { Anchor } from "@/components/ui/anchor";
-import { type CurrentWeather } from "@/api/schema";
+import { type CurrentWeather } from "@/backend/weather/schema";
 import { Card } from "@/components/ui/card";
 
 type Props = {

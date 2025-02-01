@@ -1,5 +1,5 @@
 import { css } from "../../../../../styled-system/css";
-import { fetchForecast } from "@/api/fetch";
+import { fetchForecast } from "@/backend/weather/fetch";
 import { WeatherSummaryParamsSchema } from "@/routes";
 import { Metadata } from "next";
 import { HStack, VStack } from "@/components/ui/stack";

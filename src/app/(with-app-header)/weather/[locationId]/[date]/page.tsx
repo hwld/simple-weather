@@ -1,4 +1,4 @@
-import { fetchSpecificForecast } from "@/api/fetch";
+import { fetchSpecificForecast } from "@/backend/weather/fetch";
 import { LocationNotFoundPage } from "@/components/location-not-found-page";
 import { WeatherDetailParamsSchema, Routes } from "@/routes";
 import { IconChevronRight } from "@tabler/icons-react";

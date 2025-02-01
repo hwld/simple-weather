@@ -9,10 +9,10 @@ import {
   ForecastLocation,
   SearchResponseSchema,
   Location,
-} from "@/api/schema";
+} from "@/backend/weather/schema";
 import { format } from "date-fns";
 import ky, { HTTPError } from "ky";
-import { ForecastApiUrl, SearchApiUrl } from "@/api/url";
+import { ForecastApiUrl, SearchApiUrl } from "@/backend/weather/url";
 import { Result } from "@/utils/result";
 
 const WeatherApiKey = process.env.WEATHER_API_KEY ?? "";

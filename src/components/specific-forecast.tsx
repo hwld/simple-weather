@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { css } from "../../styled-system/css";
-import { ForecastDay } from "@/api/schema";
+import { ForecastDay } from "@/backend/weather/schema";
 import { Card } from "@/components/ui/card";
 
 /* eslint-disable @next/next/no-img-element */

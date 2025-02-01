@@ -9,8 +9,11 @@ import {
   mockForecastLocation,
 } from "./mocks";
 import { Routes } from "@/routes";
-import { WeatherApiErrorResopnse, ForecastResponse } from "@/api/schema";
-import { ForecastApiUrl } from "@/api/url";
+import {
+  WeatherApiErrorResopnse,
+  ForecastResponse,
+} from "@/backend/weather/schema";
+import { ForecastApiUrl } from "@/backend/weather/url";
 
 const createFetchHandler: (
   response: Response

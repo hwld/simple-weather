@@ -3,7 +3,7 @@ import {
   ForecastDay,
   ForecastResponse,
   ForecastLocation,
-} from "@/api/schema";
+} from "@/backend/weather/schema";
 
 export const mockForecastLocation: ForecastLocation = { name: "mockLocation" };
 

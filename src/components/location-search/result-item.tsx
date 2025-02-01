@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { SyntheticEvent } from "react";
 import { css } from "../../../styled-system/css";
-import { Location } from "@/api/schema";
+import { Location } from "@/backend/weather/schema";
 
 type Props = {
   location: Location;

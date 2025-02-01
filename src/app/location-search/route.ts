@@ -3,7 +3,7 @@ import {
   LocationSearchApiSearchParamsSchema,
   LocationSearchResponse,
 } from "@/routes";
-import { fetchLocations } from "@/api/fetch";
+import { fetchLocations } from "@/backend/weather/fetch";
 
 export const dynamic = "force-dynamic";
 
