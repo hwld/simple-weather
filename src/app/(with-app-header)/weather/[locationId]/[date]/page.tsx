@@ -12,6 +12,7 @@ import { ReactNode } from "react";
 import { WeatherDataNotFoundCard } from "@/components/weather-data-not-found-card";
 import { isErr } from "@/utils/result";
 import { WeatherDetailParamsSchema } from "@/app/(with-app-header)/weather/[locationId]/[date]/schema";
+import { CardContainer } from "@/components/ui/card";
 
 export const metadata: Metadata = {
   title: "指定日の天気 - SimpleWeather",
@@ -59,7 +60,7 @@ export default async function WeatherDetailPage({ params }: Props) {
           <Anchor href={Routes.weatherSummary({ locationId })}>
             {location.name}
           </Anchor>
-          <IconChevronRight size={14} />
+          <IconChevronRight size={14} className={css({ flexShrink: 0 })} />
         </>
       }
     >
@@ -78,7 +79,7 @@ function WeatherDetailPageLayout({
   beforeDate?: ReactNode;
 }) {
   return (
-    <VStack className={css({ gap: "var(--space-lg)" })}>
+    <VStack className={css({ gap: "var(--space-lg)", height: "100%" })}>
       <h2>
         <HStack
           className={css({
@@ -88,13 +89,20 @@ function WeatherDetailPageLayout({
           })}
         >
           {beforeDate}
-          <div className={css({ fontSize: "20px", fontWeight: "bold" })}>
+          <div
+            className={css({
+              fontSize: "20px",
+              fontWeight: "bold",
+              wordBreak: "keep-all",
+              color: "var(--color-primary-500)",
+            })}
+          >
             {format(date, "M月dd日")}
           </div>
-          <span>の天気予報</span>
+          <span className={css({ wordBreak: "keep-all" })}>の天気予報</span>
         </HStack>
       </h2>
-      {children}
+      <CardContainer>{children}</CardContainer>
     </VStack>
   );
 }

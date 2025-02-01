@@ -1,9 +1,19 @@
+/* eslint-disable @next/next/no-img-element */
 import { ReactNode } from "react";
 import { css } from "../../styled-system/css";
 import { ForecastDay } from "@/backend/weather/schema";
 import { Card } from "@/components/ui/card";
+import {
+  Icon,
+  IconClock,
+  IconDroplet,
+  IconSun,
+  IconTemperature,
+  IconUmbrella,
+  IconWind,
+} from "@tabler/icons-react";
+import { HStack } from "@/components/ui/stack";
 
-/* eslint-disable @next/next/no-img-element */
 type Props = { forecastDay: ForecastDay };
 
 export async function SpecificDayForecast({ forecastDay }: Props) {
@@ -12,32 +22,43 @@ export async function SpecificDayForecast({ forecastDay }: Props) {
       <div
         className={css({
           display: "grid",
-          gridTemplateColumns: "auto auto minmax(0,1fr) auto auto auto auto",
+          // 最後の列は画面幅を小さくしていくと隠れるので優先度が低い情報を置く
+          gridTemplateColumns: "auto auto auto auto auto auto minmax(0,1fr)",
         })}
       >
         <Tr>
-          <Th>時間</Th>
+          <Th icon={IconClock}> 時間</Th>
           {/* 画面幅が小さいとアイコンが縮んでしまうため、アイコンとテキストで列を分けてnoBorderを使用する */}
-          <Th noBorder>天候</Th>
-          <Th alignStart></Th>
-          <Th>気温</Th>
-          <Th>湿度</Th>
-          <Th>降水量</Th>
-          <Th lastInRow>風速</Th>
+          <Th icon={IconSun}>天候</Th>
+          <Th icon={IconTemperature}>気温</Th>
+          <Th icon={IconDroplet}>湿度</Th>
+          <Th icon={IconUmbrella}>降水量</Th>
+          <Th icon={IconWind}>風速</Th>
+          <Th icon={IconSun} lastInRow>
+            詳細な天候
+          </Th>
         </Tr>
         {forecastDay.hour.map((h, i) => {
           return (
             <Tr key={i} lastRow={i === forecastDay.hour.length - 1}>
               <Td>{`${i}`.padStart(2, "0")}:00</Td>
-              {/* 画面幅が小さいとアイコンが縮んでしまうため、アイコンとテキストで列を分けてnoBorderとnoPadding使用する */}
-              <Td noBorder>
+              <Td>
                 <img
                   src={h.condition.icon}
                   alt="condition"
-                  className={css({ width: "30px", height: "30px" })}
+                  className={css({
+                    minW: "30px",
+                    minH: "30px",
+                    width: "30px",
+                    height: "30px",
+                  })}
                 />
               </Td>
-              <Td alignStart noPadding>
+              <Td>{h.temp_c}℃</Td>
+              <Td>{h.humidity}％</Td>
+              <Td>{h.precip_mm}mm</Td>
+              <Td>{h.wind_kph}km/h</Td>
+              <Td lastInRow alignStart>
                 <span
                   className={css({
                     overflow: "hidden",
@@ -48,10 +69,6 @@ export async function SpecificDayForecast({ forecastDay }: Props) {
                   {h.condition.text}
                 </span>
               </Td>
-              <Td>{h.temp_c}℃</Td>
-              <Td>{h.humidity}％</Td>
-              <Td>{h.precip_mm}mm</Td>
-              <Td lastInRow>{h.wind_kph}km/h</Td>
             </Tr>
           );
         })}
@@ -67,7 +84,7 @@ function Tr({ children, lastRow }: { children: ReactNode; lastRow?: boolean }) {
         display: "grid",
         gridTemplateColumns: "subgrid",
         gridColumn: "1 / -1",
-        borderBottom: lastRow ? "" : "1px solid var(--color-gray-300)",
+        borderBottom: lastRow ? "" : "1px solid var(--color-gray-200)",
         alignItems: "center",
       })}
     >
@@ -77,31 +94,42 @@ function Tr({ children, lastRow }: { children: ReactNode; lastRow?: boolean }) {
 }
 
 function Th({
+  icon: Icon,
   children,
   lastInRow,
   alignStart,
   noBorder,
 }: {
+  icon?: Icon;
   children?: ReactNode;
   lastInRow?: boolean;
   alignStart?: boolean;
   noBorder?: boolean;
 }) {
   return (
-    <div
+    <HStack
       className={css({
+        color: "var(--color-gray-500)",
+        fontSize: "12px",
+        gap: "var(--space-xs)",
         textAlign: alignStart ? "start" : "end",
         wordBreak: "keep-all",
         paddingInline: "var(--space-sm)",
-        paddingBlock: "var(--space-xs)",
+        paddingBlock: "var(--space-sm)",
         borderRight:
-          lastInRow || noBorder ? "" : "1px solid var(--color-gray-300)",
-        backgroundColor: "var(--color-gray-200)",
+          lastInRow || noBorder ? "" : "1px solid var(--color-gray-200)",
         height: "100%",
+        backgroundColor: "var(--color-gray-100)",
       })}
     >
-      {children}
-    </div>
+      {Icon ? (
+        <Icon
+          size={16}
+          className={css({ display: { base: "none", sm: "block" } })}
+        />
+      ) : null}
+      <span className={css({ lineHeight: 1 })}>{children}</span>
+    </HStack>
   );
 }
 
@@ -109,25 +137,21 @@ function Td({
   children,
   lastInRow,
   alignStart,
-  noPadding,
-  noBorder,
 }: {
   children: ReactNode;
   lastInRow?: boolean;
   alignStart?: boolean;
-  noPadding?: boolean;
-  noBorder?: boolean;
 }) {
   return (
     <div
       className={css({
-        paddingInline: noPadding ? "0px" : "var(--space-sm)",
-        borderRight:
-          lastInRow || noBorder ? "" : "1px solid var(--color-gray-300)",
+        paddingInline: "var(--space-sm)",
+        borderRight: lastInRow ? "" : "1px solid var(--color-gray-200)",
         height: "100%",
         display: "flex",
         alignItems: "center",
         justifyContent: alignStart ? "start" : "end",
+        fontSize: { base: "12px", sm: "inherit" },
       })}
     >
       {children}

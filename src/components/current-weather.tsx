@@ -4,6 +4,7 @@ import {
   Icon,
   IconArrowRight,
   IconDroplet,
+  IconMan,
   IconUmbrella,
   IconWind,
 } from "@tabler/icons-react";
@@ -12,7 +13,7 @@ import { Routes } from "@/routes";
 import { VStack, HStack } from "@/components/ui/stack";
 import { Anchor } from "@/components/ui/anchor";
 import { type CurrentWeather } from "@/backend/weather/schema";
-import { Card } from "@/components/ui/card";
+import { Card, CardLabel } from "@/components/ui/card";
 
 type Props = {
   locationId: string;
@@ -26,31 +27,17 @@ export async function CurrentWeather({ locationId, current }: Props) {
   );
 
   return (
-    <VStack className={css({ gap: "var(--space-sm)" })}>
-      <div
-        className={css({ fontSize: "12px", color: "var(--color-gray-500)" })}
-      >
-        {`今の天気 (${lastUpdatedTime} 時点)`}
-      </div>
-      <Card>
-        <VStack className={css({ gap: "var(--space-lg)" })}>
+    <Card>
+      <VStack className={css({ gap: "var(--space-lg)" })}>
+        <CardLabel label={`現在の天気 (${lastUpdatedTime} 時点)`} />
+        <VStack
+          className={css({
+            gap: "var(--space-lg)",
+            borderRadius: "var(--rounded-sm)",
+            p: "var(--space-sm)",
+          })}
+        >
           <VStack className={css({ gap: "var(--space-sm)" })}>
-            <Anchor
-              className={css({
-                width: "fit",
-                height: "24px",
-                display: "flex",
-                alignItems: "center",
-                lineHeight: 1,
-              })}
-              href={Routes.weatherDetail({
-                locationId: locationId,
-                date: current.last_updated_date,
-              })}
-            >
-              <span className={css({ fontSize: "12px" })}>詳細を見る</span>
-              <IconArrowRight size={16} />
-            </Anchor>
             <HStack className={css({ gap: "var(--space-md)" })}>
               <div
                 className={css({
@@ -71,6 +58,22 @@ export async function CurrentWeather({ locationId, current }: Props) {
                 />
               </div>
               <VStack className={css({ gap: "var(--space-sm)" })}>
+                <Anchor
+                  className={css({
+                    width: "fit",
+                    height: "24px",
+                    display: "flex",
+                    alignItems: "center",
+                    lineHeight: 1,
+                  })}
+                  href={Routes.weatherDetail({
+                    locationId: locationId,
+                    date: current.last_updated_date,
+                  })}
+                >
+                  <span className={css({ fontSize: "12px" })}>詳細を見る</span>
+                  <IconArrowRight size={16} />
+                </Anchor>
                 <HStack
                   className={css({
                     gap: "var(--space-sm)",
@@ -92,12 +95,23 @@ export async function CurrentWeather({ locationId, current }: Props) {
               </VStack>
             </HStack>
           </VStack>
-          <HStack
+
+          <div
             className={css({
+              display: "grid",
+              gridTemplateColumns: "auto 1fr",
               gap: "var(--space-md)",
-              paddingInline: "var(--space-md)",
+              sm: {
+                display: "flex",
+                alignItems: "center",
+              },
             })}
           >
+            <WeatherSubItem
+              icon={IconMan}
+              label="体感気温"
+              value={`${current.feelslike_c}℃`}
+            />
             <WeatherSubItem
               icon={IconDroplet}
               label="湿度"
@@ -113,10 +127,10 @@ export async function CurrentWeather({ locationId, current }: Props) {
               label="風速"
               value={`${current.wind_kph}km/h`}
             />
-          </HStack>
+          </div>
         </VStack>
-      </Card>
-    </VStack>
+      </VStack>
+    </Card>
   );
 }
 
@@ -140,7 +154,14 @@ function WeatherSubItem({
         })}
       />
       <VStack className={css({ gap: "var(--space-xs)", lineHeight: 1 })}>
-        <div className={css({ color: "var(--color-gray-500)" })}>{label}</div>
+        <div
+          className={css({
+            color: "var(--color-gray-500)",
+            wordBreak: "keep-all",
+          })}
+        >
+          {label}
+        </div>
         <div>{value}</div>
       </VStack>
     </HStack>

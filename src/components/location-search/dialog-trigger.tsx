@@ -9,7 +9,7 @@ import {
 } from "@floating-ui/react";
 import { IconCommand, IconSearch } from "@tabler/icons-react";
 import { useEffect, useMemo, useState } from "react";
-import { css } from "../../../styled-system/css";
+import { css, cx } from "../../../styled-system/css";
 import { Kbd } from "@/components/location-search/kbd";
 import { isServer } from "@tanstack/react-query";
 import { HStack } from "@/components/ui/stack";
@@ -88,10 +88,16 @@ export function LocationSearchDialogTrigger() {
           transition: "all",
           transitionDuration: "0.1s",
           _hover: {
-            bg: "transparent",
             borderColor: "var(--color-primary-500)",
             outline: "1px solid var(--color-primary-500)",
-            ["&:hover>svg"]: {
+            ["& .search-icon"]: {
+              color: "var(--color-primary-500)",
+            },
+          },
+          _focusVisible: {
+            borderColor: "var(--color-primary-500)",
+            outline: "1px solid var(--color-primary-500)",
+            ["& .search-icon"]: {
               color: "var(--color-primary-500)",
             },
           },
@@ -106,12 +112,26 @@ export function LocationSearchDialogTrigger() {
         ref={refs.setReference}
         {...getReferenceProps()}
       >
-        <HStack className={css({ gap: "var(--space-sm)" })}>
+        <HStack className={css({ gap: "var(--space-sm)", minW: 0 })}>
           <IconSearch
             size={20}
-            className={css({ color: "var(--color-gray-500)" })}
+            className={cx(
+              css({
+                color: "var(--color-gray-500)",
+                transition: "all",
+                transitionDuration: "0.1s",
+              }),
+              "search-icon"
+            )}
           />
-          <div className={css({ color: "var(--color-gray-500)" })}>
+          <div
+            className={css({
+              color: "var(--color-gray-500)",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+            })}
+          >
             {triggerText}
           </div>
         </HStack>

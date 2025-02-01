@@ -17,6 +17,7 @@ const CurrentWeatherSchema = z.object({
   last_updated_epoch: EpochSchema,
   condition: ConditionSchema,
   temp_c: z.number(),
+  feelslike_c: z.number(),
   humidity: z.number(),
   wind_kph: z.number(),
   precip_mm: z.number(),

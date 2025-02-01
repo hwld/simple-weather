@@ -23,22 +23,22 @@
     --color-gray-900: oklch(0.216 0.006 56.043);
     --color-gray-950: oklch(0.147 0.004 49.25);
 
-    --color-primary-50: oklch(0.98 0.016 73.684);
-    --color-primary-100: oklch(0.954 0.038 75.164);
-    --color-primary-200: oklch(0.901 0.076 70.697);
-    --color-primary-300: oklch(0.837 0.128 66.29);
-    --color-primary-400: oklch(0.75 0.183 55.934);
-    --color-primary-500: oklch(0.705 0.213 47.604);
-    --color-primary-600: oklch(0.646 0.222 41.116);
-    --color-primary-700: oklch(0.553 0.195 38.402);
-    --color-primary-800: oklch(0.47 0.157 37.304);
-    --color-primary-900: oklch(0.408 0.123 38.172);
-    --color-primary-950: oklch(0.266 0.079 36.259);
+    --color-primary-50: oklch(0.962 0.018 272.314);
+    --color-primary-100: oklch(0.93 0.034 272.788);
+    --color-primary-200: oklch(0.87 0.065 274.039);
+    --color-primary-300: oklch(0.785 0.115 274.713);
+    --color-primary-400: oklch(0.673 0.182 276.935);
+    --color-primary-500: oklch(0.585 0.233 277.117);
+    --color-primary-600: oklch(0.511 0.262 276.966);
+    --color-primary-700: oklch(0.457 0.24 277.023);
+    --color-primary-800: oklch(0.398 0.195 277.366);
+    --color-primary-900: oklch(0.359 0.144 278.697);
+    --color-primary-950: oklch(0.257 0.09 281.288);
 
     --color-error: oklch(0.637 0.237 25.331);
     --color-error-hover: oklch(0.577 0.245 27.325);
 
-    --color-link: oklch(0.5 0.134 242.749);
+    --color-link: oklch(0.623 0.214 259.815);
     --color-link-hover: oklch(0.685 0.169 237.323);
 
     --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1);

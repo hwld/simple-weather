@@ -102,6 +102,7 @@ export function LocationSearchDialog({
               margin: "60px auto 0 auto",
               width: "400px",
             },
+            boxShadow: "var(--shadow-md)",
           })}
           {...getFloatingProps()}
         >
@@ -170,7 +171,7 @@ export function LocationSearchDialog({
                   <Command.Loading>
                     <IconLoader2
                       className={css({
-                        color: "var(--color-gray-500)",
+                        color: "var(--color-primary-600)",
                         animation: "loading 1s linear infinite",
                       })}
                     />

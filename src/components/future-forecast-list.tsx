@@ -12,19 +12,15 @@ import { type ForecastDay } from "@/backend/weather/schema";
 import { Routes } from "@/routes";
 import { VStack, HStack } from "@/components/ui/stack";
 import { Anchor } from "@/components/ui/anchor";
-import { Card } from "@/components/ui/card";
+import { Card, CardLabel } from "@/components/ui/card";
 
 type Props = { locationId: string; forecastdays: ForecastDay[] };
 
 export async function FutureForecastList({ locationId, forecastdays }: Props) {
   return (
-    <VStack className={css({ gap: "var(--space-sm)", height: "100%" })}>
-      <div
-        className={css({ fontSize: "12px", color: "var(--color-gray-500)" })}
-      >
-        今後の天気
-      </div>
-      <Card className={css({ height: "100%" })}>
+    <Card className={css({ height: "100%" })}>
+      <VStack className={css({ gap: "var(--space-md)" })}>
+        <CardLabel label="これからの天気" />
         <VStack
           className={css({
             gap: { base: "var(--space-md)", sm: "var(--space-sm)" },
@@ -123,8 +119,8 @@ export async function FutureForecastList({ locationId, forecastdays }: Props) {
             );
           })}
         </VStack>
-      </Card>
-    </VStack>
+      </VStack>
+    </Card>
   );
 }
 

@@ -7,6 +7,7 @@ import { LocationNotFoundCard } from "@/components/location-not-found-card";
 import { isErr } from "@/utils/result";
 import { Metadata } from "next";
 import { WeatherSummaryParamsSchema } from "@/app/(with-app-header)/weather/[locationId]/schema";
+import { CardContainer } from "@/components/ui/card";
 
 export const metadata: Metadata = {
   title: "現在の天気 - SimpleWeather",
@@ -39,6 +40,8 @@ export default async function WeatherSummaryPage({ params }: Props) {
               fontSize: "20px",
               fontWeight: "bold",
               flexWrap: "wrap",
+              wordBreak: "break-all",
+              color: "var(--color-primary-500)",
             })}
           >
             {location.name}
@@ -46,13 +49,15 @@ export default async function WeatherSummaryPage({ params }: Props) {
           <div className={css({ wordBreak: "keep-all" })}>の天気予報</div>
         </HStack>
       </h2>
-      <CurrentWeather locationId={locationId} current={current} />
-      <div className={css({ flexGrow: 1 })}>
-        <FutureForecastList
-          locationId={locationId}
-          forecastdays={forecastdays.slice(1)}
-        />
-      </div>
+      <CardContainer>
+        <CurrentWeather locationId={locationId} current={current} />
+        <div className={css({ flexGrow: 1 })}>
+          <FutureForecastList
+            locationId={locationId}
+            forecastdays={forecastdays.slice(1)}
+          />
+        </div>
+      </CardContainer>
     </VStack>
   );
 }
