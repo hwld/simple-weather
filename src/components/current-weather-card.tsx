@@ -20,7 +20,7 @@ type Props = {
   current: CurrentWeather;
 };
 
-export async function CurrentWeather({ locationId, current }: Props) {
+export async function CurrentWeatherCard({ locationId, current }: Props) {
   const lastUpdatedTime = format(
     current.last_updated_epoch,
     "MM月dd日 HH時mm分ss秒"

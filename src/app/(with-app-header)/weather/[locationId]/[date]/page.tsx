@@ -6,7 +6,7 @@ import { css } from "../../../../../../styled-system/css";
 import { format } from "date-fns";
 import { Metadata } from "next";
 import { HStack, VStack } from "@/components/ui/stack";
-import { SpecificDayForecast } from "@/components/specific-day-forecast";
+import { SpecificDayForecastCard } from "@/components/specific-day-forecast";
 import { Anchor } from "@/components/ui/anchor";
 import { ReactNode } from "react";
 import { WeatherDataNotFoundCard } from "@/components/weather-data-not-found-card";
@@ -64,7 +64,7 @@ export default async function WeatherDetailPage({ params }: Props) {
         </>
       }
     >
-      <SpecificDayForecast forecastDay={forecastDay} />
+      <SpecificDayForecastCard forecastDay={forecastDay} />
     </WeatherDetailPageLayout>
   );
 }

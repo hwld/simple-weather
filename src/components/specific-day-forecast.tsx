@@ -16,7 +16,7 @@ import { HStack } from "@/components/ui/stack";
 
 type Props = { forecastDay: ForecastDay };
 
-export async function SpecificDayForecast({ forecastDay }: Props) {
+export async function SpecificDayForecastCard({ forecastDay }: Props) {
   return (
     <Card noPadding className={css({ overflow: "hidden" })}>
       <div

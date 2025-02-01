@@ -1,8 +1,8 @@
 import { css } from "../../../../../styled-system/css";
 import { fetchForecast } from "@/backend/weather/fetch";
 import { HStack, VStack } from "@/components/ui/stack";
-import { CurrentWeather } from "@/components/current-weather";
-import { FutureForecastList } from "@/components/future-forecast-list";
+import { CurrentWeatherCard } from "@/components/current-weather-card";
+import { FutureForecastsCard } from "@/components/future-forecasts-card";
 import { LocationNotFoundCard } from "@/components/location-not-found-card";
 import { isErr } from "@/utils/result";
 import { Metadata } from "next";
@@ -50,9 +50,9 @@ export default async function WeatherSummaryPage({ params }: Props) {
         </HStack>
       </h2>
       <CardContainer>
-        <CurrentWeather locationId={locationId} current={current} />
+        <CurrentWeatherCard locationId={locationId} current={current} />
         <div className={css({ flexGrow: 1 })}>
-          <FutureForecastList
+          <FutureForecastsCard
             locationId={locationId}
             forecastdays={forecastdays.slice(1)}
           />

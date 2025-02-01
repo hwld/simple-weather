@@ -16,7 +16,7 @@ import { Card, CardLabel } from "@/components/ui/card";
 
 type Props = { locationId: string; forecastdays: ForecastDay[] };
 
-export async function FutureForecastList({ locationId, forecastdays }: Props) {
+export async function FutureForecastsCard({ locationId, forecastdays }: Props) {
   return (
     <Card className={css({ height: "100%" })}>
       <VStack className={css({ gap: "var(--space-md)" })}>
