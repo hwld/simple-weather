@@ -16,7 +16,7 @@ export default async function HomePage() {
           height: "300px",
           justifyContent: "center",
           alignItems: "center",
-          gap: "16px",
+          gap: "var(--space-md)",
         })}
       >
         <IconSearch

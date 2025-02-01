@@ -16,11 +16,13 @@ export default function WithHeaderLayout({ children }: Props) {
         minHeight: "100dvh",
         margin: "0 auto",
         maxWidth: "700px",
-        paddingInline: "8px",
+        paddingInline: "var(--space-md)",
       })}
     >
       <AppHeader />
-      <div className={css({ paddingBlock: "32px" })}>{children}</div>
+      <div className={css({ paddingBlock: "var(--space-2xl)" })}>
+        {children}
+      </div>
     </div>
   );
 }

@@ -26,15 +26,15 @@ export async function CurrentWeather({ locationId, current }: Props) {
   );
 
   return (
-    <VStack className={css({ gap: "8px" })}>
+    <VStack className={css({ gap: "var(--space-sm)" })}>
       <div
         className={css({ fontSize: "12px", color: "var(--color-gray-500)" })}
       >
         {`今の天気 (${lastUpdatedTime} 時点)`}
       </div>
       <Card>
-        <VStack className={css({ gap: "24px" })}>
-          <VStack className={css({ gap: "4px" })}>
+        <VStack className={css({ gap: "var(--space-lg)" })}>
+          <VStack className={css({ gap: "var(--space-sm)" })}>
             <Anchor
               className={css({
                 width: "fit",
@@ -51,16 +51,29 @@ export async function CurrentWeather({ locationId, current }: Props) {
               <span className={css({ fontSize: "12px" })}>詳細を見る</span>
               <IconArrowRight size={16} />
             </Anchor>
-            <HStack className={css({ gap: "8px", alignItems: "end" })}>
-              <img
-                src={current.condition.icon}
-                alt="condition"
-                className={css({ width: "100px", height: "100px" })}
-              />
-              <VStack className={css({ gap: "4px" })}>
+            <HStack className={css({ gap: "var(--space-md)" })}>
+              <div
+                className={css({
+                  flexShrink: 0,
+                  width: "100px",
+                  height: "100px",
+                  border: "1px solid var(--color-gray-200)",
+                  borderRadius: "8px",
+                })}
+              >
+                <img
+                  src={current.condition.icon}
+                  alt="condition"
+                  className={css({
+                    width: "100%",
+                    height: "100%",
+                  })}
+                />
+              </div>
+              <VStack className={css({ gap: "var(--space-sm)" })}>
                 <HStack
                   className={css({
-                    gap: "4px",
+                    gap: "var(--space-sm)",
                     alignItems: "end",
                     lineHeight: 1,
                   })}
@@ -79,7 +92,12 @@ export async function CurrentWeather({ locationId, current }: Props) {
               </VStack>
             </HStack>
           </VStack>
-          <HStack className={css({ gap: "16px", paddingInline: "16px" })}>
+          <HStack
+            className={css({
+              gap: "var(--space-md)",
+              paddingInline: "var(--space-md)",
+            })}
+          >
             <WeatherSubItem
               icon={IconDroplet}
               label="湿度"
@@ -112,7 +130,7 @@ function WeatherSubItem({
   value: string;
 }) {
   return (
-    <HStack className={css({ gap: "8px" })}>
+    <HStack className={css({ gap: "var(--space-sm)" })}>
       <Icon
         className={css({
           color: "var(--color-gray-500)",
@@ -121,7 +139,7 @@ function WeatherSubItem({
           flexShrink: 0,
         })}
       />
-      <VStack className={css({ gap: "4px", lineHeight: 1 })}>
+      <VStack className={css({ gap: "var(--space-xs)", lineHeight: 1 })}>
         <div className={css({ color: "var(--color-gray-500)" })}>{label}</div>
         <div>{value}</div>
       </VStack>

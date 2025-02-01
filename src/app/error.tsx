@@ -4,6 +4,7 @@ import { css } from "../../styled-system/css";
 import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Routes } from "@/routes";
+import { VStack } from "@/components/ui/stack";
 
 type Props = { error: Error; reset: () => void };
 
@@ -18,15 +19,14 @@ export default function UnhandledErrorPage({ error }: Props) {
   };
 
   return (
-    <div
+    <VStack
       className={css({
         width: "100%",
         height: "100dvh",
-        display: "grid",
-        placeItems: "center",
-        placeContent: "center",
-        gap: "16px",
-        padding: "24px",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: "var(--space-md)",
+        padding: "var(--space-md)",
       })}
     >
       <IconExclamationCircle
@@ -52,6 +52,6 @@ export default function UnhandledErrorPage({ error }: Props) {
       >
         ホーム画面に戻る
       </Button>
-    </div>
+    </VStack>
   );
 }

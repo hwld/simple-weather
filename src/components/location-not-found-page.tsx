@@ -9,7 +9,7 @@ export async function LocationNotFoundPage() {
       <VStack
         className={css({
           height: "300px",
-          gap: "16px",
+          gap: "var(--space-md)",
           justifyContent: "center",
           alignItems: "center",
         })}

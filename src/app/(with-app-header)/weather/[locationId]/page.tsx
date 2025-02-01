@@ -2,7 +2,7 @@ import { css } from "../../../../../styled-system/css";
 import { fetchForecast } from "@/api/fetch";
 import { WeatherSummaryParamsSchema } from "@/routes";
 import { Metadata } from "next";
-import { HStack } from "@/components/ui/stack";
+import { HStack, VStack } from "@/components/ui/stack";
 import { CurrentWeather } from "@/components/current-weather";
 import { FutureForecastList } from "@/components/future-forecast-list";
 import { LocationNotFoundPage } from "@/components/location-not-found-page";
@@ -25,17 +25,14 @@ export default async function WeatherSummaryPage({ params }: Props) {
   const { location, current, forecastdays } = forecastResult.value;
 
   return (
-    <div
-      className={css({
-        h: "100%",
-        display: "grid",
-        gridTemplateRows: "auto auto 1fr",
-        gap: "24px",
-      })}
-    >
+    <VStack className={css({ h: "100%", gap: "var(--space-lg)" })}>
       <h2>
         <HStack
-          className={css({ alignItems: "end", gap: "4px", lineHeight: 1 })}
+          className={css({
+            alignItems: "end",
+            gap: "var(--space-sm)",
+            lineHeight: 1,
+          })}
         >
           <div
             className={css({
@@ -50,10 +47,12 @@ export default async function WeatherSummaryPage({ params }: Props) {
         </HStack>
       </h2>
       <CurrentWeather locationId={locationId} current={current} />
-      <FutureForecastList
-        locationId={locationId}
-        forecastdays={forecastdays.slice(1)}
-      />
-    </div>
+      <div className={css({ flexGrow: 1 })}>
+        <FutureForecastList
+          locationId={locationId}
+          forecastdays={forecastdays.slice(1)}
+        />
+      </div>
+    </VStack>
   );
 }

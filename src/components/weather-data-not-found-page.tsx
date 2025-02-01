@@ -11,7 +11,7 @@ export async function WeatherDataNotFoundPage({ date }: Props) {
     <Card>
       <VStack
         className={css({
-          gap: "16px",
+          gap: "var(--space-md)",
           justifyContent: "center",
           alignItems: "center",
           height: "300px",

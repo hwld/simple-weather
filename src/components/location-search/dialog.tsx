@@ -108,7 +108,7 @@ export function LocationSearchDialog({
         return (
           <HStack
             className={css({
-              gap: "8px",
+              gap: "var(--space-sm)",
               alignItems: "start",
               color: "var(--color-error)",
             })}
@@ -159,7 +159,7 @@ export function LocationSearchDialog({
             className={css({
               display: "flex",
               flexDir: "column",
-              gap: "8px",
+              gap: "var(--space-sm)",
               _focusVisible: {
                 outline: "none",
               },
@@ -168,9 +168,9 @@ export function LocationSearchDialog({
             <HStack
               ref={headerRef}
               className={css({
-                padding: "8px",
+                padding: "var(--space-sm)",
                 borderBottom: "1px solid var(--color-gray-200)",
-                gap: "8px",
+                gap: "var(--space-sm)",
               })}
             >
               <HStack
@@ -180,8 +180,8 @@ export function LocationSearchDialog({
                   height: "32px",
                   rounded: "4px",
                   overflow: "hidden",
-                  paddingInline: "4px",
-                  gap: "4px",
+                  paddingInline: "var(--space-xs)",
+                  gap: "var(--space-xs)",
                   ["&:has(input:focus-visible)"]: {
                     borderColor: "var(--color-primary-500)",
                     outline: "1px solid var(--color-primary-500)",
@@ -244,14 +244,17 @@ export function LocationSearchDialog({
               ref={updateListHeight}
               style={{ ["--list-height" as string]: `${listHeight}px` }}
               className={css({
-                paddingInline: "8px",
+                paddingInline: "var(--space-sm)",
                 overflow: "auto",
                 height: "var(--list-height)",
                 sm: { height: "300px" },
               })}
             >
               <Command.Empty
-                className={css({ fontSize: "12px", padding: "8px" })}
+                className={css({
+                  fontSize: "12px",
+                  padding: "var(--space-sm)",
+                })}
               >
                 {emptyContent}
               </Command.Empty>
@@ -265,8 +268,8 @@ export function LocationSearchDialog({
               ref={footerRef}
               className={css({
                 borderTop: "1px solid var(--color-gray-200)",
-                padding: "8px",
-                gap: "16px",
+                padding: "var(--space-sm)",
+                gap: "var(--space-md)",
                 height: "40px",
               })}
             >
@@ -342,10 +345,10 @@ function LocationItem({
     >
       <Link
         className={css({
-          padding: "8px",
+          padding: "var(--space-sm)",
           display: "flex",
           alignItems: "start",
-          gap: "8px",
+          gap: "var(--space-sm)",
         })}
         href={getRoute()}
         onClick={handleItemClick}
@@ -353,7 +356,7 @@ function LocationItem({
         <IconMapPin
           className={css({ flexShrink: 0, width: "20px", height: "20px" })}
         />
-        <VStack className={css({ gap: "8px" })}>
+        <VStack className={css({ gap: "var(--space-sm)" })}>
           <div className={css({ fontSize: "16px", lineHeight: 1 })}>
             {location.name}
           </div>
@@ -380,7 +383,7 @@ function KbdGuide({
   return (
     <HStack
       className={css({
-        gap: "4px",
+        gap: "var(--space-xs)",
         display: "none",
         sm: { display: "flex" },
       })}
@@ -402,7 +405,7 @@ function Kbd({ children }: { children: ReactNode }) {
         display: "grid",
         width: "fit",
         height: "20px",
-        paddingInline: "4px",
+        paddingInline: "var(--space-xs)",
       })}
     >
       {children}

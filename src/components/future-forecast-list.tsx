@@ -18,26 +18,24 @@ type Props = { locationId: string; forecastdays: ForecastDay[] };
 
 export async function FutureForecastList({ locationId, forecastdays }: Props) {
   return (
-    <div
-      className={css({
-        display: "grid",
-        gridTemplateRows: "auto 1fr",
-        gap: "8px",
-      })}
-    >
+    <VStack className={css({ gap: "var(--space-sm)", height: "100%" })}>
       <div
         className={css({ fontSize: "12px", color: "var(--color-gray-500)" })}
       >
         今後の天気
       </div>
-      <Card className={css({ gap: { base: "16px", sm: "8px" } })}>
-        <VStack className={css({ gap: { base: "16px", sm: "8px" } })}>
+      <Card className={css({ height: "100%" })}>
+        <VStack
+          className={css({
+            gap: { base: "var(--space-md)", sm: "var(--space-sm)" },
+          })}
+        >
           {forecastdays.map((forecast) => {
             return (
               <HStack
                 key={forecast.date}
                 className={css({
-                  gap: "8px",
+                  gap: "var(--space-sm)",
                   alignItems: "start",
                   borderBottom: "1px solid var(--color-gray-200)",
                   sm: { alignItems: "end", borderBottom: "none" },
@@ -56,7 +54,7 @@ export async function FutureForecastList({ locationId, forecastdays }: Props) {
                       fontSize: "10px",
                     })}
                   >
-                    {format(new Date(forecast.date), "M/d")}
+                    {format(new Date(forecast.date), "MM/dd")}
                   </div>
                   <div>
                     {format(new Date(forecast.date), "E", { locale: ja })}
@@ -70,12 +68,13 @@ export async function FutureForecastList({ locationId, forecastdays }: Props) {
                     sm: { flexDir: "row", justifyContent: "space-between" },
                   })}
                 >
-                  <HStack className={css({ gap: "2px", flexGrow: 1 })}>
+                  <HStack
+                    className={css({ gap: "var(--space-xs)", flexGrow: 1 })}
+                  >
                     <img
                       src={forecast.day.condition.icon}
                       alt="condition"
-                      width={30}
-                      height={30}
+                      className={css({ width: "30px", height: "30px" })}
                     />
                     <span
                       className={css({
@@ -89,12 +88,12 @@ export async function FutureForecastList({ locationId, forecastdays }: Props) {
                   </HStack>
                   <HStack
                     className={css({
-                      gap: "8px",
-                      paddingLeft: "4px",
+                      gap: "var(--space-sm)",
+                      paddingLeft: "var(--space-sm)",
                       justifyContent: "space-between",
                     })}
                   >
-                    <HStack className={css({ gap: "8px" })}>
+                    <HStack className={css({ gap: "var(--space-sm)" })}>
                       <ForecastValue
                         icon={IconTemperature}
                         value={`${forecast.day.maxtemp_c} / ${forecast.day.mintemp_c} ℃`}
@@ -125,7 +124,7 @@ export async function FutureForecastList({ locationId, forecastdays }: Props) {
           })}
         </VStack>
       </Card>
-    </div>
+    </VStack>
   );
 }
 
@@ -133,7 +132,7 @@ function ForecastValue({ icon: Icon, value }: { icon: Icon; value: string }) {
   return (
     <HStack
       className={css({
-        gap: "2px",
+        gap: "var(--space-xs)",
         color: "var(--color-gray-500)",
         whiteSpace: "nowrap",
       })}

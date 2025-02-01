@@ -92,8 +92,8 @@ function Th({
       className={css({
         textAlign: alignStart ? "start" : "end",
         wordBreak: "keep-all",
-        paddingInline: "8px",
-        paddingBlock: "4px",
+        paddingInline: "var(--space-sm)",
+        paddingBlock: "var(--space-xs)",
         borderRight:
           lastInRow || noBorder ? "" : "1px solid var(--color-gray-300)",
         backgroundColor: "var(--color-gray-200)",
@@ -121,7 +121,7 @@ function Td({
   return (
     <div
       className={css({
-        paddingInline: noPadding ? "0px" : "8px",
+        paddingInline: noPadding ? "0px" : "var(--space-sm)",
         borderRight:
           lastInRow || noBorder ? "" : "1px solid var(--color-gray-300)",
         height: "100%",

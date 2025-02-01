@@ -13,12 +13,12 @@ export function Button({ icon: Icon, children, className, ...props }: Props) {
       className={cx(
         css({
           display: "flex",
-          gap: "4px",
+          gap: "var(--space-xs)",
           alignItems: "center",
           borderRadius: "4px",
           height: "28px",
           minWidth: "64px",
-          paddingInline: "8px",
+          paddingInline: "var(--space-sm)",
           lineHeight: 1,
           cursor: "pointer",
 

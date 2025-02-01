@@ -12,7 +12,7 @@ export function Card({ className, noPadding, children, ...props }: Props) {
           backgroundColor: "var(--color-gray-50)",
           border: "solid 1px var(--color-gray-200)",
           borderRadius: "8px",
-          padding: noPadding ? "0px" : "16px",
+          padding: noPadding ? "0px" : "var(--space-md)",
           boxShadow: "var(--shadow-sm)",
         }),
         className

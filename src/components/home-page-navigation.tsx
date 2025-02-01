@@ -27,9 +27,10 @@ export function HomePageNavigation() {
     height: "28px",
     display: "flex",
     alignItems: "center",
-    paddingInline: "8px",
+    paddingInline: "var(--space-sm)",
     borderRadius: "4px",
     fontWeight: "bold",
+    wordBreak: "keep-all",
   });
 
   if (isHome) {

@@ -74,10 +74,14 @@ function DetailPageLayout({
   beforeDate?: ReactNode;
 }) {
   return (
-    <VStack className={css({ gap: "24px" })}>
+    <VStack className={css({ gap: "var(--space-lg)" })}>
       <h2>
         <HStack
-          className={css({ gap: "4px", alignItems: "end", lineHeight: 1 })}
+          className={css({
+            gap: "var(--space-xs)",
+            alignItems: "end",
+            lineHeight: 1,
+          })}
         >
           {beforeDate}
           <div className={css({ fontSize: "20px", fontWeight: "bold" })}>
