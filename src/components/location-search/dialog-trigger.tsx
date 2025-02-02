@@ -23,21 +23,6 @@ export function LocationSearchDialogTrigger() {
   const currentPath = usePathname();
   const params = useParams();
 
-  return (
-    <LocationSearchDialogTriggerInner
-      currentPath={currentPath}
-      params={params}
-    />
-  );
-}
-
-export function LocationSearchDialogTriggerInner({
-  currentPath,
-  params,
-}: {
-  currentPath: string;
-  params: unknown;
-}) {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleClose = () => {

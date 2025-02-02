@@ -1,15 +1,8 @@
 import {
-  CurrentWeather,
   ForecastDay,
   ForecastResponse,
-  ForecastLocation,
   Location,
 } from "@/backend/weather/schema";
-
-export const mockForecastLocation: ForecastLocation = { name: "mockLocation" };
-
-const mockImageUrl =
-  "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
 
 const count = (() => {
   let num = 0;
@@ -19,19 +12,8 @@ const count = (() => {
   };
 })();
 
-export const mockCurrentWeather: CurrentWeather = {
-  condition: {
-    icon: mockImageUrl,
-    text: "mockCurrentWeatherCondition",
-  },
-  last_updated_epoch: count(),
-  feelslike_c: count(),
-  temp_c: count(),
-  humidity: count(),
-  wind_kph: count(),
-  precip_mm: count(),
-  last_updated_date: "1970-01-01",
-};
+const mockImageUrl =
+  "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
 
 const mockForecastDay: ForecastDay = {
   date: "1970-01-01",
@@ -56,15 +38,24 @@ const mockForecastDay: ForecastDay = {
   ],
 };
 
-export const mockForecast: ForecastResponse["forecast"] = {
-  // 最初の要素は読み飛ばされるので2つ作る
-  forecastday: [mockForecastDay, mockForecastDay],
-};
-
 export const mockForecastResponse: ForecastResponse = {
-  current: mockCurrentWeather,
-  forecast: mockForecast,
-  location: mockForecastLocation,
+  current: {
+    condition: {
+      icon: mockImageUrl,
+      text: "mockCurrentWeatherCondition",
+    },
+    last_updated_epoch: count(),
+    feelslike_c: count(),
+    temp_c: count(),
+    humidity: count(),
+    wind_kph: count(),
+    precip_mm: count(),
+  },
+  forecast: {
+    // 最初の要素は読み飛ばされるので2つ作る
+    forecastday: [mockForecastDay, mockForecastDay],
+  },
+  location: { name: "mockLocation" },
 };
 
 export const mockLocation: Location = {
