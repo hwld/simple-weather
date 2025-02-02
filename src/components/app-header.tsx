@@ -9,7 +9,7 @@ export function AppHeader() {
   return (
     <VStack
       className={css({
-        minW: 0,
+        minW: "0px",
         gap: "var(--space-lg)",
         backgroundColor: "var(--color-gray-50)",
         borderWidth: "0px 1px 1px 1px",
@@ -22,7 +22,8 @@ export function AppHeader() {
       <h1>
         <HStack
           className={css({
-            gap: "var(--space-md)",
+            gap: "var(--space-sm)",
+            flexWrap: "wrap",
             justifyContent: "space-between",
           })}
         >

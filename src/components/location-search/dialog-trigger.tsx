@@ -117,6 +117,7 @@ export function LocationSearchDialogTrigger() {
             size={20}
             className={cx(
               css({
+                flexShrink: 0,
                 color: "var(--color-gray-500)",
                 transition: "all",
                 transitionDuration: "0.1s",

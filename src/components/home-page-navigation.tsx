@@ -41,14 +41,14 @@ export function HomePageNavigation() {
     return (
       <div className={className}>
         <IconHomeFilled size={16} />
-        ホーム画面
+        ホーム
       </div>
     );
   } else {
     return (
       <Link className={className} href={Routes.home()}>
         <IconHome size={16} />
-        ホーム画面へ
+        ホームへ戻る
       </Link>
     );
   }

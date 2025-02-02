@@ -57,7 +57,10 @@ export default async function WeatherDetailPage({ params }: Props) {
       date={date}
       beforeDate={
         <>
-          <Anchor href={Routes.weatherSummary({ locationId })}>
+          <Anchor
+            href={Routes.weatherSummary({ locationId })}
+            className={css({ wordBreak: "break-all" })}
+          >
             {location.name}
           </Anchor>
           <IconChevronRight size={14} className={css({ flexShrink: 0 })} />
@@ -79,7 +82,13 @@ function WeatherDetailPageLayout({
   beforeDate?: ReactNode;
 }) {
   return (
-    <VStack className={css({ gap: "var(--space-lg)", height: "100%" })}>
+    <VStack
+      className={css({
+        gap: "var(--space-lg)",
+        height: "100%",
+        minWidth: "0px",
+      })}
+    >
       <h2>
         <HStack
           className={css({

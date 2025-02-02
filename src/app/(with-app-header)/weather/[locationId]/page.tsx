@@ -26,7 +26,9 @@ export default async function WeatherSummaryPage({ params }: Props) {
   const { location, current, forecastdays } = forecastResult.value;
 
   return (
-    <VStack className={css({ h: "100%", gap: "var(--space-lg)" })}>
+    <VStack
+      className={css({ h: "100%", gap: "var(--space-lg)", minWidth: "0px" })}
+    >
       <h2>
         <HStack
           className={css({
@@ -50,8 +52,17 @@ export default async function WeatherSummaryPage({ params }: Props) {
         </HStack>
       </h2>
       <CardContainer>
-        <CurrentWeatherCard locationId={locationId} current={current} />
-        <div className={css({ flexGrow: 1 })}>
+        <div
+          className={css({
+            height: "100%",
+            minWidth: "fit-content",
+            display: "grid",
+            gridTemplateColumns: "1fr",
+            gridTemplateRows: "auto 1fr",
+            gap: "var(--space-md)",
+          })}
+        >
+          <CurrentWeatherCard locationId={locationId} current={current} />
           <FutureForecastsCard
             locationId={locationId}
             forecastdays={forecastdays.slice(1)}

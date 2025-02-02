@@ -17,11 +17,17 @@ export default function WithHeaderLayout({ children }: Props) {
         margin: "0 auto",
         maxWidth: "700px",
         paddingInline: "var(--space-md)",
-        gap: "",
       })}
     >
       <AppHeader />
-      <div className={css({ paddingBlock: "var(--space-xl)" })}>{children}</div>
+      <div
+        className={css({
+          paddingBlock: "var(--space-xl)",
+          minWidth: "0px",
+        })}
+      >
+        {children}
+      </div>
     </div>
   );
 }

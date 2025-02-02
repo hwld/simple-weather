@@ -18,12 +18,14 @@ type Props = { forecastDay: ForecastDay };
 
 export async function SpecificDayForecastCard({ forecastDay }: Props) {
   return (
-    <Card noPadding className={css({ overflow: "hidden" })}>
+    <Card
+      noPadding
+      className={css({ overflow: "hidden", minWidth: "min-content" })}
+    >
       <div
         className={css({
           display: "grid",
-          // 最後の列は画面幅を小さくしていくと隠れるので優先度が低い情報を置く
-          gridTemplateColumns: "auto auto auto auto auto auto minmax(0,1fr)",
+          gridTemplateColumns: "repeat(6,auto) 1fr",
         })}
       >
         <Tr>

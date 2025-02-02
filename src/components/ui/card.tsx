@@ -1,6 +1,6 @@
 import { ComponentProps, ReactNode } from "react";
 import { css, cx } from "../../../styled-system/css";
-import { HStack, VStack } from "@/components/ui/stack";
+import { HStack } from "@/components/ui/stack";
 
 type Props = { noPadding?: boolean } & ComponentProps<"div">;
 
@@ -42,18 +42,18 @@ export function CardLabel({ label }: { label: string }) {
 
 export function CardContainer({ children }: { children: ReactNode }) {
   return (
-    <VStack
+    <div
       className={css({
         height: "100%",
-        gap: { base: "var(--space-md)", sm: "var(--space-lg)" },
         padding: { base: "var(--space-md)", sm: "var(--space-lg)" },
         backgroundColor: "var(--color-gray-200)",
         boxShadow: "inset 0 2px 5px rgba(0 0 0 / 0.15)",
         borderRadius: "var(--rounded-md)",
         border: "1px solid var(--color-gray-300)",
+        overflow: "auto",
       })}
     >
       {children}
-    </VStack>
+    </div>
   );
 }
