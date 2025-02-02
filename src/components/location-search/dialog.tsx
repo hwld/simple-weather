@@ -25,8 +25,7 @@ import {
 import { KbdGuide, Kbd } from "@/components/location-search/kbd";
 import { useSearchLocationQuery } from "@/components/location-search/use-search-location-query";
 import { useAvailableWindowHeight } from "@/components/location-search/use-available-window-height";
-import { useDebouncedValue } from "@/components/use-debounced-value";
-import { useLocalStorage } from "@mantine/hooks";
+import { useDebouncedValue, useLocalStorage } from "@mantine/hooks";
 import { Location } from "@/backend/weather/schema";
 
 type Props = {
@@ -58,7 +57,7 @@ export function LocationSearchDialog({
   };
 
   const [query, setQuery] = useState("");
-  const debouncedQuery = useDebouncedValue(query, 350);
+  const [debouncedQuery] = useDebouncedValue(query, 350);
 
   const { locations, isError, isFetching } =
     useSearchLocationQuery(debouncedQuery);
