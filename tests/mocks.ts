@@ -3,6 +3,7 @@ import {
   ForecastDay,
   ForecastResponse,
   ForecastLocation,
+  Location,
 } from "@/backend/weather/schema";
 
 export const mockForecastLocation: ForecastLocation = { name: "mockLocation" };
@@ -58,4 +59,13 @@ const mockForecastDay: ForecastDay = {
 export const mockForecast: ForecastResponse["forecast"] = {
   // 最初の要素は読み飛ばされるので2つ作る
   forecastday: [mockForecastDay, mockForecastDay],
+};
+
+export const mockLocation: Location = {
+  id: count(),
+  country: "mockCountry",
+  region: "mockRegion",
+  name: "mockName",
+  lat: count(),
+  lon: count(),
 };
