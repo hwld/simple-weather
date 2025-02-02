@@ -26,9 +26,9 @@ export async function WeatherDataNotFoundCard({ date }: Props) {
             <span className={css({ fontWeight: "bold" })}>
               `{format(date, "yyyy年MM月dd日")}`
             </span>
-            の天気予報が表示できませんでした。
+            の天気予報が表示できませんでした
           </p>
-          <p>表示できるのは直近の天気予報のみです。</p>
+          <p>表示できるのは直近の天気予報のみです</p>
         </div>
       </VStack>
     </Card>

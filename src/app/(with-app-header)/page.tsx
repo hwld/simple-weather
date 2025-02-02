@@ -24,15 +24,10 @@ export default async function HomePage() {
             size={50}
             className={css({ color: "var(--color-primary-500)" })}
           />
-          <p
-            className={css({
-              maxWidth: "300px",
-              textAlign: "center",
-              color: "var(--color-primary-500)",
-            })}
-          >
-            検索バーから地域を検索してください
-          </p>
+          <div className={css({ textAlign: "center" })}>
+            <p>上の検索バーから地域を検索してください</p>
+            <p>{`Cmd(Ctrl) + k キーで検索ダイアログを開くこともできます`}</p>
+          </div>
         </VStack>
       </Card>
     </CardContainer>
