@@ -11,7 +11,7 @@ import {
 import { IconCommand, IconSearch } from "@tabler/icons-react";
 import { useEffect, useMemo, useState } from "react";
 import { css, cx } from "../../../styled-system/css";
-import { Kbd } from "@/components/location-search/kbd";
+import { Kbd } from "@/components/ui/kbd";
 import { isServer } from "@tanstack/react-query";
 import { HStack } from "@/components/ui/stack";
 import { useParams, usePathname } from "next/navigation";

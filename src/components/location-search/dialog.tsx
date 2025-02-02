@@ -7,26 +7,20 @@ import {
   UseFloatingReturn,
   UseInteractionsReturn,
 } from "@floating-ui/react";
-import {
-  IconCircleDashed,
-  IconExclamationCircle,
-  IconHistory,
-  IconInfoCircle,
-  IconLoader2,
-  IconSearch,
-} from "@tabler/icons-react";
+import { IconHistory, IconLoader2, IconSearch } from "@tabler/icons-react";
 import { Command } from "cmdk";
-import { css, sva } from "../../../styled-system/css";
-import { ReactNode, useMemo, useRef, useState } from "react";
+import { css } from "../../../styled-system/css";
+import { ReactNode, RefObject, useMemo, useRef, useState } from "react";
 import {
   GetLocationNavRoute,
   LocationSearchResultItem,
 } from "@/components/location-search/result-item";
-import { KbdGuide, Kbd } from "@/components/location-search/kbd";
+import { KbdGuide, Kbd } from "@/components/ui/kbd";
 import { useSearchLocationQuery } from "@/components/location-search/use-search-location-query";
 import { useAvailableWindowHeight } from "@/components/location-search/use-available-window-height";
 import { useDebouncedValue, useLocalStorage } from "@mantine/hooks";
 import { Location } from "@/backend/weather/schema";
+import { SearchStatus } from "@/components/location-search/search-status";
 
 type Props = {
   onClose: () => void;
@@ -44,25 +38,13 @@ export function LocationSearchDialog({
   floatingContext,
   floatingProps: { getFloatingProps, setFloatingRef },
 }: Props) {
-  const [histories, setHistories] = useLocalStorage<Location[]>({
-    key: "search-history",
-    defaultValue: [],
-  });
-
-  const handleBeforeNavigate = (location: Location) => {
-    setHistories((histories) => {
-      return Array.from(new Set([location, ...histories])).slice(0, 3);
-    });
-    onClose();
-  };
-
   const [query, setQuery] = useState("");
   const [debouncedQuery] = useDebouncedValue(query, 350);
 
   const { locations, isError, isFetching } =
     useSearchLocationQuery(debouncedQuery);
 
-  const headerRef = useRef<HTMLInputElement | null>(null);
+  const headerRef = useRef<HTMLDivElement | null>(null);
   const footerRef = useRef<HTMLDivElement | null>(null);
 
   // cmdkはリストの高さを明示的に書く必要があるが、モバイルでは画面の高さに合わせたいため、この値を使用する
@@ -71,7 +53,7 @@ export function LocationSearchDialog({
     footerRef,
   ]);
 
-  const statusText = useMemo(() => {
+  const status = useMemo(() => {
     if (debouncedQuery.length === 0) {
       return (
         <SearchStatus status="empty">
@@ -92,6 +74,21 @@ export function LocationSearchDialog({
 
     return null;
   }, [debouncedQuery.length, isError, isFetching, locations.length]);
+
+  const [histories, setHistories] = useLocalStorage<Location[]>({
+    key: "search-history",
+    defaultValue: [],
+  });
+
+  const isHistoryVisible =
+    query.length === 0 && locations.length === 0 && histories.length > 0;
+
+  const handleBeforeNavigate = (location: Location) => {
+    setHistories((histories) => {
+      return Array.from(new Set([location, ...histories])).slice(0, 3);
+    });
+    onClose();
+  };
 
   return (
     <FloatingOverlay
@@ -129,86 +126,14 @@ export function LocationSearchDialog({
               },
             })}
           >
-            <VStack
-              className={css({
-                gap: "var(--space-sm)",
-                padding: "var(--space-sm)",
-                borderBottom: "1px solid var(--color-gray-200)",
-              })}
-            >
-              <HStack
-                ref={headerRef}
-                className={css({ gap: "var(--space-sm)" })}
-              >
-                <HStack
-                  className={css({
-                    width: "100%",
-                    border: "1px solid var(--color-gray-300)",
-                    height: "32px",
-                    rounded: "var(--rounded-sm)",
-                    overflow: "hidden",
-                    paddingInline: "var(--space-xs)",
-                    gap: "var(--space-xs)",
-                    ["&:has(input:focus-visible)"]: {
-                      borderColor: "var(--color-primary-500)",
-                      outline: "1px solid var(--color-primary-500)",
-                    },
-                  })}
-                >
-                  <IconSearch
-                    size={20}
-                    className={css({
-                      flexShrink: 0,
-                      color: "var(--color-gray-500)",
-                      ["&:has(~ input:focus-visible)"]: {
-                        color: "var(--color-primary-500)",
-                      },
-                    })}
-                  />
-                  <Command.Input
-                    placeholder="地域名(アルファベット)・緯度,軽度"
-                    value={query}
-                    onValueChange={setQuery}
-                    className={css({
-                      flexGrow: 1,
-                      height: "100%",
-                      width: "100%",
-                      _focusVisible: {
-                        outline: "none",
-                        borderColor: "var(--color-primary-500)",
-                      },
-                      _placeholder: {
-                        fontSize: "12px",
-                      },
-                    })}
-                  />
-                  {isFetching ? (
-                    <Command.Loading>
-                      <IconLoader2
-                        className={css({
-                          color: "var(--color-primary-600)",
-                          animation: "loading 1s linear infinite",
-                        })}
-                      />
-                    </Command.Loading>
-                  ) : null}
-                </HStack>
-                <Button
-                  onClick={onClose}
-                  className={css({
-                    display: "block",
-                    sm: { display: "none" },
-                    _hover: {
-                      bg: "var(--color-gray-200)",
-                    },
-                    height: "32px",
-                  })}
-                >
-                  Cancel
-                </Button>
-              </HStack>
-              {statusText}
-            </VStack>
+            <DialogHeader
+              ref={headerRef}
+              query={query}
+              onQueryChange={setQuery}
+              isSearching={isFetching}
+              onCanceSearch={onClose}
+              status={status}
+            />
             <Command.List
               ref={updateAvailableHeight}
               style={{ ["--list-height" as string]: `${availableHeight}px` }}
@@ -229,9 +154,7 @@ export function LocationSearchDialog({
                   />
                 );
               })}
-              {query.length === 0 &&
-              locations.length === 0 &&
-              histories.length > 0 ? (
+              {isHistoryVisible ? (
                 <Command.Group
                   className={css({
                     display: "flex",
@@ -263,27 +186,7 @@ export function LocationSearchDialog({
                 </Command.Group>
               ) : null}
             </Command.List>
-            <HStack
-              ref={footerRef}
-              className={css({
-                borderTop: "1px solid var(--color-gray-200)",
-                padding: "var(--space-sm)",
-                gap: "var(--space-md)",
-                height: "40px",
-              })}
-            >
-              <KbdGuide keys={<Kbd>Enter</Kbd>} description="で表示" />
-              <KbdGuide
-                keys={
-                  <>
-                    <Kbd>Up</Kbd>
-                    <Kbd>Down</Kbd>
-                  </>
-                }
-                description="で移動"
-              />
-              <KbdGuide keys={<Kbd>Esc</Kbd>} description="で閉じる" />
-            </HStack>
+            <DialogFooter ref={footerRef} />
           </Command>
         </div>
       </FloatingFocusManager>
@@ -291,41 +194,125 @@ export function LocationSearchDialog({
   );
 }
 
-const statusClass = sva({
-  slots: ["root", "icon", "text"],
-  base: {
-    root: { gap: "var(--space-xs)" },
-    icon: { flexShrink: 0, marginBottom: "1px" },
-    text: { fontSize: "12px", lineHeight: 1 },
-  },
-  variants: {
-    status: {
-      empty: { root: { color: "var(--color-gray-700)" } },
-      error: { root: { color: "var(--color-error)" } },
-      nodata: { root: { color: "var(--color-gray-500)" } },
-    },
-  },
-});
-
-export function SearchStatus({
-  children,
+function DialogHeader({
+  ref,
+  query,
+  onQueryChange,
+  isSearching,
+  onCanceSearch,
   status,
 }: {
-  children: ReactNode;
-  status: "error" | "empty" | "nodata";
+  ref: RefObject<HTMLDivElement | null>;
+  query: string;
+  onQueryChange: (query: string) => void;
+  isSearching?: boolean;
+  onCanceSearch: () => void;
+  status: ReactNode;
 }) {
-  const classes = statusClass({ status });
-
-  const Icon = {
-    empty: IconInfoCircle,
-    error: IconExclamationCircle,
-    nodata: IconCircleDashed,
-  }[status];
-
   return (
-    <HStack className={classes.root}>
-      <Icon size={14} className={classes.icon} />
-      <p className={classes.text}>{children}</p>
+    <VStack
+      ref={ref}
+      className={css({
+        gap: "var(--space-sm)",
+        padding: "var(--space-sm)",
+        borderBottom: "1px solid var(--color-gray-200)",
+      })}
+    >
+      <HStack className={css({ gap: "var(--space-sm)" })}>
+        <HStack
+          className={css({
+            width: "100%",
+            border: "1px solid var(--color-gray-300)",
+            height: "32px",
+            rounded: "var(--rounded-sm)",
+            overflow: "hidden",
+            paddingInline: "var(--space-xs)",
+            gap: "var(--space-xs)",
+            ["&:has(input:focus-visible)"]: {
+              borderColor: "var(--color-primary-500)",
+              outline: "1px solid var(--color-primary-500)",
+            },
+          })}
+        >
+          <IconSearch
+            size={20}
+            className={css({
+              flexShrink: 0,
+              color: "var(--color-gray-500)",
+              ["&:has(~ input:focus-visible)"]: {
+                color: "var(--color-primary-500)",
+              },
+            })}
+          />
+          <Command.Input
+            placeholder="地域名(アルファベット)・緯度,軽度"
+            value={query}
+            onValueChange={onQueryChange}
+            className={css({
+              flexGrow: 1,
+              height: "100%",
+              width: "100%",
+              _focusVisible: {
+                outline: "none",
+                borderColor: "var(--color-primary-500)",
+              },
+              _placeholder: {
+                fontSize: "12px",
+              },
+            })}
+          />
+          {isSearching ? (
+            <Command.Loading>
+              <IconLoader2
+                className={css({
+                  color: "var(--color-primary-600)",
+                  animation: "loading 1s linear infinite",
+                })}
+              />
+            </Command.Loading>
+          ) : null}
+        </HStack>
+        <Button
+          onClick={onCanceSearch}
+          className={css({
+            display: "block",
+            sm: { display: "none" },
+            _hover: {
+              bg: "var(--color-gray-200)",
+            },
+            height: "32px",
+          })}
+        >
+          Cancel
+        </Button>
+      </HStack>
+      {status}
+    </VStack>
+  );
+}
+
+function DialogFooter({ ref }: { ref: RefObject<HTMLDivElement | null> }) {
+  return (
+    <HStack
+      ref={ref}
+      className={css({
+        borderTop: "1px solid var(--color-gray-200)",
+        padding: "var(--space-sm)",
+        gap: "var(--space-md)",
+        height: "40px",
+      })}
+    >
+      <KbdGuide keys={<Kbd>Enter</Kbd>} description="で表示" />
+      <KbdGuide
+        keys={
+          <>
+            <Kbd>Up</Kbd>
+            <Kbd>Down</Kbd>
+          </>
+        }
+        description="で移動"
+      />
+      <KbdGuide keys={<Kbd>Esc</Kbd>} description="で閉じる" />
     </HStack>
   );
 }
