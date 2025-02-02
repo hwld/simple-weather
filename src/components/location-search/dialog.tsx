@@ -85,7 +85,8 @@ export function LocationSearchDialog({
 
   const handleBeforeNavigate = (location: Location) => {
     setHistories((histories) => {
-      return Array.from(new Set([location, ...histories])).slice(0, 3);
+      const filtered = histories.filter((h) => h.id !== location.id);
+      return [location, ...filtered].slice(0, 3);
     });
     onClose();
   };
