@@ -11,8 +11,8 @@ import { css } from "../../styled-system/css";
 import { type ForecastDay } from "@/backend/weather/schema";
 import { Routes } from "@/routes";
 import { VStack, HStack } from "@/components/ui/stack";
-import { Anchor } from "@/components/ui/anchor";
 import { Card, CardLabel } from "@/components/ui/card";
+import Link from "next/link";
 
 type Props = { locationId: string; forecastdays: ForecastDay[] };
 
@@ -21,20 +21,28 @@ export async function FutureForecastsCard({ locationId, forecastdays }: Props) {
     <Card className={css({ height: "100%" })}>
       <VStack className={css({ gap: "var(--space-md)" })}>
         <CardLabel label="これからの天気" />
-        <VStack
-          className={css({
-            gap: { base: "var(--space-md)", sm: "var(--space-sm)" },
-          })}
-        >
+        <VStack className={css({ gap: "var(--space-xs)" })}>
           {forecastdays.map((forecast) => {
             return (
-              <HStack
+              <Link
                 key={forecast.date}
+                href={Routes.weatherDetail({
+                  locationId,
+                  date: forecast.date,
+                })}
                 className={css({
+                  border: "1px solid var(--color-gray-200)",
+                  padding: "var(--space-xs) var(--space-sm)",
+                  borderRadius: "var(--space-xs)",
+                  display: "flex",
+                  alignContent: "center",
                   gap: "var(--space-sm)",
-                  alignItems: "start",
-                  borderBottom: "1px solid var(--color-gray-200)",
-                  sm: { alignItems: "end", borderBottom: "none" },
+                  alignItems: { base: "start", sm: "end" },
+                  transition: "background-color",
+                  transitionDuration: "0.1s",
+                  _supportHover: {
+                    backgroundColor: "var(--color-gray-100)",
+                  },
                 })}
               >
                 <VStack
@@ -99,23 +107,13 @@ export async function FutureForecastsCard({ locationId, forecastdays }: Props) {
                         value={`${forecast.day.daily_chance_of_rain} %`}
                       />
                     </HStack>
-                    <Anchor
-                      href={Routes.weatherDetail({
-                        locationId,
-                        date: forecast.date,
-                      })}
-                      className={css({
-                        width: "24px",
-                        height: "24px",
-                        display: "grid",
-                        placeItems: "center",
-                      })}
-                    >
-                      <IconArrowRight size={16} />
-                    </Anchor>
+                    <IconArrowRight
+                      size={18}
+                      className={css({ color: "var(--color-link)" })}
+                    />
                   </HStack>
                 </div>
-              </HStack>
+              </Link>
             );
           })}
         </VStack>

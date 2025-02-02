@@ -11,9 +11,9 @@ import {
 import { css } from "../../styled-system/css";
 import { Routes } from "@/routes";
 import { VStack, HStack } from "@/components/ui/stack";
-import { Anchor } from "@/components/ui/anchor";
 import { type CurrentWeather } from "@/backend/weather/schema";
 import { Card, CardLabel } from "@/components/ui/card";
+import Link from "next/link";
 
 type Props = {
   locationId: string;
@@ -30,11 +30,24 @@ export async function CurrentWeatherCard({ locationId, current }: Props) {
     <Card>
       <VStack className={css({ gap: "var(--space-lg)" })}>
         <CardLabel label={`現在の天気 (${lastUpdatedTime} 時点)`} />
-        <VStack
+        <Link
+          href={Routes.weatherDetail({
+            locationId: locationId,
+            date: current.last_updated_date,
+          })}
           className={css({
-            gap: "var(--space-lg)",
-            borderRadius: "var(--rounded-sm)",
-            p: "var(--space-sm)",
+            cursor: "pointer",
+            display: "flex",
+            flexDir: "column",
+            gap: "var(--space-xl)",
+            border: "1px solid var(--color-gray-200)",
+            borderRadius: "var(--rounded-md)",
+            p: "var(--space-md)",
+            transition: "background-color",
+            transitionDuration: "0.1s",
+            _supportHover: {
+              backgroundColor: "var(--color-gray-100)",
+            },
           })}
         >
           <VStack className={css({ gap: "var(--space-sm)" })}>
@@ -44,7 +57,6 @@ export async function CurrentWeatherCard({ locationId, current }: Props) {
                   flexShrink: 0,
                   width: "100px",
                   height: "100px",
-                  border: "1px solid var(--color-gray-200)",
                   borderRadius: "var(--rounded-md)",
                 })}
               >
@@ -58,22 +70,10 @@ export async function CurrentWeatherCard({ locationId, current }: Props) {
                 />
               </div>
               <VStack className={css({ gap: "var(--space-sm)" })}>
-                <Anchor
-                  className={css({
-                    width: "fit",
-                    height: "24px",
-                    display: "flex",
-                    alignItems: "center",
-                    lineHeight: 1,
-                  })}
-                  href={Routes.weatherDetail({
-                    locationId: locationId,
-                    date: current.last_updated_date,
-                  })}
-                >
+                <HStack className={css({ color: "var(--color-link)" })}>
                   <span className={css({ fontSize: "12px" })}>詳細を見る</span>
                   <IconArrowRight size={16} />
-                </Anchor>
+                </HStack>
                 <HStack
                   className={css({
                     gap: "var(--space-sm)",
@@ -95,7 +95,6 @@ export async function CurrentWeatherCard({ locationId, current }: Props) {
               </VStack>
             </HStack>
           </VStack>
-
           <div
             className={css({
               display: "grid",
@@ -128,7 +127,7 @@ export async function CurrentWeatherCard({ locationId, current }: Props) {
               value={`${current.wind_kph}km/h`}
             />
           </div>
-        </VStack>
+        </Link>
       </VStack>
     </Card>
   );
