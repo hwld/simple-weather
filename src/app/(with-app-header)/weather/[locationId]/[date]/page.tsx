@@ -5,14 +5,14 @@ import { IconChevronRight } from "@tabler/icons-react";
 import { css } from "../../../../../../styled-system/css";
 import { format } from "date-fns";
 import { Metadata } from "next";
-import { HStack, VStack } from "@/components/ui/stack";
+import { HStack } from "@/components/ui/stack";
 import { SpecificDayForecastCard } from "@/components/specific-day-forecast";
 import { Anchor } from "@/components/ui/anchor";
 import { ReactNode } from "react";
 import { WeatherDataNotFoundCard } from "@/components/weather-data-not-found-card";
 import { isErr } from "@/utils/result";
 import { WeatherDetailParamsSchema } from "@/app/(with-app-header)/weather/[locationId]/[date]/schema";
-import { CardContainer } from "@/components/ui/card";
+import { PageLayout } from "@/components/ui/page-layout";
 
 export const metadata: Metadata = {
   title: "指定日の天気 - SimpleWeather",
@@ -82,36 +82,33 @@ function WeatherDetailPageLayout({
   beforeDate?: ReactNode;
 }) {
   return (
-    <VStack
-      className={css({
-        gap: "var(--space-lg)",
-        height: "100%",
-        minWidth: "0px",
-      })}
-    >
-      <h2>
-        <HStack
-          className={css({
-            gap: "var(--space-xs)",
-            alignItems: "end",
-            lineHeight: 1,
-          })}
-        >
-          {beforeDate}
-          <div
+    <PageLayout
+      title={
+        <h2>
+          <HStack
             className={css({
-              fontSize: "20px",
-              fontWeight: "bold",
-              wordBreak: "keep-all",
-              color: "var(--color-primary-500)",
+              gap: "var(--space-xs)",
+              alignItems: "end",
+              lineHeight: 1,
             })}
           >
-            {format(date, "M月d日")}
-          </div>
-          <span className={css({ wordBreak: "keep-all" })}>の天気予報</span>
-        </HStack>
-      </h2>
-      <CardContainer>{children}</CardContainer>
-    </VStack>
+            {beforeDate}
+            <div
+              className={css({
+                fontSize: "20px",
+                fontWeight: "bold",
+                wordBreak: "keep-all",
+                color: "var(--color-primary-500)",
+              })}
+            >
+              {format(date, "M月d日")}
+            </div>
+            <span className={css({ wordBreak: "keep-all" })}>の天気予報</span>
+          </HStack>
+        </h2>
+      }
+    >
+      {children}
+    </PageLayout>
   );
 }

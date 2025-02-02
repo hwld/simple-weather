@@ -1,8 +1,9 @@
 import { Metadata } from "next";
-import { VStack } from "@/components/ui/stack";
-import { IconSearch } from "@tabler/icons-react";
+import { HStack, VStack } from "@/components/ui/stack";
+import { IconHome, IconSearch } from "@tabler/icons-react";
 import { css } from "../../../styled-system/css";
-import { Card, CardContainer } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
+import { PageLayout } from "@/components/ui/page-layout";
 
 export const metadata: Metadata = {
   title: "ホーム - SimpleWeather",
@@ -10,7 +11,23 @@ export const metadata: Metadata = {
 
 export default async function HomePage() {
   return (
-    <CardContainer>
+    <PageLayout
+      title={
+        <h2>
+          <HStack
+            className={css({
+              gap: "var(--space-xs)",
+              color: "var(--color-primary-500)",
+            })}
+          >
+            <IconHome />
+            <div className={css({ fontWeight: "bold", fontSize: "16px" })}>
+              ホーム
+            </div>
+          </HStack>
+        </h2>
+      }
+    >
       <Card>
         <VStack
           className={css({
@@ -30,6 +47,6 @@ export default async function HomePage() {
           </div>
         </VStack>
       </Card>
-    </CardContainer>
+    </PageLayout>
   );
 }

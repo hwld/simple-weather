@@ -22,7 +22,7 @@ export default function WithHeaderLayout({ children }: Props) {
       <AppHeader />
       <div
         className={css({
-          paddingBlock: "var(--space-xl)",
+          paddingBlock: "var(--space-xl) var(--space-md)",
           minWidth: "0px",
         })}
       >
