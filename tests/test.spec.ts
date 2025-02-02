@@ -1,67 +1,14 @@
-import {
-  test,
-  expect,
-  NextFixture,
-} from "next/experimental/testmode/playwright";
-import {
-  mockCurrentWeather,
-  mockForecast,
-  mockForecastLocation,
-  mockLocation,
-} from "./mocks";
+import { test, expect } from "next/experimental/testmode/playwright";
+import { mockForecastResponse, mockLocation } from "./mocks";
 import { Routes } from "@/routes";
 import {
   WeatherApiErrorResopnse,
   ForecastResponse,
   SearchResponse,
+  WeatherAPIErrorCode,
 } from "@/backend/weather/schema";
-import { ForecastApiUrl, SearchApiUrl } from "@/backend/weather/url";
-
-const createFetchHandler: (
-  mocks: {
-    url: string;
-    response: Response;
-  }[]
-) => Parameters<NextFixture["onFetch"]>[0] = (mocks) => {
-  return (req) => {
-    const url = new URL(req.url);
-    url.search = "";
-
-    for (const mock of mocks) {
-      if (url.toString() === mock.url) {
-        return mock.response;
-      }
-    }
-
-    return "abort";
-  };
-};
-
-const createForecastFetchHandler: (
-  response: Response
-) => Parameters<NextFixture["onFetch"]>[0] = (response) => {
-  return (req) => {
-    const url = new URL(req.url);
-    url.search = "";
-    if (url.toString() === ForecastApiUrl) {
-      return response;
-    }
-    return "abort";
-  };
-};
-
-const createSearchFetchHandler: (
-  response: Response
-) => Parameters<NextFixture["onFetch"]>[0] = (response) => {
-  return (req) => {
-    const url = new URL(req.url);
-    url.search = "";
-    if (url.toString() === SearchApiUrl) {
-      return response;
-    }
-    return "abort";
-  };
-};
+import { format } from "date-fns";
+import { createWeatherApiFetchHandler } from "./utils";
 
 test.describe("検索ダイアログ", () => {
   (
@@ -109,24 +56,14 @@ test.describe("検索ダイアログ", () => {
       page,
     }) => {
       next.onFetch(
-        createFetchHandler([
-          {
-            url: ForecastApiUrl,
-            response: new Response(
-              JSON.stringify({
-                location: mockLocation,
-                current: mockCurrentWeather,
-                forecast: mockForecast,
-              } satisfies ForecastResponse)
-            ),
-          },
-          {
-            url: SearchApiUrl,
-            response: new Response(
-              JSON.stringify([mockLocation] satisfies SearchResponse)
-            ),
-          },
-        ])
+        createWeatherApiFetchHandler({
+          forecastResponse: new Response(
+            JSON.stringify(mockForecastResponse satisfies ForecastResponse)
+          ),
+          searchResponse: new Response(
+            JSON.stringify([mockLocation] satisfies SearchResponse)
+          ),
+        })
       );
 
       const date = "1970-01-01";
@@ -156,7 +93,11 @@ test.describe("検索ダイアログ", () => {
     next,
     page,
   }) => {
-    next.onFetch(createSearchFetchHandler(new Response(null, { status: 500 })));
+    next.onFetch(
+      createWeatherApiFetchHandler({
+        forecastResponse: new Response(null, { status: 500 }),
+      })
+    );
 
     await page.goto(Routes.home());
 
@@ -181,9 +122,11 @@ test.describe("検索ダイアログ", () => {
     page,
   }) => {
     next.onFetch(
-      createSearchFetchHandler(
-        new Response(JSON.stringify([] satisfies SearchResponse))
-      )
+      createWeatherApiFetchHandler({
+        searchResponse: new Response(
+          JSON.stringify([] satisfies SearchResponse)
+        ),
+      })
     );
 
     await page.goto(Routes.home());
@@ -214,9 +157,9 @@ test.describe("ホームページ", () => {
 
     await page.goto(Routes.home());
 
-    expect(
-      await page.getByText("検索してください", { exact: false }).count()
-    ).toBeGreaterThan(0);
+    await expect(
+      page.getByText("検索してください", { exact: false })
+    ).toBeVisible();
   });
 });
 
@@ -226,22 +169,18 @@ test.describe("現在の天気ページ", () => {
     page,
   }) => {
     next.onFetch(
-      createForecastFetchHandler(
-        new Response(
-          JSON.stringify({
-            location: mockForecastLocation,
-            current: mockCurrentWeather,
-            forecast: mockForecast,
-          } satisfies ForecastResponse)
-        )
-      )
+      createWeatherApiFetchHandler({
+        forecastResponse: new Response(
+          JSON.stringify(mockForecastResponse satisfies ForecastResponse)
+        ),
+      })
     );
 
     await page.goto(Routes.weatherSummary({ locationId: "dummy" }));
 
-    expect(
-      await page.getByText(mockForecastLocation.name, { exact: false }).count()
-    ).toBeGreaterThan(0);
+    await expect(
+      page.getByText(mockForecastResponse.location.name, { exact: false })
+    ).toBeVisible();
   });
 
   test("検索した地域が見つからなかった場合には「見つかりませんでした」というテキストが存在する", async ({
@@ -249,21 +188,21 @@ test.describe("現在の天気ページ", () => {
     page,
   }) => {
     next.onFetch(
-      createForecastFetchHandler(
-        new Response(
+      createWeatherApiFetchHandler({
+        forecastResponse: new Response(
           JSON.stringify({
-            error: { code: 1006 },
+            error: { code: WeatherAPIErrorCode.LocationNotFound },
           } satisfies WeatherApiErrorResopnse),
           { status: 400 }
-        )
-      )
+        ),
+      })
     );
 
     await page.goto(Routes.weatherSummary({ locationId: "dummy" }));
 
-    expect(
-      await page.getByText("見つかりませんでした", { exact: false }).count()
-    ).toBeGreaterThan(0);
+    await expect(
+      page.getByText("見つかりませんでした", { exact: false })
+    ).toBeVisible();
   });
 
   test("APIでエラーが発生している場合は「エラーが発生しました」というテキストが存在する", async ({
@@ -271,41 +210,54 @@ test.describe("現在の天気ページ", () => {
     page,
   }) => {
     next.onFetch(
-      createForecastFetchHandler(new Response(null, { status: 500 }))
+      createWeatherApiFetchHandler({
+        forecastResponse: new Response(null, { status: 500 }),
+      })
     );
 
     await page.goto(Routes.weatherSummary({ locationId: "dummy" }));
 
-    expect(
-      await page.getByText("エラーが発生しました", { exact: false }).count()
-    ).toBeGreaterThan(0);
+    await expect(
+      page.getByText("エラーが発生しました", { exact: false })
+    ).toBeVisible();
   });
 });
 
 test.describe("指定日の天気ページ", () => {
-  test("指定した地域と日時の天気予報が取得できた場合は地域名と日時が存在する", async ({
+  test("指定した地域と日時の天気予報が取得できた場合は地域名と日時が見出しに存在する", async ({
     next,
     page,
   }) => {
     next.onFetch(
-      createForecastFetchHandler(
-        new Response(
-          JSON.stringify({
-            location: mockForecastLocation,
-            current: mockCurrentWeather,
-            forecast: mockForecast,
-          } satisfies ForecastResponse)
-        )
-      )
+      createWeatherApiFetchHandler({
+        forecastResponse: new Response(
+          JSON.stringify(mockForecastResponse satisfies ForecastResponse)
+        ),
+      })
     );
 
     await page.goto(
       Routes.weatherDetail({ locationId: "dummy", date: "1970-01-01" })
     );
 
-    expect(
-      await page.getByText(mockForecastLocation.name, { exact: false }).count()
-    ).toBeGreaterThan(0);
+    const locationName = mockForecastResponse.location.name;
+    await expect(
+      page.getByRole("heading", {
+        name: locationName,
+        exact: false,
+      })
+    ).toBeVisible();
+
+    const date = format(
+      mockForecastResponse.forecast.forecastday[0].date,
+      "M月d日"
+    );
+    await expect(
+      page.getByRole("heading", {
+        name: date,
+        exact: false,
+      })
+    ).toBeVisible();
   });
 
   test("指定した地域が見つからなかった場合には「見つかりませんでした」というテキストが存在する", async ({
@@ -313,23 +265,23 @@ test.describe("指定日の天気ページ", () => {
     page,
   }) => {
     next.onFetch(
-      createForecastFetchHandler(
-        new Response(
+      createWeatherApiFetchHandler({
+        forecastResponse: new Response(
           JSON.stringify({
-            error: { code: 1006 },
+            error: { code: WeatherAPIErrorCode.LocationNotFound },
           } satisfies WeatherApiErrorResopnse),
           { status: 400 }
-        )
-      )
+        ),
+      })
     );
 
     await page.goto(
       Routes.weatherDetail({ locationId: "dummy", date: "1970-01-01" })
     );
 
-    expect(
-      await page.getByText("見つかりませんでした", { exact: false }).count()
-    ).toBeGreaterThan(0);
+    await expect(
+      page.getByText("見つかりませんでした", { exact: false })
+    ).toBeVisible();
   });
 
   test("日時が正しく指定されていなければ「エラーが発生しました」というテキストが存在する", async ({
@@ -342,9 +294,9 @@ test.describe("指定日の天気ページ", () => {
       Routes.weatherDetail({ locationId: "dummy", date: "wrong" })
     );
 
-    expect(
-      await page.getByText("エラーが発生しました", { exact: false }).count()
-    ).toBeGreaterThan(0);
+    await expect(
+      page.getByText("エラーが発生しました", { exact: false })
+    ).toBeVisible();
   });
 
   test("APIでエラーが発生している場合は「エラーが発生しました」というテキストが存在する", async ({
@@ -352,15 +304,17 @@ test.describe("指定日の天気ページ", () => {
     page,
   }) => {
     next.onFetch(
-      createForecastFetchHandler(new Response(null, { status: 500 }))
+      createWeatherApiFetchHandler({
+        forecastResponse: new Response(null, { status: 500 }),
+      })
     );
 
     await page.goto(
       Routes.weatherDetail({ locationId: "dummy", date: "1970-01-01" })
     );
 
-    expect(
-      await page.getByText("エラーが発生しました", { exact: false }).count()
-    ).toBeGreaterThan(0);
+    await expect(
+      page.getByText("エラーが発生しました", { exact: false })
+    ).toBeVisible();
   });
 });

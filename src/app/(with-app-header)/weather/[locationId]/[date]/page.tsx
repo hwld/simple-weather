@@ -106,7 +106,7 @@ function WeatherDetailPageLayout({
               color: "var(--color-primary-500)",
             })}
           >
-            {format(date, "M月dd日")}
+            {format(date, "M月d日")}
           </div>
           <span className={css({ wordBreak: "keep-all" })}>の天気予報</span>
         </HStack>

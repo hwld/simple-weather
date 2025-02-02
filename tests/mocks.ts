@@ -61,6 +61,12 @@ export const mockForecast: ForecastResponse["forecast"] = {
   forecastday: [mockForecastDay, mockForecastDay],
 };
 
+export const mockForecastResponse: ForecastResponse = {
+  current: mockCurrentWeather,
+  forecast: mockForecast,
+  location: mockForecastLocation,
+};
+
 export const mockLocation: Location = {
   id: count(),
   country: "mockCountry",
