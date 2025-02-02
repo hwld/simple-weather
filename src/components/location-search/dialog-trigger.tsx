@@ -6,6 +6,7 @@ import {
   useClick,
   useDismiss,
   useInteractions,
+  useRole,
 } from "@floating-ui/react";
 import { IconCommand, IconSearch } from "@tabler/icons-react";
 import { useEffect, useMemo, useState } from "react";
@@ -21,6 +22,22 @@ import { GetLocationNavRoute } from "@/components/location-search/result-item";
 export function LocationSearchDialogTrigger() {
   const currentPath = usePathname();
   const params = useParams();
+
+  return (
+    <LocationSearchDialogTriggerInner
+      currentPath={currentPath}
+      params={params}
+    />
+  );
+}
+
+export function LocationSearchDialogTriggerInner({
+  currentPath,
+  params,
+}: {
+  currentPath: string;
+  params: unknown;
+}) {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleClose = () => {
@@ -34,10 +51,12 @@ export function LocationSearchDialogTrigger() {
 
   const click = useClick(context);
   const dismiss = useDismiss(context);
+  const role = useRole(context);
 
   const { getReferenceProps, getFloatingProps } = useInteractions([
     click,
     dismiss,
+    role,
   ]);
 
   // ショートカットキーでダイアログを開く
