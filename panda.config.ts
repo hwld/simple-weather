@@ -15,6 +15,12 @@ export default defineConfig({
     extend: {},
   },
 
+  conditions: {
+    extend: {
+      supportHover: ["@media (hover: hover) and (pointer: fine)", "&:hover"],
+    },
+  },
+
   // The output directory for your css system
   outdir: "styled-system",
 });
