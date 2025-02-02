@@ -43,6 +43,9 @@ export async function FutureForecastsCard({ locationId, forecastdays }: Props) {
                   _supportHover: {
                     backgroundColor: "var(--color-gray-100)",
                   },
+                  _active: {
+                    backgroundColor: "var(--color-gray-100)",
+                  },
                 })}
               >
                 <VStack

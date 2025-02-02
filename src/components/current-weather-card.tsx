@@ -48,6 +48,9 @@ export async function CurrentWeatherCard({ locationId, current }: Props) {
             _supportHover: {
               backgroundColor: "var(--color-gray-100)",
             },
+            _active: {
+              backgroundColor: "var(--color-gray-100)",
+            },
           })}
         >
           <VStack className={css({ gap: "var(--space-sm)" })}>
