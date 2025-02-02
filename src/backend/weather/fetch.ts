@@ -57,7 +57,13 @@ export async function fetchForecast(locationId: string): FetchForecastResult {
       forecastdays: data.forecast.forecastday,
     });
   } catch (e) {
-    if (e instanceof HTTPError) {
+    console.error(e);
+
+    if (
+      e instanceof HTTPError &&
+      e.response.status >= 400 &&
+      e.response.status < 500
+    ) {
       const { error } = WeatherApiErrorResopnseSchema.parse(
         await e.response.json()
       );
@@ -110,7 +116,13 @@ export async function fetchSpecificDayForecast(
       forecastDay: data.forecast.forecastday[0],
     });
   } catch (e) {
-    if (e instanceof HTTPError) {
+    console.error(e);
+
+    if (
+      e instanceof HTTPError &&
+      e.response.status >= 400 &&
+      e.response.status < 500
+    ) {
       const { error } = WeatherApiErrorResopnseSchema.parse(
         await e.response.json()
       );
