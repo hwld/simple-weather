@@ -1,5 +1,5 @@
 import { VStack } from "@/components/ui/stack";
-import { IconMapPin } from "@tabler/icons-react";
+import { Icon, IconMapPin } from "@tabler/icons-react";
 import { Command } from "cmdk";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -15,13 +15,15 @@ export type GetLocationNavRoute = (locationId: number) => string;
 type Props = {
   location: Location;
   onGetLocationNavRoute: GetLocationNavRoute;
-  onBeforeNavigate: () => void;
+  onBeforeNavigate: (location: Location) => void;
+  customIcon?: Icon;
 };
 
 export function LocationSearchResultItem({
   location,
   onGetLocationNavRoute,
   onBeforeNavigate,
+  customIcon: icon,
 }: Props) {
   const router = useRouter();
 
@@ -30,17 +32,20 @@ export function LocationSearchResultItem({
   }, [location.id, onGetLocationNavRoute]);
 
   const handleSelect = () => {
-    onBeforeNavigate();
+    onBeforeNavigate(location);
     router.push(locationNavRoute);
   };
 
   const handleLinkClick = (e: SyntheticEvent) => {
     e.stopPropagation();
-    onBeforeNavigate();
+    onBeforeNavigate(location);
   };
+
+  const Icon = icon ? icon : IconMapPin;
 
   return (
     <Command.Item
+      keywords={[location.name]}
       value={`${location.id}`}
       onSelect={handleSelect}
       className={css({
@@ -60,7 +65,7 @@ export function LocationSearchResultItem({
         href={locationNavRoute}
         onClick={handleLinkClick}
       >
-        <IconMapPin
+        <Icon
           className={css({ flexShrink: 0, width: "20px", height: "20px" })}
         />
         <VStack className={css({ gap: "var(--space-sm)" })}>
