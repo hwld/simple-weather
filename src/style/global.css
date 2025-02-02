@@ -46,6 +46,10 @@
     --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
 }
 
+html {
+    overflow: hidden;
+}
+
 body {
     background-color: var(--color-gray-100);
     font-family: "Helvetica Neue",
@@ -56,6 +60,14 @@ body {
         sans-serif;
     font-size: 14px;
     color: var(--color-gray-700);
+
+    /* 
+    スクロールのズレを防ぐためにscrollbar-gutterを使用しているが、html要素に指定するとダイアログの表示でズレてしまうため、
+    htmlはoverflow:hiddenにしてbodyにスクロールさせる
+     */
+    overflow: auto;
+    height: 100dvh;
+    scrollbar-gutter: stable;
 }
 
 @keyframes loading {
