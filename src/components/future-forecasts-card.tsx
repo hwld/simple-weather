@@ -58,7 +58,7 @@ export async function FutureForecastsCard({ locationId, forecastdays }: Props) {
                   <div
                     className={css({
                       color: "var(--color-gray-500)",
-                      fontSize: "10px",
+                      fontSize: "12px",
                     })}
                   >
                     {format(new Date(forecast.date), "MM/dd")}

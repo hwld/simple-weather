@@ -33,9 +33,9 @@ export async function SpecificDayForecastCard({ forecastDay }: Props) {
           {/* 画面幅が小さいとアイコンが縮んでしまうため、アイコンとテキストで列を分けてnoBorderを使用する */}
           <Th icon={IconSun}>天候</Th>
           <Th icon={IconTemperature}>気温</Th>
-          <Th icon={IconDroplet}>湿度</Th>
           <Th icon={IconUmbrella}>降水量</Th>
           <Th icon={IconWind}>風速</Th>
+          <Th icon={IconDroplet}>湿度</Th>
           <Th icon={IconSun} lastInRow>
             詳細な天候
           </Th>
@@ -57,9 +57,9 @@ export async function SpecificDayForecastCard({ forecastDay }: Props) {
                 />
               </Td>
               <Td>{h.temp_c}℃</Td>
-              <Td>{h.humidity}％</Td>
               <Td>{h.precip_mm}mm</Td>
               <Td>{h.wind_kph}km/h</Td>
+              <Td>{h.humidity}％</Td>
               <Td lastInRow alignStart>
                 <span
                   className={css({

@@ -115,11 +115,6 @@ export async function CurrentWeatherCard({ locationId, current }: Props) {
               value={`${current.feelslike_c}℃`}
             />
             <WeatherSubItem
-              icon={IconDroplet}
-              label="湿度"
-              value={`${current.humidity}%`}
-            />
-            <WeatherSubItem
               icon={IconUmbrella}
               label="降水量"
               value={`${current.precip_mm}mm`}
@@ -128,6 +123,11 @@ export async function CurrentWeatherCard({ locationId, current }: Props) {
               icon={IconWind}
               label="風速"
               value={`${current.wind_kph}km/h`}
+            />
+            <WeatherSubItem
+              icon={IconDroplet}
+              label="湿度"
+              value={`${current.humidity}%`}
             />
           </div>
         </Link>
