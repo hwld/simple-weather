@@ -1,4 +1,3 @@
-import { css } from "../../../styled-system/css";
 import { AppHeader } from "@/components/app-header";
 import { ReactNode } from "react";
 
@@ -9,25 +8,9 @@ type Props = { children: ReactNode };
  */
 export default function WithHeaderLayout({ children }: Props) {
   return (
-    <div
-      className={css({
-        display: "grid",
-        gridTemplateRows: "auto 1fr",
-        minHeight: "100dvh",
-        margin: "0 auto",
-        maxWidth: "700px",
-        paddingInline: "var(--space-md)",
-      })}
-    >
+    <div className="grid grid-rows-[auto_1fr] min-h-dvh mx-auto max-w-[700px] px-4">
       <AppHeader />
-      <div
-        className={css({
-          paddingBlock: "var(--space-xl) var(--space-md)",
-          minWidth: "0px",
-        })}
-      >
-        {children}
-      </div>
+      <div className="pt-8 pb-4 min-w-0">{children}</div>
     </div>
   );
 }

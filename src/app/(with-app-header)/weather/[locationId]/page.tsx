@@ -1,6 +1,4 @@
-import { css } from "../../../../../styled-system/css";
 import { fetchForecast } from "@/backend/weather/fetch";
-import { HStack } from "@/components/ui/stack";
 import { CurrentWeatherCard } from "@/components/current-weather-card";
 import { FutureForecastsCard } from "@/components/future-forecasts-card";
 import { LocationNotFoundCard } from "@/components/location-not-found-card";
@@ -29,39 +27,16 @@ export default async function WeatherSummaryPage({ params }: Props) {
     <PageLayout
       title={
         <h2>
-          <HStack
-            className={css({
-              alignItems: "end",
-              gap: "var(--space-sm)",
-              lineHeight: 1,
-            })}
-          >
-            <div
-              className={css({
-                fontSize: "20px",
-                fontWeight: "bold",
-                flexWrap: "wrap",
-                wordBreak: "break-all",
-                color: "var(--color-primary-500)",
-              })}
-            >
+          <div className="grid grid-cols-[auto_1fr] items-end gap-2">
+            <div className="text-xl font-bold break-all text-primary-500">
               {location.name}
             </div>
-            <div className={css({ wordBreak: "keep-all" })}>の天気予報</div>
-          </HStack>
+            <div className="break-keep">の天気予報</div>
+          </div>
         </h2>
       }
     >
-      <div
-        className={css({
-          height: "100%",
-          minWidth: "fit-content",
-          display: "grid",
-          gridTemplateColumns: "1fr",
-          gridTemplateRows: "auto 1fr",
-          gap: "var(--space-md)",
-        })}
-      >
+      <div className="grid grid-rows-[auto 1fr] gap-4 min-w-fit">
         <CurrentWeatherCard locationId={locationId} current={current} />
         <FutureForecastsCard
           locationId={locationId}

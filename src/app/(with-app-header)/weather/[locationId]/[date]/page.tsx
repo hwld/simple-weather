@@ -2,10 +2,8 @@ import { fetchSpecificDayForecast } from "@/backend/weather/fetch";
 import { LocationNotFoundCard } from "@/components/location-not-found-card";
 import { Routes } from "@/routes";
 import { IconChevronRight } from "@tabler/icons-react";
-import { css } from "../../../../../../styled-system/css";
 import { format } from "date-fns";
 import { Metadata } from "next";
-import { HStack } from "@/components/ui/stack";
 import { SpecificDayForecastCard } from "@/components/specific-day-forecast";
 import { Anchor } from "@/components/ui/anchor";
 import { ReactNode } from "react";
@@ -59,11 +57,11 @@ export default async function WeatherDetailPage({ params }: Props) {
         <>
           <Anchor
             href={Routes.weatherSummary({ locationId })}
-            className={css({ wordBreak: "break-all" })}
+            className="break-all"
           >
             {location.name}
           </Anchor>
-          <IconChevronRight size={14} className={css({ flexShrink: 0 })} />
+          <IconChevronRight size={14} className="shrink-0" />
         </>
       }
     >
@@ -85,26 +83,13 @@ function WeatherDetailPageLayout({
     <PageLayout
       title={
         <h2>
-          <HStack
-            className={css({
-              gap: "var(--space-xs)",
-              alignItems: "end",
-              lineHeight: 1,
-            })}
-          >
+          <div className="flex gap-1 items-end leading-none">
             {beforeDate}
-            <div
-              className={css({
-                fontSize: "20px",
-                fontWeight: "bold",
-                wordBreak: "keep-all",
-                color: "var(--color-primary-500)",
-              })}
-            >
+            <div className="text-xl font-bold break-keep text-primary-500 leading-none">
               {format(date, "M月d日")}
             </div>
-            <span className={css({ wordBreak: "keep-all" })}>の天気予報</span>
-          </HStack>
+            <div className="break-keep">の天気予報</div>
+          </div>
         </h2>
       }
     >
