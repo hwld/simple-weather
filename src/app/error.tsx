@@ -1,6 +1,5 @@
 "use client";
 import { IconExclamationCircle, IconHome } from "@tabler/icons-react";
-import { css } from "../../styled-system/css";
 import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Routes } from "@/routes";
@@ -19,34 +18,16 @@ export default function UnhandledErrorPage({ error }: Props) {
   };
 
   return (
-    <VStack
-      className={css({
-        width: "100%",
-        height: "100dvh",
-        alignItems: "center",
-        justifyContent: "center",
-        gap: "var(--space-md)",
-        padding: "var(--space-md)",
-      })}
-    >
-      <IconExclamationCircle
-        size={50}
-        className={css({ color: "var(--color-error)" })}
-      />
-      <div className={css({ textAlign: "center", maxW: "300px" })}>
+    <VStack className="grid place-items-center gap-4 p-4 h-full place-content-center">
+      <IconExclamationCircle size={50} className="text-red-500" />
+      <div className="text-center max-w-[350px]">
         <p>アプリケーションでエラーが発生しました。</p>
         <p>
           URLが正しくない可能性があるため、ホーム画面に戻ってもう一度試してみてください。
         </p>
       </div>
       <Button
-        className={css({
-          background: "var(--color-error)",
-          color: "var(--color-gray-100)",
-          _hover: {
-            background: "var(--color-error-hover)",
-          },
-        })}
+        className="bg-red-500 text-base-100 hover:bg-red-600"
         icon={IconHome}
         onClick={handleGoToHome}
       >
