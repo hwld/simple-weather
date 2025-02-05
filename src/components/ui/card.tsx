@@ -1,24 +1,22 @@
 import { ComponentProps, ReactNode } from "react";
-import { css, cx } from "../../../styled-system/css";
+import { css } from "../../../styled-system/css";
 import { HStack } from "@/components/ui/stack";
+import { tv, VariantProps } from "tailwind-variants";
 
-type Props = { noPadding?: boolean } & ComponentProps<"div">;
+const card = tv({
+  base: "bg-base-50 border border-base-300 rounded-lg p-4 shadow-md min-w-fit overflow-hidden",
+  variants: {
+    p: { none: "p-0", md: "p-4" },
+  },
+  defaultVariants: { p: "md", fullHeight: false },
+});
 
-export function Card({ className, noPadding, children, ...props }: Props) {
+type Props = VariantProps<typeof card> &
+  Omit<ComponentProps<"div">, "className">;
+
+export function Card({ p, children, ...props }: Props) {
   return (
-    <div
-      {...props}
-      className={cx(
-        css({
-          backgroundColor: "var(--color-gray-50)",
-          border: "solid 1px var(--color-gray-300)",
-          borderRadius: "var(--rounded-md)",
-          padding: noPadding ? "0px" : "var(--space-md)",
-          boxShadow: "var(--shadow-sm)",
-        }),
-        className
-      )}
-    >
+    <div {...props} className={card({ p })}>
       {children}
     </div>
   );
@@ -42,17 +40,7 @@ export function CardLabel({ label }: { label: string }) {
 
 export function CardContainer({ children }: { children: ReactNode }) {
   return (
-    <div
-      className={css({
-        height: "100%",
-        padding: { base: "var(--space-md)", sm: "var(--space-lg)" },
-        backgroundColor: "var(--color-gray-200)",
-        boxShadow: "inset 0 2px 5px rgba(0 0 0 / 0.15)",
-        borderRadius: "var(--rounded-md)",
-        border: "1px solid var(--color-gray-300)",
-        overflow: "auto",
-      })}
-    >
+    <div className="bg-base-200 p-4 sm:p-6 rounded-lg inset-shadow-[0_2px_5px_rgba(0_0_0_/_0.15)] border border-base-300 overflow-auto">
       {children}
     </div>
   );

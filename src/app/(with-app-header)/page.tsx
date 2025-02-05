@@ -19,8 +19,8 @@ export default async function HomePage() {
         </h2>
       }
     >
-      <Card className="w-full min-w-fit">
-        <div className="min-h-[300px] grid place-content-center place-items-center gap-4 p-4">
+      <Card>
+        <div className="min-h-[300px] grid place-content-center place-items-center gap-4">
           <IconSearch size={50} className="text-primary-500" />
           <div className="text-center">
             <p>上の検索バーから地域を検索してください</p>

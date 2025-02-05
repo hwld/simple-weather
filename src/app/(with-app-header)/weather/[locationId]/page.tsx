@@ -36,7 +36,7 @@ export default async function WeatherSummaryPage({ params }: Props) {
         </h2>
       }
     >
-      <div className="grid grid-rows-[auto 1fr] gap-4 min-w-fit">
+      <div className="grid grid-rows-[auto_1fr] gap-4 min-w-fit h-full">
         <CurrentWeatherCard locationId={locationId} current={current} />
         <FutureForecastsCard
           locationId={locationId}

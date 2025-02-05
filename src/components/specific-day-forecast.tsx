@@ -18,10 +18,7 @@ type Props = { forecastDay: ForecastDay };
 
 export async function SpecificDayForecastCard({ forecastDay }: Props) {
   return (
-    <Card
-      noPadding
-      className={css({ overflow: "hidden", minWidth: "min-content" })}
-    >
+    <Card p="none">
       <div
         className={css({
           display: "grid",

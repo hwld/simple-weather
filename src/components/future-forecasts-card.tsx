@@ -18,7 +18,7 @@ type Props = { locationId: string; forecastdays: ForecastDay[] };
 
 export async function FutureForecastsCard({ locationId, forecastdays }: Props) {
   return (
-    <Card className={css({ height: "100%" })}>
+    <Card>
       <VStack className={css({ gap: "var(--space-md)" })}>
         <CardLabel label="これからの天気" />
         <VStack className={css({ gap: "var(--space-xs)" })}>
