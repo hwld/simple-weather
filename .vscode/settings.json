@@ -1,4 +1,10 @@
 {
     "typescript.preferences.importModuleSpecifier": "non-relative",
-    "editor.wordWrap": "on"
+    "editor.wordWrap": "on",
+    "tailwindCSS.experimental.classRegex": [
+        [
+            "([\"'`][^\"'`]*.*?[\"'`])",
+            "[\"'`]([^\"'`]*).*?[\"'`]"
+        ]
+    ]
 }
