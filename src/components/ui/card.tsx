@@ -3,7 +3,7 @@ import { HStack } from "@/components/ui/stack";
 import { tv, VariantProps } from "tailwind-variants";
 
 const card = tv({
-  base: "bg-base-50 border border-base-300 rounded-lg p-4 shadow-md min-w-fit overflow-hidden",
+  base: "bg-base-50 border border-base-300 rounded-lg p-4 shadow-sm min-w-fit overflow-hidden",
   variants: {
     p: { none: "p-0", md: "p-4" },
   },

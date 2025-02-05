@@ -1,6 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
 import { ReactNode } from "react";
-import { css } from "../../styled-system/css";
 import { ForecastDay } from "@/backend/weather/schema";
 import { Card } from "@/components/ui/card";
 import {
@@ -12,19 +11,14 @@ import {
   IconUmbrella,
   IconWind,
 } from "@tabler/icons-react";
-import { HStack } from "@/components/ui/stack";
+import { clsx } from "clsx";
 
 type Props = { forecastDay: ForecastDay };
 
 export async function SpecificDayForecastCard({ forecastDay }: Props) {
   return (
     <Card p="none">
-      <div
-        className={css({
-          display: "grid",
-          gridTemplateColumns: "repeat(6,auto) 1fr",
-        })}
-      >
+      <div className="grid grid-cols-[repeat(6,auto)_1fr]">
         <Tr>
           <Th icon={IconClock}> 時間</Th>
           {/* 画面幅が小さいとアイコンが縮んでしまうため、アイコンとテキストで列を分けてnoBorderを使用する */}
@@ -45,12 +39,7 @@ export async function SpecificDayForecastCard({ forecastDay }: Props) {
                 <img
                   src={h.condition.icon}
                   alt="condition"
-                  className={css({
-                    minW: "30px",
-                    minH: "30px",
-                    width: "30px",
-                    height: "30px",
-                  })}
+                  className="min-w-[30px] min-h-[30px] size-[30px]"
                 />
               </Td>
               <Td>{h.temp_c}℃</Td>
@@ -58,15 +47,7 @@ export async function SpecificDayForecastCard({ forecastDay }: Props) {
               <Td>{h.wind_kph}km/h</Td>
               <Td>{h.humidity}％</Td>
               <Td lastInRow alignStart>
-                <span
-                  className={css({
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap",
-                  })}
-                >
-                  {h.condition.text}
-                </span>
+                <span className="truncate">{h.condition.text}</span>
               </Td>
             </Tr>
           );
@@ -79,13 +60,10 @@ export async function SpecificDayForecastCard({ forecastDay }: Props) {
 function Tr({ children, lastRow }: { children: ReactNode; lastRow?: boolean }) {
   return (
     <div
-      className={css({
-        display: "grid",
-        gridTemplateColumns: "subgrid",
-        gridColumn: "1 / -1",
-        borderBottom: lastRow ? "" : "1px solid var(--color-gray-200)",
-        alignItems: "center",
-      })}
+      className={clsx(
+        "grid grid-cols-subgrid col-[1_/_-1] items-center",
+        lastRow ? "" : "border-b border-base-200"
+      )}
     >
       {children}
     </div>
@@ -106,29 +84,16 @@ function Th({
   noBorder?: boolean;
 }) {
   return (
-    <HStack
-      className={css({
-        color: "var(--color-gray-500)",
-        fontSize: "12px",
-        gap: "var(--space-xs)",
-        textAlign: alignStart ? "start" : "end",
-        wordBreak: "keep-all",
-        paddingInline: "var(--space-sm)",
-        paddingBlock: "var(--space-sm)",
-        borderRight:
-          lastInRow || noBorder ? "" : "1px solid var(--color-gray-200)",
-        height: "100%",
-        backgroundColor: "var(--color-gray-100)",
-      })}
+    <div
+      className={clsx(
+        "flex items-center text-base-500 text-xs gap-1 break-keep p-2 bg-base-100 h-full",
+        alignStart ? "text-start" : "text-end",
+        lastInRow || noBorder ? "" : "border-r border-base-200"
+      )}
     >
-      {Icon ? (
-        <Icon
-          size={16}
-          className={css({ display: { base: "none", sm: "block" } })}
-        />
-      ) : null}
-      <span className={css({ lineHeight: 1 })}>{children}</span>
-    </HStack>
+      {Icon ? <Icon size={16} className="hidden sm:block" /> : null}
+      <span className="leading-none">{children}</span>
+    </div>
   );
 }
 
@@ -143,15 +108,11 @@ function Td({
 }) {
   return (
     <div
-      className={css({
-        paddingInline: "var(--space-sm)",
-        borderRight: lastInRow ? "" : "1px solid var(--color-gray-200)",
-        height: "100%",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: alignStart ? "start" : "end",
-        fontSize: { base: "12px", sm: "inherit" },
-      })}
+      className={clsx(
+        "px-2 flex items-center text-xs sm:text-sm h-full",
+        alignStart ? "text-start" : "text-end",
+        lastInRow ? "" : "border-r border-base-200"
+      )}
     >
       {children}
     </div>

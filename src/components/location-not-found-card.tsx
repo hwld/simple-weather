@@ -1,28 +1,16 @@
 import { IconQuestionMark } from "@tabler/icons-react";
-import { css } from "../../styled-system/css";
-import { VStack } from "./ui/stack";
 import { Card } from "@/components/ui/card";
 
 export async function LocationNotFoundCard() {
   return (
     <Card>
-      <VStack
-        className={css({
-          height: "300px",
-          gap: "var(--space-md)",
-          justifyContent: "center",
-          alignItems: "center",
-        })}
-      >
-        <IconQuestionMark
-          size={50}
-          className={css({ color: "var(--color-gray-500)" })}
-        />
-        <div className={css({ textAlign: "center" })}>
+      <div className="min-h-[300px] grid place-content-center place-items-center gap-4">
+        <IconQuestionMark size={50} className="text-base-500" />
+        <div className="text-center">
           <p>地域が見つかりませんでした</p>
           <p>上の検索バーからもう一度検索してみてください</p>
         </div>
-      </VStack>
+      </div>
     </Card>
   );
 }
