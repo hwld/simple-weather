@@ -1,5 +1,4 @@
 import { ComponentProps, ReactNode } from "react";
-import { css } from "../../../styled-system/css";
 import { HStack } from "@/components/ui/stack";
 import { tv, VariantProps } from "tailwind-variants";
 
@@ -25,15 +24,7 @@ export function Card({ p, children, ...props }: Props) {
 export function CardLabel({ label }: { label: string }) {
   return (
     <HStack>
-      <div
-        className={css({
-          lineHeight: 1,
-          fontSize: "12px",
-          color: "var(--color-gray-700)",
-        })}
-      >
-        {label}
-      </div>
+      <div className="leading-none text-xs">{label}</div>
     </HStack>
   );
 }
