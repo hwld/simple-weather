@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { HStack, VStack } from "@/components/ui/stack";
 import {
   FloatingContext,
   FloatingFocusManager,
@@ -211,17 +210,30 @@ function DialogHeader({
   status: ReactNode;
 }) {
   return (
-    <VStack
+    <div
       ref={ref}
       className={css({
+        display: "flex",
+        flexDir: "column",
+        width: "100%",
         gap: "var(--space-sm)",
         padding: "var(--space-sm)",
         borderBottom: "1px solid var(--color-gray-200)",
       })}
     >
-      <HStack className={css({ gap: "var(--space-sm)" })}>
-        <HStack
+      <div
+        className={css({
+          display: "flex",
+          flexDir: "row",
+          alignItems: "center",
+          gap: "var(--space-sm)",
+        })}
+      >
+        <div
           className={css({
+            display: "flex",
+            flexDir: "row",
+            alignItems: "center",
             width: "100%",
             border: "1px solid var(--color-gray-300)",
             height: "32px",
@@ -272,31 +284,26 @@ function DialogHeader({
               />
             </Command.Loading>
           ) : null}
-        </HStack>
-        <Button
-          onClick={onCanceSearch}
-          className={css({
-            display: "block",
-            sm: { display: "none" },
-            _hover: {
-              bg: "var(--color-gray-200)",
-            },
-            height: "32px",
-          })}
-        >
-          Cancel
-        </Button>
-      </HStack>
+        </div>
+        <div className="block sm:hidden">
+          <Button onClick={onCanceSearch} type="subtile">
+            Cancel
+          </Button>
+        </div>
+      </div>
       {status}
-    </VStack>
+    </div>
   );
 }
 
 function DialogFooter({ ref }: { ref: RefObject<HTMLDivElement | null> }) {
   return (
-    <HStack
+    <div
       ref={ref}
       className={css({
+        display: "flex",
+        flexDir: "row",
+        alignItems: "center",
         borderTop: "1px solid var(--color-gray-200)",
         padding: "var(--space-sm)",
         gap: "var(--space-md)",
@@ -314,6 +321,6 @@ function DialogFooter({ ref }: { ref: RefObject<HTMLDivElement | null> }) {
         description="で移動"
       />
       <KbdGuide keys={<Kbd>Esc</Kbd>} description="で閉じる" />
-    </HStack>
+    </div>
   );
 }

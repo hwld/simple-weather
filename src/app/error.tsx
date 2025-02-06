@@ -25,11 +25,7 @@ export default function UnhandledErrorPage({ error }: Props) {
           URLが正しくない可能性があるため、ホーム画面に戻ってもう一度試してみてください。
         </p>
       </div>
-      <Button
-        className="bg-red-500 text-base-100 hover:bg-red-600"
-        icon={IconHome}
-        onClick={handleGoToHome}
-      >
+      <Button type="red" icon={IconHome} onClick={handleGoToHome}>
         ホーム画面に戻る
       </Button>
     </div>

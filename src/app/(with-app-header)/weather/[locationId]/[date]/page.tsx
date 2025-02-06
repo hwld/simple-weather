@@ -5,7 +5,7 @@ import { IconChevronRight } from "@tabler/icons-react";
 import { format } from "date-fns";
 import { Metadata } from "next";
 import { SpecificDayForecastCard } from "@/components/specific-day-forecast";
-import { Anchor } from "@/components/ui/anchor";
+import { TextLink } from "@/components/ui/text-link";
 import { ReactNode } from "react";
 import { WeatherDataNotFoundCard } from "@/components/weather-data-not-found-card";
 import { isErr } from "@/utils/result";
@@ -55,12 +55,9 @@ export default async function WeatherDetailPage({ params }: Props) {
       date={date}
       beforeDate={
         <>
-          <Anchor
-            href={Routes.weatherSummary({ locationId })}
-            className="break-all"
-          >
+          <TextLink href={Routes.weatherSummary({ locationId })}>
             {location.name}
-          </Anchor>
+          </TextLink>
           <IconChevronRight size={14} className="shrink-0" />
         </>
       }

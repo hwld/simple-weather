@@ -13,7 +13,6 @@ import { useEffect, useMemo, useState } from "react";
 import { css, cx } from "../../../styled-system/css";
 import { Kbd } from "@/components/ui/kbd";
 import { isServer } from "@tanstack/react-query";
-import { HStack } from "@/components/ui/stack";
 import { useParams, usePathname } from "next/navigation";
 import { isWeatherDetailPage, Routes } from "@/routes";
 import { format } from "date-fns";
@@ -116,7 +115,15 @@ export function LocationSearchDialogTrigger() {
         ref={refs.setReference}
         {...getReferenceProps()}
       >
-        <HStack className={css({ gap: "var(--space-sm)", minW: 0 })}>
+        <div
+          className={css({
+            display: "flex",
+            flexDir: "row",
+            alignItems: "center",
+            gap: "var(--space-sm)",
+            minW: 0,
+          })}
+        >
           <IconSearch
             size={20}
             className={cx(
@@ -139,13 +146,20 @@ export function LocationSearchDialogTrigger() {
           >
             {triggerText}
           </div>
-        </HStack>
+        </div>
         <Kbd>
-          <HStack className={css({ gap: "var(--space-xs)" })}>
+          <div
+            className={css({
+              display: "flex",
+              flexDir: "row",
+              alignItems: "center",
+              gap: "var(--space-xs)",
+            })}
+          >
             {isMac() ? <IconCommand size={12} /> : "Ctrl"}
             <span>+</span>
             <span>K</span>
-          </HStack>
+          </div>
         </Kbd>
       </button>
       {isOpen ? (

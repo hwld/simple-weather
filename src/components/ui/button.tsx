@@ -1,46 +1,46 @@
 import { Icon } from "@tabler/icons-react";
 import { ComponentPropsWithoutRef, ForwardedRef, ReactNode } from "react";
-import { css, cx } from "../../../styled-system/css";
 import Link, { LinkProps } from "next/link";
+import { tv, VariantProps } from "tailwind-variants";
 
-const buttonClass = css({
-  display: "flex",
-  gap: "var(--space-xs)",
-  alignItems: "center",
-  borderRadius: "var(--rounded-sm)",
-  height: "28px",
-  minWidth: "64px",
-  paddingInline: "var(--space-sm)",
-  lineHeight: 1,
-  cursor: "pointer",
-
-  transition: "all",
-  transitionDuration: "0.1s",
-  fontWeight: "bold",
+const buttonClass = tv({
+  base: "flex gap-1 items-center rounded-sm h-7 min-w-[64px] px-2 leading-none cursor-pointer transition-colors duration-100 font-bold",
+  variants: {
+    type: {
+      red: "bg-red-500 text-base-100 hover:bg-red-600",
+      base: "bg-base-700 text-base-100 hover:base-800",
+      subtile: "bg-transparent hover:bg-base-200",
+    },
+  },
+  defaultVariants: { type: "base" },
 });
 
-type Props = {
+type ButtonProps = {
   icon?: Icon;
   ref?: ForwardedRef<HTMLButtonElement>;
-} & ComponentPropsWithoutRef<"button">;
+} & Omit<ComponentPropsWithoutRef<"button">, "className" | "type"> &
+  VariantProps<typeof buttonClass>;
 
-export function Button({ icon: Icon, children, className, ...props }: Props) {
+export function Button({ icon: Icon, children, type, ...props }: ButtonProps) {
   return (
-    <button className={cx(buttonClass, className)} {...props}>
+    <button className={buttonClass({ type })} {...props}>
       {Icon ? <Icon size={18} /> : null}
       {children}
     </button>
   );
 }
 
+type ButtonLinkProps = { icon: Icon; children: ReactNode } & LinkProps &
+  VariantProps<typeof buttonClass>;
+
 export function ButtonLink({
-  className,
   icon: Icon,
   children,
+  type,
   ...props
-}: { className?: string; icon: Icon; children: ReactNode } & LinkProps) {
+}: ButtonLinkProps) {
   return (
-    <Link className={cx(buttonClass, className)} {...props}>
+    <Link className={buttonClass({ type })} {...props}>
       {Icon ? <Icon size={18} /> : null}
       {children}
     </Link>

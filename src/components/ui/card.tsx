@@ -1,5 +1,4 @@
 import { ComponentProps, ReactNode } from "react";
-import { HStack } from "@/components/ui/stack";
 import { tv, VariantProps } from "tailwind-variants";
 
 const card = tv({
@@ -22,11 +21,7 @@ export function Card({ p, children, ...props }: Props) {
 }
 
 export function CardLabel({ label }: { label: string }) {
-  return (
-    <HStack>
-      <div className="leading-none text-xs">{label}</div>
-    </HStack>
-  );
+  return <div className="leading-none text-xs">{label}</div>;
 }
 
 export function CardContainer({ children }: { children: ReactNode }) {

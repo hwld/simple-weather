@@ -1,6 +1,5 @@
 import { ReactNode } from "react";
 import { sva } from "../../../styled-system/css/sva";
-import { HStack } from "@/components/ui/stack";
 import {
   IconInfoCircle,
   IconExclamationCircle,
@@ -10,7 +9,12 @@ import {
 const statusClass = sva({
   slots: ["root", "icon", "text"],
   base: {
-    root: { gap: "var(--space-xs)" },
+    root: {
+      display: "flex",
+      flexDir: "row",
+      alignItems: "center",
+      gap: "var(--space-xs)",
+    },
     icon: { flexShrink: 0, marginBottom: "1px" },
     text: { fontSize: "12px", lineHeight: 1 },
   },
@@ -38,9 +42,9 @@ export function SearchStatus({ children, status }: Props) {
   }[status];
 
   return (
-    <HStack className={classes.root}>
+    <div className={classes.root}>
       <Icon size={14} className={classes.icon} />
       <p className={classes.text}>{children}</p>
-    </HStack>
+    </div>
   );
 }

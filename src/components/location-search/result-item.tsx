@@ -1,4 +1,3 @@
-import { VStack } from "@/components/ui/stack";
 import { Icon, IconMapPin } from "@tabler/icons-react";
 import { Command } from "cmdk";
 import Link from "next/link";
@@ -68,7 +67,14 @@ export function LocationSearchResultItem({
         <Icon
           className={css({ flexShrink: 0, width: "20px", height: "20px" })}
         />
-        <VStack className={css({ gap: "var(--space-sm)" })}>
+        <div
+          className={css({
+            gap: "var(--space-sm)",
+            display: "flex",
+            flexDir: "column",
+            width: "100%",
+          })}
+        >
           <div className={css({ fontSize: "16px", lineHeight: 1 })}>
             {location.name}
           </div>
@@ -79,7 +85,7 @@ export function LocationSearchResultItem({
               lineHeight: 1,
             })}
           >{`${location.country} - ${location.region}`}</div>
-        </VStack>
+        </div>
       </Link>
     </Command.Item>
   );

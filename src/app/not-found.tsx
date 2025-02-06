@@ -11,11 +11,7 @@ export default function NotFoundPage() {
         <p>URLが見つかりませんでした。</p>
         <p>ホーム画面に戻ってもう一度試してみてください。</p>
       </div>
-      <ButtonLink
-        className="bg-base-700 text-base-100 hover:bg-base-800"
-        icon={IconHome}
-        href={Routes.home()}
-      >
+      <ButtonLink icon={IconHome} href={Routes.home()}>
         ホーム画面に戻る
       </ButtonLink>
     </div>
