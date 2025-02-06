@@ -8,8 +8,7 @@ import {
 } from "@floating-ui/react";
 import { IconHistory, IconLoader2, IconSearch } from "@tabler/icons-react";
 import { Command } from "cmdk";
-import { css } from "../../../styled-system/css";
-import { ReactNode, RefObject, useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import {
   GetLocationNavRoute,
   LocationSearchResultItem,
@@ -91,58 +90,48 @@ export function LocationSearchDialog({
   };
 
   return (
-    <FloatingOverlay
-      lockScroll
-      className={css({ backgroundColor: "rgb(0 0 0 / 0.2)" })}
-    >
+    <FloatingOverlay lockScroll className="bg-black/20">
       <FloatingFocusManager context={floatingContext}>
         <div
           ref={setFloatingRef}
-          className={css({
-            backgroundColor: "var(--color-gray-100)",
-            color: "var(--color-gray-700)",
-            border: "1px solid var(--color-gray-300)",
-            position: "fixed",
-            inset: 0,
-            overflow: "hidden",
-            sm: {
-              rounded: "var(--rounded-md)",
-              inset: "auto 0",
-              margin: "60px auto 0 auto",
-              width: "400px",
-            },
-            boxShadow: "var(--shadow-md)",
-          })}
+          className="bg-base-100 text-base-700 border border-base-300 shadow-lg inset-0 fixed overflow-hidden sm:rounded-lg sm:inset-[auto_0] sm:m-[60px_auto_0_auto] sm:w-[400px]"
           {...getFloatingProps()}
         >
           <Command
             shouldFilter={false}
-            className={css({
-              display: "flex",
-              flexDir: "column",
-              gap: "var(--space-sm)",
-              _focusVisible: {
-                outline: "none",
-              },
-            })}
+            className="flex flex-col gap-2 focus-visible:outline-none"
           >
-            <DialogHeader
+            <div
               ref={headerRef}
-              query={query}
-              onQueryChange={setQuery}
-              isSearching={isFetching}
-              onCanceSearch={onClose}
-              status={status}
-            />
+              className="flex flex-col gap-2 p-2 border-b border-base-200"
+            >
+              <div className="flex items-center gap-2">
+                <div className="flex items-center w-full border border-base-300 h-8 rounded-sm overflow-hidden px-1 gap-1 has-focus-visible:border-primary-500 has-focus-visible:outline-primary-500 has-focus-visible:outline">
+                  <IconSearch className="size-5 shrink-0 text-base-500 has-[~input:focus-visible]:text-primary-500" />
+                  <Command.Input
+                    placeholder="地域名(アルファベット)・緯度,軽度"
+                    value={query}
+                    onValueChange={setQuery}
+                    className="grow h-full w-full focus-visible:outline-none placeholder:text-xs"
+                  />
+                  {isFetching ? (
+                    <Command.Loading>
+                      <IconLoader2 className="text-primary-600 animate-spin" />
+                    </Command.Loading>
+                  ) : null}
+                </div>
+                <div className="block sm:hidden">
+                  <Button onClick={onClose} type="subtile">
+                    Cancel
+                  </Button>
+                </div>
+              </div>
+              {status}
+            </div>
             <Command.List
               ref={updateAvailableHeight}
               style={{ ["--list-height" as string]: `${availableHeight}px` }}
-              className={css({
-                paddingInline: "var(--space-sm)",
-                overflow: "auto",
-                height: "var(--list-height)",
-                sm: { height: "300px" },
-              })}
+              className="overflow-auto h-(--list-height) sm:h-[300px] px-2"
             >
               {locations.map((l) => {
                 return (
@@ -156,21 +145,8 @@ export function LocationSearchDialog({
               })}
               {isHistoryVisible ? (
                 <Command.Group
-                  className={css({
-                    display: "flex",
-                    flexDir: "column",
-                    gap: "var(--space-xs)",
-                  })}
-                  heading={
-                    <p
-                      className={css({
-                        fontSize: "12px",
-                        color: "var(--color-gray-500)",
-                      })}
-                    >
-                      検索履歴
-                    </p>
-                  }
+                  className="flex flex-col gap-1"
+                  heading={<p className="text-xs text-base-500">検索履歴</p>}
                 >
                   {histories.map((l, i) => {
                     return (
@@ -186,141 +162,25 @@ export function LocationSearchDialog({
                 </Command.Group>
               ) : null}
             </Command.List>
-            <DialogFooter ref={footerRef} />
+            <div
+              ref={footerRef}
+              className="flex items-center border-t border-base-200 p-2 gap-4 h-10"
+            >
+              <KbdGuide keys={<Kbd>Enter</Kbd>} description="で表示" />
+              <KbdGuide
+                keys={
+                  <>
+                    <Kbd>Up</Kbd>
+                    <Kbd>Down</Kbd>
+                  </>
+                }
+                description="で移動"
+              />
+              <KbdGuide keys={<Kbd>Esc</Kbd>} description="で閉じる" />
+            </div>
           </Command>
         </div>
       </FloatingFocusManager>
     </FloatingOverlay>
-  );
-}
-
-function DialogHeader({
-  ref,
-  query,
-  onQueryChange,
-  isSearching,
-  onCanceSearch,
-  status,
-}: {
-  ref: RefObject<HTMLDivElement | null>;
-  query: string;
-  onQueryChange: (query: string) => void;
-  isSearching?: boolean;
-  onCanceSearch: () => void;
-  status: ReactNode;
-}) {
-  return (
-    <div
-      ref={ref}
-      className={css({
-        display: "flex",
-        flexDir: "column",
-        width: "100%",
-        gap: "var(--space-sm)",
-        padding: "var(--space-sm)",
-        borderBottom: "1px solid var(--color-gray-200)",
-      })}
-    >
-      <div
-        className={css({
-          display: "flex",
-          flexDir: "row",
-          alignItems: "center",
-          gap: "var(--space-sm)",
-        })}
-      >
-        <div
-          className={css({
-            display: "flex",
-            flexDir: "row",
-            alignItems: "center",
-            width: "100%",
-            border: "1px solid var(--color-gray-300)",
-            height: "32px",
-            rounded: "var(--rounded-sm)",
-            overflow: "hidden",
-            paddingInline: "var(--space-xs)",
-            gap: "var(--space-xs)",
-            ["&:has(input:focus-visible)"]: {
-              borderColor: "var(--color-primary-500)",
-              outline: "1px solid var(--color-primary-500)",
-            },
-          })}
-        >
-          <IconSearch
-            size={20}
-            className={css({
-              flexShrink: 0,
-              color: "var(--color-gray-500)",
-              ["&:has(~ input:focus-visible)"]: {
-                color: "var(--color-primary-500)",
-              },
-            })}
-          />
-          <Command.Input
-            placeholder="地域名(アルファベット)・緯度,軽度"
-            value={query}
-            onValueChange={onQueryChange}
-            className={css({
-              flexGrow: 1,
-              height: "100%",
-              width: "100%",
-              _focusVisible: {
-                outline: "none",
-                borderColor: "var(--color-primary-500)",
-              },
-              _placeholder: {
-                fontSize: "12px",
-              },
-            })}
-          />
-          {isSearching ? (
-            <Command.Loading>
-              <IconLoader2
-                className={css({
-                  color: "var(--color-primary-600)",
-                  animation: "loading 1s linear infinite",
-                })}
-              />
-            </Command.Loading>
-          ) : null}
-        </div>
-        <div className="block sm:hidden">
-          <Button onClick={onCanceSearch} type="subtile">
-            Cancel
-          </Button>
-        </div>
-      </div>
-      {status}
-    </div>
-  );
-}
-
-function DialogFooter({ ref }: { ref: RefObject<HTMLDivElement | null> }) {
-  return (
-    <div
-      ref={ref}
-      className={css({
-        display: "flex",
-        flexDir: "row",
-        alignItems: "center",
-        borderTop: "1px solid var(--color-gray-200)",
-        padding: "var(--space-sm)",
-        gap: "var(--space-md)",
-        height: "40px",
-      })}
-    >
-      <KbdGuide keys={<Kbd>Enter</Kbd>} description="で表示" />
-      <KbdGuide
-        keys={
-          <>
-            <Kbd>Up</Kbd>
-            <Kbd>Down</Kbd>
-          </>
-        }
-        description="で移動"
-      />
-      <KbdGuide keys={<Kbd>Esc</Kbd>} description="で閉じる" />
-    </div>
   );
 }

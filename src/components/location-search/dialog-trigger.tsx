@@ -10,7 +10,6 @@ import {
 } from "@floating-ui/react";
 import { IconCommand, IconSearch } from "@tabler/icons-react";
 import { useEffect, useMemo, useState } from "react";
-import { css, cx } from "../../../styled-system/css";
 import { Kbd } from "@/components/ui/kbd";
 import { isServer } from "@tanstack/react-query";
 import { useParams, usePathname } from "next/navigation";
@@ -85,77 +84,19 @@ export function LocationSearchDialogTrigger() {
   return (
     <>
       <button
-        className={css({
-          display: "flex",
-          alignItems: "center",
-          transition: "all",
-          transitionDuration: "0.1s",
-          _hover: {
-            borderColor: "var(--color-primary-500)",
-            outline: "1px solid var(--color-primary-500)",
-            ["& .search-icon"]: {
-              color: "var(--color-primary-500)",
-            },
-          },
-          _focusVisible: {
-            borderColor: "var(--color-primary-500)",
-            outline: "1px solid var(--color-primary-500)",
-            ["& .search-icon"]: {
-              color: "var(--color-primary-500)",
-            },
-          },
-          border: "1px solid var(--color-gray-300)",
-          height: "32px",
-          borderRadius: "var(--rounded-sm)",
-          gap: "var(--space-sm)",
-          justifyContent: "space-between",
-          paddingInline: "var(--space-sm)",
-          cursor: "pointer",
-        })}
+        className="flex items-center transition-all duration-100 hover:border-primary-500 hover:outline hover:outline-primary-500 border border-base-300 h-8 rounded-sm px-2 cursor-pointer justify-between group"
         ref={refs.setReference}
         {...getReferenceProps()}
       >
-        <div
-          className={css({
-            display: "flex",
-            flexDir: "row",
-            alignItems: "center",
-            gap: "var(--space-sm)",
-            minW: 0,
-          })}
-        >
+        <div className="grid grid-cols-[auto_1fr] gap-2">
           <IconSearch
             size={20}
-            className={cx(
-              css({
-                flexShrink: 0,
-                color: "var(--color-gray-500)",
-                transition: "all",
-                transitionDuration: "0.1s",
-              }),
-              "search-icon"
-            )}
+            className="group-hover:text-primary-500 transition-colors duration-100"
           />
-          <div
-            className={css({
-              color: "var(--color-gray-500)",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              whiteSpace: "nowrap",
-            })}
-          >
-            {triggerText}
-          </div>
+          <div className="truncate text-base-500">{triggerText}</div>
         </div>
         <Kbd>
-          <div
-            className={css({
-              display: "flex",
-              flexDir: "row",
-              alignItems: "center",
-              gap: "var(--space-xs)",
-            })}
-          >
+          <div className="flex gap-1 items-center">
             {isMac() ? <IconCommand size={12} /> : "Ctrl"}
             <span>+</span>
             <span>K</span>
