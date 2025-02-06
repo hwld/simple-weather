@@ -37,7 +37,7 @@ export function SearchStatus({ children, status }: Props) {
 
   return (
     <div className={classes.root()}>
-      <Icon size={14} className={classes.icon()} />
+      <Icon className={classes.icon()} />
       <p className={classes.text()}>{children}</p>
     </div>
   );

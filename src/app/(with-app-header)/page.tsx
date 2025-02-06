@@ -21,7 +21,7 @@ export default async function HomePage() {
     >
       <Card>
         <div className="min-h-[300px] grid place-content-center place-items-center gap-4">
-          <IconSearch size={50} className="text-primary-500" />
+          <IconSearch className="text-primary-500 size-[50px]" />
           <div className="text-center">
             <p>上の検索バーから地域を検索してください</p>
             <p>{`Cmd(Ctrl) + k キーで検索ダイアログを開くこともできます`}</p>

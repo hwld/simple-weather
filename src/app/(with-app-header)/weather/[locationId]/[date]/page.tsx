@@ -58,7 +58,7 @@ export default async function WeatherDetailPage({ params }: Props) {
           <TextLink href={Routes.weatherSummary({ locationId })}>
             {location.name}
           </TextLink>
-          <IconChevronRight size={14} className="shrink-0" />
+          <IconChevronRight className="shrink-0 size-[14px]" />
         </>
       }
     >

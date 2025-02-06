@@ -24,7 +24,7 @@ type ButtonProps = {
 export function Button({ icon: Icon, children, type, ...props }: ButtonProps) {
   return (
     <button className={buttonClass({ type })} {...props}>
-      {Icon ? <Icon size={18} /> : null}
+      {Icon ? <Icon className="size-[18px]" /> : null}
       {children}
     </button>
   );
@@ -41,7 +41,7 @@ export function ButtonLink({
 }: ButtonLinkProps) {
   return (
     <Link className={buttonClass({ type })} {...props}>
-      {Icon ? <Icon size={18} /> : null}
+      {Icon ? <Icon className="size-[18px]" /> : null}
       {children}
     </Link>
   );

@@ -18,7 +18,7 @@ export default function UnhandledErrorPage({ error }: Props) {
 
   return (
     <div className="grid place-items-center gap-4 p-4 h-full place-content-center">
-      <IconExclamationCircle size={50} className="text-red-500" />
+      <IconExclamationCircle className="text-red-500 size-[50px]" />
       <div className="text-center max-w-[350px]">
         <p>アプリケーションでエラーが発生しました。</p>
         <p>

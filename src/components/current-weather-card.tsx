@@ -46,7 +46,7 @@ export async function CurrentWeatherCard({ locationId, current }: Props) {
             <div className="space-y-2">
               <div className="grid grid-cols-[max-content_auto] text-sky-500">
                 <span className="text-xs">詳細を見る</span>
-                <IconArrowRight size={16} />
+                <IconArrowRight className="size-4" />
               </div>
               <div className="grid grid-cols-[auto_1fr] items-end gap-2 leading-none">
                 <div className="font-bold text-[40px]">{current.temp_c}</div>

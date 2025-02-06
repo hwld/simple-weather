@@ -25,14 +25,14 @@ export function HomePageNavigation() {
   if (isHome) {
     return (
       <div className={className}>
-        <IconHomeFilled size={16} />
+        <IconHomeFilled className="size-4" />
         ホーム
       </div>
     );
   } else {
     return (
       <Link className={className} href={Routes.home()}>
-        <IconHome size={16} />
+        <IconHome className="size-4" />
         ホームへ戻る
       </Link>
     );

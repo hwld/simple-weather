@@ -8,7 +8,7 @@ export async function WeatherDataNotFoundCard({ date }: Props) {
   return (
     <Card>
       <div className="min-h-[300px] grid place-content-center place-items-center gap-4">
-        <IconMaximize size={50} className="text-base-500" />
+        <IconMaximize className="text-base-500 size-[50px]" />
         <div className="text-center">
           <p>
             <span className="font-bold">

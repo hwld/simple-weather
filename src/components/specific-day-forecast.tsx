@@ -82,7 +82,7 @@ function Th({
         alignStart ? "text-start" : "text-end"
       )}
     >
-      {Icon ? <Icon size={16} className="hidden sm:block" /> : null}
+      {Icon ? <Icon className="hidden sm:block size-4" /> : null}
       <span className="leading-none">{children}</span>
     </div>
   );

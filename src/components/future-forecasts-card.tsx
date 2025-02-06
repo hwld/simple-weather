@@ -56,10 +56,7 @@ export async function FutureForecastsCard({ locationId, forecastdays }: Props) {
                   icon={IconUmbrella}
                   value={`${forecast.day.daily_chance_of_rain} %`}
                 />
-                <IconArrowRight
-                  size={18}
-                  className="text-sky-500 justify-self-end"
-                />
+                <IconArrowRight className="text-sky-500 justify-self-end size-[18px]" />
               </Link>
             );
           })}
@@ -72,7 +69,7 @@ export async function FutureForecastsCard({ locationId, forecastdays }: Props) {
 function ForecastValue({ icon: Icon, value }: { icon: Icon; value: string }) {
   return (
     <div className="grid grid-cols-[auto_1fr] items-center gap-1 text-base-500">
-      <Icon size={16} />
+      <Icon className="size-4" />
       <span>{value}</span>
     </div>
   );

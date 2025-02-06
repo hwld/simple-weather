@@ -65,7 +65,10 @@ export function LocationSearchDialogTrigger() {
 
     if (isWeatherDetailPage(args)) {
       return {
-        triggerText: `${format(args.params.date, "M月d日")}の天気を知りたい地域を検索`,
+        triggerText: `${format(
+          args.params.date,
+          "M月d日"
+        )}の天気を知りたい地域を検索`,
         getLocationNavRoute: (locationId) =>
           Routes.weatherDetail({
             locationId: `${locationId}`,
@@ -89,15 +92,12 @@ export function LocationSearchDialogTrigger() {
         {...getReferenceProps()}
       >
         <div className="grid grid-cols-[auto_1fr] gap-2">
-          <IconSearch
-            size={20}
-            className="group-hover:text-primary-500 transition-colors duration-100"
-          />
+          <IconSearch className="group-hover:text-primary-500 transition-colors duration-100 size-5" />
           <div className="truncate text-base-500">{triggerText}</div>
         </div>
         <Kbd>
           <div className="flex gap-1 items-center">
-            {isMac() ? <IconCommand size={12} /> : "Ctrl"}
+            {isMac() ? <IconCommand className="size-3" /> : "Ctrl"}
             <span>+</span>
             <span>K</span>
           </div>

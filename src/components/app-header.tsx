@@ -7,7 +7,7 @@ export function AppHeader() {
     <div className="grid gap-6 p-4 border-x border-b border-base-200 rounded-b-lg bg-base-50 shadow-sm min-w-0 grid-cols-1">
       <h1 className="flex justify-between flex-wrap gap-2">
         <div className="grid grid-cols-[auto_1fr] gap-2 items-center">
-          <IconCloudFilled size={20} className="text-primary-500" />
+          <IconCloudFilled className="text-primary-500 size-5" />
           <p className="text-base font-bold leading-none">SimpleWeather</p>
         </div>
         <HomePageNavigation />
