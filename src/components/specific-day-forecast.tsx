@@ -21,19 +21,16 @@ export async function SpecificDayForecastCard({ forecastDay }: Props) {
       <div className="grid grid-cols-[repeat(6,auto)_1fr]">
         <Tr>
           <Th icon={IconClock}> 時間</Th>
-          {/* 画面幅が小さいとアイコンが縮んでしまうため、アイコンとテキストで列を分けてnoBorderを使用する */}
           <Th icon={IconSun}>天候</Th>
           <Th icon={IconTemperature}>気温</Th>
           <Th icon={IconUmbrella}>降水量</Th>
           <Th icon={IconWind}>風速</Th>
           <Th icon={IconDroplet}>湿度</Th>
-          <Th icon={IconSun} lastInRow>
-            詳細な天候
-          </Th>
+          <Th icon={IconSun}>詳細な天候</Th>
         </Tr>
         {forecastDay.hour.map((h, i) => {
           return (
-            <Tr key={i} lastRow={i === forecastDay.hour.length - 1}>
+            <Tr key={i}>
               <Td>{`${i}`.padStart(2, "0")}:00</Td>
               <Td>
                 <img
@@ -46,7 +43,7 @@ export async function SpecificDayForecastCard({ forecastDay }: Props) {
               <Td>{h.precip_mm}mm</Td>
               <Td>{h.wind_kph}km/h</Td>
               <Td>{h.humidity}％</Td>
-              <Td lastInRow alignStart>
+              <Td alignStart>
                 <span className="truncate">{h.condition.text}</span>
               </Td>
             </Tr>
@@ -57,12 +54,11 @@ export async function SpecificDayForecastCard({ forecastDay }: Props) {
   );
 }
 
-function Tr({ children, lastRow }: { children: ReactNode; lastRow?: boolean }) {
+function Tr({ children }: { children: ReactNode }) {
   return (
     <div
       className={clsx(
-        "grid grid-cols-subgrid col-[1_/_-1] items-center",
-        lastRow ? "" : "border-b border-base-200"
+        "grid grid-cols-subgrid col-[1_/_-1] items-center border-b border-base-200 last:border-transparent"
       )}
     >
       {children}
@@ -73,22 +69,17 @@ function Tr({ children, lastRow }: { children: ReactNode; lastRow?: boolean }) {
 function Th({
   icon: Icon,
   children,
-  lastInRow,
   alignStart,
-  noBorder,
 }: {
   icon?: Icon;
   children?: ReactNode;
-  lastInRow?: boolean;
   alignStart?: boolean;
-  noBorder?: boolean;
 }) {
   return (
     <div
       className={clsx(
-        "flex items-center text-base-500 text-xs gap-1 break-keep p-2 bg-base-100 h-full",
-        alignStart ? "text-start" : "text-end",
-        lastInRow || noBorder ? "" : "border-r border-base-200"
+        "flex items-center text-base-500 text-xs gap-1 break-keep p-2 bg-base-100 h-full border-r border-base-200 last:border-transparent",
+        alignStart ? "text-start" : "text-end"
       )}
     >
       {Icon ? <Icon size={16} className="hidden sm:block" /> : null}
@@ -99,19 +90,16 @@ function Th({
 
 function Td({
   children,
-  lastInRow,
   alignStart,
 }: {
   children: ReactNode;
-  lastInRow?: boolean;
   alignStart?: boolean;
 }) {
   return (
     <div
       className={clsx(
-        "px-2 flex items-center text-xs sm:text-sm h-full",
-        alignStart ? "text-start" : "text-end",
-        lastInRow ? "" : "border-r border-base-200"
+        "px-2 flex items-center text-xs sm:text-sm h-full border-r border-base-200 last:border-transparent",
+        alignStart ? "text-start" : "text-end"
       )}
     >
       {children}
