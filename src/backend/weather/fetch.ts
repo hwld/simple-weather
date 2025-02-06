@@ -15,8 +15,6 @@ import ky, { HTTPError } from "ky";
 import { ForecastApiUrl, SearchApiUrl } from "@/backend/weather/url";
 import { Result } from "@/utils/result";
 
-const WeatherApiKey = process.env.WEATHER_API_KEY ?? "";
-
 type FetchForecastResult = Promise<
   Result<
     {
@@ -36,7 +34,7 @@ export async function fetchForecast(locationId: string): FetchForecastResult {
     const json = await ky
       .get(ForecastApiUrl, {
         searchParams: {
-          key: WeatherApiKey,
+          key: process.env.WEATHER_API_KEY,
           lang: "ja",
           q: `id:${locationId}`,
           days: 7,
@@ -96,7 +94,7 @@ export async function fetchSpecificDayForecast(
     const json = await ky
       .get(ForecastApiUrl, {
         searchParams: {
-          key: WeatherApiKey,
+          key: process.env.WEATHER_API_KEY,
           lang: "ja",
           q: `id:${locationId}`,
           dt: date,
@@ -148,7 +146,7 @@ export async function fetchLocations(query: string): FetchLocationsResult {
     const json = await ky
       .get(SearchApiUrl, {
         searchParams: {
-          key: WeatherApiKey,
+          key: process.env.WEATHER_API_KEY,
           q: query,
         },
       })
