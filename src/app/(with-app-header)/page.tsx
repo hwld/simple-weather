@@ -2,12 +2,18 @@ import { Metadata } from "next";
 import { IconHome, IconSearch } from "@tabler/icons-react";
 import { Card } from "@/components/ui/card";
 import { PageLayout } from "@/components/ui/page-layout";
+import { TextLink } from "@/components/ui/text-link";
+import { fetchRequestLocation } from "@/backend/weather/fetch";
+import { headers } from "next/headers";
+import { Routes } from "@/routes";
 
 export const metadata: Metadata = {
   title: "ホーム - SimpleWeather",
 };
 
 export default async function HomePage() {
+  const location = await fetchRequestLocation(await headers());
+
   return (
     <PageLayout
       title={
@@ -26,6 +32,15 @@ export default async function HomePage() {
             <p>上の検索バーから地域を検索してください</p>
             <p>{`Cmd(Ctrl) + k キーで検索ダイアログを開くこともできます`}</p>
           </div>
+          {location.status === "ok" && (
+            <TextLink
+              href={Routes.weatherSummary({
+                locationId: location.value.id.toString(),
+              })}
+            >
+              {location.value.name}の天気予報
+            </TextLink>
+          )}
         </div>
       </Card>
     </PageLayout>
