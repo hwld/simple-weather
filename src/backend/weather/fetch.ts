@@ -14,6 +14,7 @@ import { format } from "date-fns";
 import ky, { HTTPError } from "ky";
 import { ForecastApiUrl, SearchApiUrl } from "@/backend/weather/url";
 import { Result } from "@/utils/result";
+import { ReadonlyHeaders } from "next/dist/server/web/spec-extension/adapters/headers";
 
 type FetchForecastResult = Promise<
   Result<
@@ -154,6 +155,37 @@ export async function fetchLocations(query: string): FetchLocationsResult {
 
     const data = SearchResponseSchema.parse(json);
     return { locations: data };
+  } catch (e) {
+    throw e;
+  }
+}
+
+type FetchRequestLocationResult = Promise<Result<Location, string>>;
+
+/**
+ * リクエストのあった地域を取得する
+ */
+export async function fetchRequestLocation(
+  header: ReadonlyHeaders
+): FetchRequestLocationResult {
+  try {
+    const ip = header.get("x-real-ip");
+    if (!ip) {
+      return Result.err("IPNotFound");
+    }
+    console.log(`Request IP: ${ip}`);
+
+    const json = await ky
+      .get(SearchApiUrl, {
+        searchParams: {
+          key: process.env.WEATHER_API_KEY,
+          q: ip,
+        },
+      })
+      .json();
+
+    const data = SearchResponseSchema.parse(json);
+    return Result.ok(data[0]);
   } catch (e) {
     throw e;
   }
